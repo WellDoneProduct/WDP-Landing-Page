@@ -1247,10 +1247,7 @@
         object-fit: contain;
       }
       /* 연세대 워드마크만 1.5배 */
-      .logo-item img.logo-yeonsei {
-        height: 57px;
-        max-width: 240px;
-      }
+
       @media (max-width: 768px) {
         .logo-track {
           gap: 40px;
@@ -1266,10 +1263,6 @@
         .logo-item img {
           height: 30px;
           max-width: 130px;
-        }
-        .logo-item img.logo-yeonsei {
-          height: 45px;
-          max-width: 190px;
         }
       }
       @media (prefers-reduced-motion: reduce) {
@@ -2825,11 +2818,19 @@
           <div class="logo-marquee">
             <div class="logo-track">
               <span class="logo-item">
-                <img class="logo-yeonsei" src="/logo/yeonsei-logo.png" alt="연세대학교" />
+                <img
+                  class="logo-yeonsei"
+                  src="/logo/yeonsei-logo.png"
+                  alt="연세대학교"
+                />
                 <span class="logo-name">연세대학교</span>
               </span>
               <span class="logo-item">
-                <img class="logo-emblem" src="/logo/ajou_logo.svg" alt="아주대학교의료원" />
+                <img
+                  class="logo-emblem"
+                  src="/logo/ajou_logo.svg"
+                  alt="아주대학교의료원"
+                />
                 <span class="logo-name">아주대학교의료원</span>
               </span>
               <span class="logo-item">
