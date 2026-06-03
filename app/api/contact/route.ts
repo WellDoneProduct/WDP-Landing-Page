@@ -5,13 +5,18 @@ const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL!;
 
 /* ── 서버사이드 입력 검증 ─────────────────────────────────────────── */
 function validate(data: Record<string, unknown>): string | null {
-  const { name, phone, description } = data;
+  const { name, phone, email, position, description } = data;
   if (!name || typeof name !== 'string' || !/^[가-힣\s]{1,20}$/.test(String(name).trim()))
     return '이름 형식이 올바르지 않습니다.';
+  if (!position || typeof position !== 'string' || String(position).trim().length < 1)
+    return '직함을 입력해 주세요.';
+  if (!email || typeof email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email).trim()))
+    return '이메일 형식이 올바르지 않습니다.';
   if (!phone || typeof phone !== 'string' || !/^[\d\-]{7,15}$/.test(String(phone).trim()))
     return '연락처 형식이 올바르지 않습니다.';
-  if (!description || typeof description !== 'string' || String(description).trim().length < 5)
-    return '업무 내용을 입력해 주세요.';
+  // 프로젝트 설명은 선택 항목 — 입력된 경우에만 최소 길이 검증
+  if (typeof description === 'string' && description.trim().length > 0 && description.trim().length < 5)
+    return '프로젝트 설명을 조금 더 자세히 입력해 주세요.';
   return null;
 }
 
@@ -57,8 +62,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: validationError }, { status: 422 });
   }
 
-  const { name, phone, company, description, marketing } = data;
-  const payload = JSON.stringify({ name, phone, company, description, marketing });
+  /* 환경변수 가드 — 미설정 시 fetch(undefined) 크래시 방지 */
+  if (!APPS_SCRIPT_URL || !SLACK_WEBHOOK_URL) {
+    console.error('[contact] missing env: APPS_SCRIPT_URL / SLACK_WEBHOOK_URL');
+    return NextResponse.json({ error: '서버 설정 오류입니다. 관리자에게 문의해 주세요.' }, { status: 500 });
+  }
+
+  const { name, phone, email, position, company, description, duration, budget, marketing } = data;
+  const payload = JSON.stringify({
+    name, phone, email, position, company, description, duration, budget, marketing,
+  });
 
   try {
     /* 1. Google Sheets */
@@ -97,15 +110,19 @@ export async function POST(req: NextRequest) {
           {
             type: 'section',
             fields: [
-              { type: 'mrkdwn', text: `*이름*\n${name}` },
-              { type: 'mrkdwn', text: `*연락처*\n${phone}` },
               { type: 'mrkdwn', text: `*회사명*\n${company || '-'}` },
+              { type: 'mrkdwn', text: `*이름*\n${name}` },
+              { type: 'mrkdwn', text: `*직함*\n${position || '-'}` },
+              { type: 'mrkdwn', text: `*이메일*\n${email || '-'}` },
+              { type: 'mrkdwn', text: `*연락처*\n${phone}` },
               { type: 'mrkdwn', text: `*뉴스레터 수신*\n${marketing ? '✅ 동의' : '미동의'}` },
+              { type: 'mrkdwn', text: `*희망 기간*\n${duration || '-'}` },
+              { type: 'mrkdwn', text: `*희망 견적*\n${budget || '-'}` },
             ],
           },
           {
             type: 'section',
-            text: { type: 'mrkdwn', text: `*자동화하고 싶은 업무*\n${description}` },
+            text: { type: 'mrkdwn', text: `*프로젝트 설명*\n${description || '-'}` },
           },
           { type: 'divider' },
           {
