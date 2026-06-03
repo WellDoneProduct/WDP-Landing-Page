@@ -1218,26 +1218,38 @@
           transform: translateX(-50%);
         }
       }
+      /* 로고 높이 통일 + 가운데 정렬 → 슬라이드 통일감. 이름은 아래 */
       .logo-item {
         flex-shrink: 0;
-        height: 36px;
         display: inline-flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        font-size: 17px;
-        font-weight: 600;
+        gap: 12px;
+        height: 92px;
         color: var(--text-muted);
-        letter-spacing: -0.01em;
-        white-space: nowrap;
         transition: color 200ms;
       }
       .logo-item:hover {
         color: var(--text);
       }
+      .logo-name {
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        white-space: nowrap;
+      }
+      /* 모든 로고를 동일 높이로 강제(가로는 비율 유지) → 통일감 */
       .logo-item img {
-        max-height: 36px;
+        height: 38px;
         width: auto;
+        max-width: 170px;
         object-fit: contain;
+      }
+      /* 연세대 워드마크만 1.5배 */
+      .logo-item img.logo-yeonsei {
+        height: 57px;
+        max-width: 240px;
       }
       @media (max-width: 768px) {
         .logo-track {
@@ -1245,11 +1257,19 @@
           animation-duration: 24s;
         }
         .logo-item {
-          height: 28px;
-          font-size: 14px;
+          height: 76px;
+          gap: 9px;
+        }
+        .logo-name {
+          font-size: 12px;
         }
         .logo-item img {
-          max-height: 28px;
+          height: 30px;
+          max-width: 130px;
+        }
+        .logo-item img.logo-yeonsei {
+          height: 45px;
+          max-width: 190px;
         }
       }
       @media (prefers-reduced-motion: reduce) {
@@ -2804,19 +2824,55 @@
           <!-- TODO: 로고 파일이 들어오면 <span> 내용을 <img src="logos/xxx.png" alt="..." /> 로 교체 -->
           <div class="logo-marquee">
             <div class="logo-track">
-              <span class="logo-item">연세대학교</span>
-              <span class="logo-item">아주대학교의료원</span>
-              <span class="logo-item">롯데이노베이트</span>
-              <span class="logo-item">씨앤씨 미술학원</span>
-              <span class="logo-item">한국메딕스</span>
-              <span class="logo-item">팬틱스</span>
+              <span class="logo-item">
+                <img class="logo-yeonsei" src="/logo/yeonsei-logo.png" alt="연세대학교" />
+                <span class="logo-name">연세대학교</span>
+              </span>
+              <span class="logo-item">
+                <img class="logo-emblem" src="/logo/ajou_logo.svg" alt="아주대학교의료원" />
+                <span class="logo-name">아주대학교의료원</span>
+              </span>
+              <span class="logo-item">
+                <img src="/logo/lotte-innovate.svg" alt="롯데이노베이트" />
+                <span class="logo-name">롯데이노베이트</span>
+              </span>
+              <span class="logo-item">
+                <img src="/logo/cnc-logo.svg" alt="씨앤씨 미술학원" />
+                <span class="logo-name">씨앤씨 미술학원</span>
+              </span>
+              <span class="logo-item">
+                <img src="/logo/koreamedix-logo.png" alt="한국메딕스" />
+                <span class="logo-name">한국메딕스</span>
+              </span>
+              <span class="logo-item">
+                <img src="/logo/fantiks-logo.svg" alt="팬틱스" />
+                <span class="logo-name">팬틱스</span>
+              </span>
               <!-- 무한 스크롤용 복제 -->
-              <span class="logo-item" aria-hidden="true">연세대학교</span>
-              <span class="logo-item" aria-hidden="true">아주대학교의료원</span>
-              <span class="logo-item" aria-hidden="true">롯데이노베이트</span>
-              <span class="logo-item" aria-hidden="true">씨앤씨 미술학원</span>
-              <span class="logo-item" aria-hidden="true">한국메딕스</span>
-              <span class="logo-item" aria-hidden="true">팬틱스</span>
+              <span class="logo-item" aria-hidden="true">
+                <img class="logo-yeonsei" src="/logo/yeonsei-logo.png" alt="" />
+                <span class="logo-name">연세대학교</span>
+              </span>
+              <span class="logo-item" aria-hidden="true">
+                <img class="logo-emblem" src="/logo/ajou_logo.svg" alt="" />
+                <span class="logo-name">아주대학교의료원</span>
+              </span>
+              <span class="logo-item" aria-hidden="true">
+                <img src="/logo/lotte-innovate.svg" alt="" />
+                <span class="logo-name">롯데이노베이트</span>
+              </span>
+              <span class="logo-item" aria-hidden="true">
+                <img src="/logo/cnc-logo.svg" alt="" />
+                <span class="logo-name">씨앤씨 미술학원</span>
+              </span>
+              <span class="logo-item" aria-hidden="true">
+                <img src="/logo/koreamedix-logo.png" alt="" />
+                <span class="logo-name">한국메딕스</span>
+              </span>
+              <span class="logo-item" aria-hidden="true">
+                <img src="/logo/fantiks-logo.svg" alt="" />
+                <span class="logo-name">팬틱스</span>
+              </span>
             </div>
           </div>
         </div>
