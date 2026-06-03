@@ -3128,6 +3128,21 @@
         const note = document.getElementById('formNote');
         const val = (id) => (document.getElementById(id)?.value || '').trim();
 
+        /* 휴대폰 자동 하이픈: 010-4101-1630 형태 */
+        const formatPhone = (v) => {
+          const d = v.replace(/\D/g, '').slice(0, 11);
+          if (d.length < 4) return d;
+          if (d.length < 8) return d.slice(0, 3) + '-' + d.slice(3);
+          if (d.length < 11) return d.slice(0, 3) + '-' + d.slice(3, 6) + '-' + d.slice(6);
+          return d.slice(0, 3) + '-' + d.slice(3, 7) + '-' + d.slice(7);
+        };
+        const phoneEl = document.getElementById('phone');
+        if (phoneEl) {
+          phoneEl.addEventListener('input', (e) => {
+            e.target.value = formatPhone(e.target.value);
+          });
+        }
+
         form.addEventListener('submit', async (e) => {
           e.preventDefault();
 
@@ -3141,7 +3156,7 @@
             name: val('name'),
             position: val('position'),
             email: val('email'),
-            phone: val('phone'),
+            phone: val('phone').replace(/\D/g, ''),
             description: val('project'),
             duration: val('duration'),
             budget: val('budget'),

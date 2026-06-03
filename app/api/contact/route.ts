@@ -62,6 +62,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: validationError }, { status: 422 });
   }
 
+  /* 환경변수 가드 — 미설정 시 fetch(undefined) 크래시 방지 */
+  if (!APPS_SCRIPT_URL || !SLACK_WEBHOOK_URL) {
+    console.error('[contact] missing env: APPS_SCRIPT_URL / SLACK_WEBHOOK_URL');
+    return NextResponse.json({ error: '서버 설정 오류입니다. 관리자에게 문의해 주세요.' }, { status: 500 });
+  }
+
   const { name, phone, email, position, company, description, duration, budget, marketing } = data;
   const payload = JSON.stringify({
     name, phone, email, position, company, description, duration, budget, marketing,
