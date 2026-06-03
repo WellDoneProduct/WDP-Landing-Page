@@ -372,9 +372,10 @@
       .hero {
         position: relative;
         isolation: isolate;
-        /* Figma: dark hero 프레임 높이 1728px (1920 기준, 비율 스케일) */
-        min-height: calc(1728px * var(--glow-scale));
-        padding: 160px 0 0;
+        /* 버튼 아래 dark 버퍼 = Figma 버튼바닥(617)~hero바닥(1728) = 1111px × scale.
+           콘텐츠 높이(모바일 줄바꿈)와 무관하게 glow 들어갈 공간 확보 → 전 사이즈 일관.
+           (min-height는 너비스케일이라 모바일서 콘텐츠보다 짧아져 겹침 발생 → 폐기) */
+        padding: 160px 0 calc(1111px * var(--glow-scale));
         text-align: center;
         /* svg 톤(#1B5FFF 블루 / #1BA7FF 시안)에 맞춰 dark에 깊은 블루-틸 기운 +
            바닥 중앙에 은은한 블루/시안 번짐 → glow와 자연스럽게 섞임.
@@ -600,10 +601,10 @@
       }
 
       @media (max-width: 768px) {
+        /* top만 줄이고 아래 버퍼는 base의 (1111px×scale) 유지 */
         .hero {
-          padding: 96px 0 0;
+          padding-top: 96px;
         }
-        /* glow 겹침은 --glow-scale로 자동 축소되므로 #how-1 override 불필요 */
         .hero-inner {
           gap: 48px;
         }
