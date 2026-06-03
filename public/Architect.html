@@ -502,18 +502,12 @@
         width: 380px;
         height: auto;
         opacity: 0;
-        transform: scale(0);
         filter: drop-shadow(0 0 12px rgba(150, 190, 255, 0.4));
-        animation: splash-logo-enter 0.6s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+        animation: splash-logo-enter 0.5s ease forwards;
       }
       @keyframes splash-logo-enter {
-        from {
-          opacity: 0;
-          transform: scale(0);
-        }
         to {
           opacity: 1;
-          transform: scale(1);
         }
       }
       .splash.is-fading {
@@ -618,20 +612,34 @@
       /* span: 궤도 회전 (off-center origin이라 빛이 한쪽으로 쏠리며 돎) */
       @keyframes planetOrbit {
         to {
-          transform: translateX(-50%) translateY(var(--glow-py, 0px)) rotate(360deg);
+          transform: translateX(-50%) translateY(var(--glow-py, 0px))
+            rotate(360deg);
         }
       }
       /* ::before: 밝기 + 크기 호흡 */
       @keyframes planetGlow {
-        0%, 100% { opacity: 0.45; }
-        50% { opacity: 0.85; }
+        0%,
+        100% {
+          opacity: 0.45;
+        }
+        50% {
+          opacity: 0.85;
+        }
       }
       /* ::before: 위치/크기 미세 표류 — 회전과 다른 주기라 합성되면 불규칙해 보임 */
       @keyframes planetDrift {
-        0% { transform: scale(1) translate(0, 0); }
-        33% { transform: scale(1.05) translate(2.5%, -1.5%); }
-        66% { transform: scale(0.98) translate(-2%, 1.8%); }
-        100% { transform: scale(1) translate(0, 0); }
+        0% {
+          transform: scale(1) translate(0, 0);
+        }
+        33% {
+          transform: scale(1.05) translate(2.5%, -1.5%);
+        }
+        66% {
+          transform: scale(0.98) translate(-2%, 1.8%);
+        }
+        100% {
+          transform: scale(1) translate(0, 0);
+        }
       }
       @media (prefers-reduced-motion: reduce) {
         .hero-ctas .planet-light,
@@ -651,7 +659,8 @@
         }
         28% {
           filter: brightness(1.55) saturate(1.2);
-          transform: translateX(-50%) translateY(var(--glow-py, 0px)) scale(1.045);
+          transform: translateX(-50%) translateY(var(--glow-py, 0px))
+            scale(1.045);
         }
         100% {
           filter: brightness(1);
@@ -2114,7 +2123,6 @@
         role="img"
         aria-label="웰던프로덕트"
         xmlns="http://www.w3.org/2000/svg"
-        style="opacity: 0; transform: scale(0)"
       >
         <defs>
           <linearGradient
@@ -2124,6 +2132,7 @@
             y1="0"
             x2="92.5"
             y2="0"
+            gradientTransform="rotate(150 57.5 -165)"
           >
             <stop offset="0" stop-color="#ffffff" stop-opacity="0.5" />
             <stop offset="0.34" stop-color="#ffffff" stop-opacity="0.5" />
@@ -2134,15 +2143,16 @@
             <stop offset="1" stop-color="#ffffff" stop-opacity="0.5" />
             <!-- 로고 위 한 점(57.5,-50)을 중심으로 빛 띠를 회전시켜 부채꼴 sweep -->
             <animateTransform
+              id="splashShineAnim"
               attributeName="gradientTransform"
               type="rotate"
-              values="60 57.5 -50; 60 57.5 -50; -60 57.5 -50"
-              keyTimes="0; 0.28; 1"
-              begin="0s"
-              dur="1.4s"
+              values="100 57.5 -50; -100 57.5 -50"
+              keyTimes="0; 1"
+              begin="indefinite"
+              dur="1.6s"
               fill="freeze"
               calcMode="spline"
-              keySplines="0 0 1 1; 0.4 0 0.2 1"
+              keySplines="0.4 0 0.2 1"
             />
           </linearGradient>
         </defs>
@@ -3336,6 +3346,15 @@
           return;
         }
 
+        // shine sweep: 자동재생(begin=indefinite) 끄고 여기서 딱 1회 트리거
+        // → 로드 타이밍 흔들려도 파싱 중 중복 재생/초기 흰띠 플래시 없음
+        var shine = document.getElementById("splashShineAnim");
+        if (shine && shine.beginElement) {
+          try {
+            shine.beginElement();
+          } catch (e) {}
+        }
+
         // 스플래시 동안 스크롤 잠금
         var html = document.documentElement;
         var prevOverflow = html.style.overflow;
@@ -3462,12 +3481,13 @@
               }
             });
           },
-          { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
+          { threshold: 0.15, rootMargin: "0px 0px -8% 0px" },
         );
         groups.forEach((g) => {
           document.querySelectorAll(g.sel).forEach((el, i) => {
             el.classList.add("reveal");
-            if (g.stagger) el.style.transitionDelay = (i % 6) * g.stagger + "ms";
+            if (g.stagger)
+              el.style.transitionDelay = (i % 6) * g.stagger + "ms";
             io.observe(el);
           });
         });
@@ -3484,7 +3504,7 @@
           const y = window.scrollY;
           document.body.style.setProperty(
             "--glow-py",
-            Math.min(y * 0.12, 220) + "px"
+            Math.min(y * 0.12, 220) + "px",
           );
         };
         window.addEventListener(
@@ -3495,7 +3515,7 @@
               requestAnimationFrame(update);
             }
           },
-          { passive: true }
+          { passive: true },
         );
         update();
       })();
@@ -3507,15 +3527,15 @@
         try {
           console.log(
             "%c웰던프로덕트 🚀",
-            "color:#1B5FFF;font-size:22px;font-weight:800;letter-spacing:-.02em"
+            "color:#1B5FFF;font-size:22px;font-weight:800;letter-spacing:-.02em",
           );
           console.log(
             "%c우리 회사에 관심가져주셔서 감사합니다.",
-            "color:#0a0d14;font-size:13px;font-weight:700"
+            "color:#0a0d14;font-size:13px;font-weight:700",
           );
           console.log(
             "%c오늘 좋은 하루 있으시길 바라겠습니다.",
-            "color:#5b6478;font-size:12px;line-height:1.6"
+            "color:#5b6478;font-size:12px;line-height:1.6",
           );
         } catch (e) {}
       })();
