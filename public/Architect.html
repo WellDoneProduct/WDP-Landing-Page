@@ -502,12 +502,18 @@
         width: 380px;
         height: auto;
         opacity: 0;
+        transform: scale(0);
         filter: drop-shadow(0 0 12px rgba(150, 190, 255, 0.4));
-        animation: splash-logo-enter 0.5s ease forwards;
+        animation: splash-logo-enter 0.6s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
       }
       @keyframes splash-logo-enter {
+        from {
+          opacity: 0;
+          transform: scale(0);
+        }
         to {
           opacity: 1;
+          transform: scale(1);
         }
       }
       .splash.is-fading {
@@ -572,8 +578,96 @@
         background: url("/Gradient.svg") no-repeat center / contain;
       }
       .hero-ctas::after {
-        transform: translateX(-50%);
+        /* --glow-py: 스크롤 패럴랙스(JS) — glow가 살짝 느리게 따라옴 */
+        transform: translateX(-50%) translateY(var(--glow-py, 0px));
         z-index: -2;
+      }
+      /* 행성 발광 halo — svg glow 뒤(z-index -4)에서 빛이 새어나오듯.
+         span = off-center origin으로 느리게 궤도 회전(비대칭 sweep),
+         ::before = 빛 본체 + breathing/drift. 주기 9·11·40s 비배수라 반복 잘 안 보임. */
+      .hero-ctas .planet-light {
+        position: absolute;
+        left: 50%;
+        top: calc(100% + 118px * var(--glow-scale));
+        width: calc(3209px * var(--glow-scale));
+        aspect-ratio: 3209 / 2705;
+        z-index: -4;
+        pointer-events: none;
+        /* 일부러 중심에서 벗어난 origin → 회전 시 타원 궤도가 비대칭으로 보임 */
+        transform-origin: 38% 44%;
+        transform: translateX(-50%) translateY(var(--glow-py, 0px)) rotate(0deg);
+        animation: planetOrbit 40s linear infinite;
+      }
+      .hero-ctas .planet-light::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse 58% 42% at 50% 50%,
+          rgba(150, 190, 255, 0.55) 0%,
+          rgba(60, 120, 255, 0.32) 30%,
+          rgba(27, 167, 255, 0.14) 52%,
+          transparent 72%
+        );
+        filter: blur(calc(40px * var(--glow-scale)));
+        transform-origin: 54% 46%;
+        animation:
+          planetGlow 9s ease-in-out infinite,
+          planetDrift 11s ease-in-out infinite;
+      }
+      /* span: 궤도 회전 (off-center origin이라 빛이 한쪽으로 쏠리며 돎) */
+      @keyframes planetOrbit {
+        to {
+          transform: translateX(-50%) translateY(var(--glow-py, 0px)) rotate(360deg);
+        }
+      }
+      /* ::before: 밝기 + 크기 호흡 */
+      @keyframes planetGlow {
+        0%, 100% { opacity: 0.45; }
+        50% { opacity: 0.85; }
+      }
+      /* ::before: 위치/크기 미세 표류 — 회전과 다른 주기라 합성되면 불규칙해 보임 */
+      @keyframes planetDrift {
+        0% { transform: scale(1) translate(0, 0); }
+        33% { transform: scale(1.05) translate(2.5%, -1.5%); }
+        66% { transform: scale(0.98) translate(-2%, 1.8%); }
+        100% { transform: scale(1) translate(0, 0); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .hero-ctas .planet-light,
+        .hero-ctas .planet-light::before {
+          animation: none;
+        }
+      }
+
+      /* 이스터에그: glow 여러 번 클릭 시 플래시 + 별 버스트 */
+      .hero-ctas.flash::after {
+        animation: planetFlash 1s ease;
+      }
+      @keyframes planetFlash {
+        0% {
+          filter: brightness(1);
+          transform: translateX(-50%) translateY(var(--glow-py, 0px)) scale(1);
+        }
+        28% {
+          filter: brightness(1.55) saturate(1.2);
+          transform: translateX(-50%) translateY(var(--glow-py, 0px)) scale(1.045);
+        }
+        100% {
+          filter: brightness(1);
+          transform: translateX(-50%) translateY(var(--glow-py, 0px)) scale(1);
+        }
+      }
+      .egg-spark {
+        position: fixed;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #d4e3ff;
+        box-shadow: 0 0 10px 2px rgba(160, 200, 255, 0.9);
+        opacity: 0;
+        pointer-events: none;
+        z-index: 9999;
       }
       /* 같은 svg를 뒤에 저투명으로 깔고 미세하게 일렁이는 빛 아지랑이 */
       .hero-ctas::before {
@@ -597,6 +691,41 @@
       @media (prefers-reduced-motion: reduce) {
         .hero-ctas::before {
           animation: none;
+        }
+      }
+
+      /* ── 스크롤 등장(reveal) — JS가 .reveal 부여 후 뷰포트 진입 시 .is-in ── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(26px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+        will-change: opacity, transform;
+      }
+      .reveal.is-in {
+        opacity: 1;
+        transform: none;
+      }
+      /* 타임라인 Gantt 바: 진입 시 왼쪽에서 차오름 */
+      .timeline-fill {
+        transform: scaleX(0);
+        transform-origin: left center;
+        transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .timeline.is-in .timeline-fill {
+        transform: scaleX(1);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .reveal,
+        .reveal.is-in {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+        .timeline-fill {
+          transform: none;
+          transition: none;
         }
       }
 
@@ -1985,6 +2114,7 @@
         role="img"
         aria-label="웰던프로덕트"
         xmlns="http://www.w3.org/2000/svg"
+        style="opacity: 0; transform: scale(0)"
       >
         <defs>
           <linearGradient
@@ -2172,6 +2302,7 @@
             </p>
           </div>
           <div class="hero-ctas">
+            <span class="planet-light" aria-hidden="true"></span>
             <a href="#" class="btn-hero btn-hero-outline">
               회사소개서 받기
               <svg
@@ -3306,6 +3437,137 @@
             btn.textContent = original;
           }
         });
+      })();
+    </script>
+
+    <!-- 스크롤 등장(reveal) + 카드 stagger + 타임라인 채우기 -->
+    <script>
+      (function () {
+        if (!("IntersectionObserver" in window)) return;
+        const groups = [
+          { sel: ".section-head" },
+          { sel: ".result-card", stagger: 90 },
+          { sel: ".service-area-card", stagger: 90 },
+          { sel: ".case-card", stagger: 90 },
+          { sel: ".trust-grid > *", stagger: 80 },
+          { sel: ".timeline" },
+          { sel: ".cta-head" },
+        ];
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add("is-in");
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
+        );
+        groups.forEach((g) => {
+          document.querySelectorAll(g.sel).forEach((el, i) => {
+            el.classList.add("reveal");
+            if (g.stagger) el.style.transitionDelay = (i % 6) * g.stagger + "ms";
+            io.observe(el);
+          });
+        });
+      })();
+    </script>
+
+    <!-- Hero glow 스크롤 패럴랙스 -->
+    <script>
+      (function () {
+        if (!document.getElementById("hero")) return;
+        let ticking = false;
+        const update = () => {
+          ticking = false;
+          const y = window.scrollY;
+          document.body.style.setProperty(
+            "--glow-py",
+            Math.min(y * 0.12, 220) + "px"
+          );
+        };
+        window.addEventListener(
+          "scroll",
+          () => {
+            if (!ticking) {
+              ticking = true;
+              requestAnimationFrame(update);
+            }
+          },
+          { passive: true }
+        );
+        update();
+      })();
+    </script>
+
+    <!-- 이스터에그 1: 콘솔 채용 메시지 -->
+    <script>
+      (function () {
+        try {
+          console.log(
+            "%c웰던프로덕트 🚀",
+            "color:#1B5FFF;font-size:22px;font-weight:800;letter-spacing:-.02em"
+          );
+          console.log(
+            "%c우리 회사에 관심가져주셔서 감사합니다.",
+            "color:#0a0d14;font-size:13px;font-weight:700"
+          );
+          console.log(
+            "%c오늘 좋은 하루 있으시길 바라겠습니다.",
+            "color:#5b6478;font-size:12px;line-height:1.6"
+          );
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- 이스터에그 2: hero glow 5번 연속 클릭 → 플래시 + 별 버스트 -->
+    <script>
+      (function () {
+        const hero = document.getElementById("hero");
+        const ctas = hero && hero.querySelector(".hero-ctas");
+        if (!hero || !ctas) return;
+        let clicks = 0,
+          timer;
+        hero.addEventListener("click", (e) => {
+          if (e.target.closest("a,button,input,textarea,label")) return;
+          // 버튼보다 아래(= glow 영역)에서의 클릭만 카운트
+          if (e.clientY < ctas.getBoundingClientRect().bottom) return;
+          clicks++;
+          clearTimeout(timer);
+          timer = setTimeout(() => (clicks = 0), 1600); // 연속 클릭만 인정
+          if (clicks >= 5) {
+            clicks = 0;
+            ctas.classList.add("flash");
+            setTimeout(() => ctas.classList.remove("flash"), 1000);
+            burst(e.clientX, e.clientY);
+          }
+        });
+        function burst(x, y) {
+          const N = 16;
+          for (let i = 0; i < N; i++) {
+            const s = document.createElement("span");
+            s.className = "egg-spark";
+            s.style.left = x + "px";
+            s.style.top = y + "px";
+            document.body.appendChild(s);
+            const ang = (Math.PI * 2 * i) / N + Math.random() * 0.6;
+            const dist = 70 + Math.random() * 150;
+            requestAnimationFrame(() => {
+              s.style.transition =
+                "transform 1s cubic-bezier(.18,.7,.3,1), opacity 1s ease";
+              s.style.opacity = "1";
+              s.style.transform =
+                "translate(" +
+                Math.cos(ang) * dist +
+                "px," +
+                Math.sin(ang) * dist +
+                "px) scale(.35)";
+            });
+            setTimeout(() => (s.style.opacity = "0"), 650);
+            setTimeout(() => s.remove(), 1700);
+          }
+        }
       })();
     </script>
   </body>
