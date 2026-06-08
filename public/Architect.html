@@ -218,6 +218,15 @@
         padding: var(--section-py) 0;
         background: #ffffff;
       }
+      /* 모바일 전용 줄바꿈 */
+      .br-m {
+        display: none;
+      }
+      @media (max-width: 768px) {
+        .br-m {
+          display: inline;
+        }
+      }
       /* Figma: 섹션2(y1469)가 hero(높이1728) 바닥을 259px 겹침 → 위로 당겨
          glow 흰 코어 위에 올라타 자연스럽게 이어짐. 배경 투명이라 glow 비침. */
       #how-1 {
@@ -326,7 +335,9 @@
         top: 0;
         z-index: 100;
         background: transparent;
-        transition: background 200ms ease, backdrop-filter 200ms ease;
+        transition:
+          background 200ms ease,
+          backdrop-filter 200ms ease;
       }
       .site-header.scrolled {
         background: rgba(255, 255, 255, 0.2);
@@ -553,7 +564,7 @@
           font-size: 15px;
         }
         .splash-logo {
-          width: min(72vw, 320px);
+          width: min(40vw, 180px);
         }
       }
       @media (prefers-reduced-motion: reduce) {
@@ -735,8 +746,7 @@
       @keyframes heatHaze {
         0%,
         100% {
-          transform: translateX(-50%) scale(1)
-            translateY(var(--glow-dip, 0px));
+          transform: translateX(-50%) scale(1) translateY(var(--glow-dip, 0px));
           opacity: 0.28;
         }
         50% {
@@ -1853,7 +1863,11 @@
         aspect-ratio: 1;
         left: -6%;
         top: -12%;
-        background: radial-gradient(circle at 50% 50%, var(--gb-blue-3), transparent 68%);
+        background: radial-gradient(
+          circle at 50% 50%,
+          var(--gb-blue-3),
+          transparent 68%
+        );
         animation: gb-driftA 78s ease-in-out infinite alternate;
       }
       .gbg--aurora .b2 {
@@ -1861,7 +1875,11 @@
         aspect-ratio: 1;
         right: -12%;
         bottom: -18%;
-        background: radial-gradient(circle at 50% 50%, var(--gb-blue-2), transparent 70%);
+        background: radial-gradient(
+          circle at 50% 50%,
+          var(--gb-blue-2),
+          transparent 70%
+        );
         animation: gb-driftB 92s ease-in-out infinite alternate;
       }
       .gbg--aurora .b3 {
@@ -1869,7 +1887,11 @@
         aspect-ratio: 1;
         left: 34%;
         top: 20%;
-        background: radial-gradient(circle at 50% 50%, var(--gb-blue-4), transparent 64%);
+        background: radial-gradient(
+          circle at 50% 50%,
+          var(--gb-blue-4),
+          transparent 64%
+        );
         opacity: 0.75;
         animation: gb-driftC 66s ease-in-out infinite alternate;
       }
@@ -1878,25 +1900,45 @@
         aspect-ratio: 1;
         left: 6%;
         bottom: -14%;
-        background: radial-gradient(circle at 50% 50%, var(--gb-cyan), transparent 72%);
+        background: radial-gradient(
+          circle at 50% 50%,
+          var(--gb-cyan),
+          transparent 72%
+        );
         opacity: 0.5;
         animation: gb-driftD 84s ease-in-out infinite alternate;
       }
       @keyframes gb-driftA {
-        0% { transform: translate(0, 0) scale(1); }
-        100% { transform: translate(22%, 16%) scale(1.18); }
+        0% {
+          transform: translate(0, 0) scale(1);
+        }
+        100% {
+          transform: translate(22%, 16%) scale(1.18);
+        }
       }
       @keyframes gb-driftB {
-        0% { transform: translate(0, 0) scale(1.1); }
-        100% { transform: translate(-20%, -12%) scale(0.92); }
+        0% {
+          transform: translate(0, 0) scale(1.1);
+        }
+        100% {
+          transform: translate(-20%, -12%) scale(0.92);
+        }
       }
       @keyframes gb-driftC {
-        0% { transform: translate(0, 0) scale(0.95); }
-        100% { transform: translate(-16%, 22%) scale(1.22); }
+        0% {
+          transform: translate(0, 0) scale(0.95);
+        }
+        100% {
+          transform: translate(-16%, 22%) scale(1.22);
+        }
       }
       @keyframes gb-driftD {
-        0% { transform: translate(0, 0) scale(1); }
-        100% { transform: translate(26%, -18%) scale(1.15); }
+        0% {
+          transform: translate(0, 0) scale(1);
+        }
+        100% {
+          transform: translate(26%, -18%) scale(1.15);
+        }
       }
       @media (prefers-reduced-motion: reduce) {
         .gbg__blob {
@@ -2243,33 +2285,88 @@
         xmlns="http://www.w3.org/2000/svg"
       >
         <g>
-          <polygon class="st0" points="432.76 93.7 270.46 374.79 162.29 374.79 108.19 281.1 216.39 281.1 270.49 187.4 216.39 93.7 324.56 93.7 378.66 0 432.76 93.7" />
-          <polygon class="st0" points="216.37 93.7 162.3 187.4 108.2 281.1 0 93.7 108.2 93.7 162.3 0 216.37 93.7" />
-          <polygon class="st0" points="649.14 93.7 486.87 374.79 378.67 374.79 324.57 281.1 432.77 281.1 595.04 0 649.14 93.7" />
+          <polygon
+            class="st0"
+            points="432.76 93.7 270.46 374.79 162.29 374.79 108.19 281.1 216.39 281.1 270.49 187.4 216.39 93.7 324.56 93.7 378.66 0 432.76 93.7"
+          />
+          <polygon
+            class="st0"
+            points="216.37 93.7 162.3 187.4 108.2 281.1 0 93.7 108.2 93.7 162.3 0 216.37 93.7"
+          />
+          <polygon
+            class="st0"
+            points="649.14 93.7 486.87 374.79 378.67 374.79 324.57 281.1 432.77 281.1 595.04 0 649.14 93.7"
+          />
         </g>
         <g>
-          <path class="st0" d="M788.53,98.11l-16.99-63.66-16.99,63.66h-19.53l-23.34-91.05h18.77l14.71,61.76,16.74-61.76h19.66l16.23,62.02,14.84-62.02h18.9l-23.46,91.05h-19.53Z" />
-          <path class="st0" d="M903.68,81.37v16.74h-61.25V7.06h60.36v16.74h-41.09v19.14h37.28v16.61h-37.28v21.81h41.97Z" />
-          <path class="st0" d="M977.49,98.11h-58.84V7.06h19.28v73.68h39.57v17.38Z" />
-          <path class="st0" d="M1049.52,98.11h-58.84V7.06h19.28v73.68h39.57v17.38Z" />
+          <path
+            class="st0"
+            d="M788.53,98.11l-16.99-63.66-16.99,63.66h-19.53l-23.34-91.05h18.77l14.71,61.76,16.74-61.76h19.66l16.23,62.02,14.84-62.02h18.9l-23.46,91.05h-19.53Z"
+          />
+          <path
+            class="st0"
+            d="M903.68,81.37v16.74h-61.25V7.06h60.36v16.74h-41.09v19.14h37.28v16.61h-37.28v21.81h41.97Z"
+          />
+          <path
+            class="st0"
+            d="M977.49,98.11h-58.84V7.06h19.28v73.68h39.57v17.38Z"
+          />
+          <path
+            class="st0"
+            d="M1049.52,98.11h-58.84V7.06h19.28v73.68h39.57v17.38Z"
+          />
         </g>
         <g>
-          <path class="st0" d="M751.76,232.05h-32.34v-91.05h32.34c9.64,0,17.92,1.9,24.86,5.71,6.93,3.8,12.26,9.09,15.98,15.85,3.72,6.77,5.58,14.59,5.58,23.46s-1.9,16.68-5.71,23.65-9.19,12.45-16.17,16.42c-6.98,3.98-15.16,5.96-24.54,5.96ZM738.7,157.61v57.83h12.05c6.09,0,11.18-1.14,15.28-3.42,4.1-2.28,7.19-5.62,9.26-10.01,2.07-4.4,3.11-9.73,3.11-15.99s-1.04-11.24-3.11-15.47c-2.07-4.22-5.16-7.43-9.26-9.64-4.1-2.19-9.19-3.3-15.28-3.3h-12.05Z" />
-          <path class="st0" d="M852.83,233.96c-6.59,0-12.7-1.19-18.32-3.55-5.62-2.36-10.54-5.68-14.77-9.96-4.23-4.27-7.53-9.3-9.89-15.09-2.37-5.79-3.55-12.11-3.55-18.96s1.18-13.15,3.55-18.9c2.37-5.75,5.67-10.74,9.89-14.97,4.23-4.23,9.15-7.52,14.77-9.89,5.62-2.36,11.73-3.55,18.32-3.55s12.72,1.19,18.39,3.55c5.66,2.37,10.63,5.67,14.9,9.89,4.27,4.23,7.59,9.22,9.95,14.97,2.37,5.75,3.55,12.05,3.55,18.9s-1.19,13.17-3.55,18.96c-2.37,5.79-5.69,10.82-9.95,15.09-4.27,4.28-9.24,7.6-14.9,9.96-5.67,2.36-11.79,3.55-18.39,3.55ZM852.83,216.71c4.14,0,7.88-.78,11.22-2.35,3.34-1.57,6.17-3.75,8.5-6.53,2.33-2.79,4.1-6.02,5.33-9.7,1.22-3.67,1.84-7.59,1.84-11.73s-.61-8.03-1.84-11.67c-1.23-3.63-3-6.82-5.33-9.57-2.33-2.75-5.16-4.9-8.5-6.47-3.34-1.56-7.08-2.35-11.22-2.35s-7.86.79-11.16,2.35c-3.3,1.57-6.11,3.72-8.43,6.47-2.33,2.75-4.1,5.94-5.33,9.57-1.23,3.64-1.84,7.52-1.84,11.67s.61,8.05,1.84,11.73c1.23,3.68,3,6.91,5.33,9.7,2.32,2.79,5.14,4.97,8.43,6.53,3.3,1.57,7.02,2.35,11.16,2.35Z" />
-          <path class="st0" d="M972.29,232.05l-41.72-63.53v63.53h-17.63v-91.05h20.8l39.69,60.37v-60.37h17.75v91.05h-18.9Z" />
-          <path class="st0" d="M1071.2,215.31v16.74h-61.25v-91.05h60.36v16.74h-41.09v19.14h37.28v16.61h-37.28v21.81h41.97Z" />
+          <path
+            class="st0"
+            d="M751.76,232.05h-32.34v-91.05h32.34c9.64,0,17.92,1.9,24.86,5.71,6.93,3.8,12.26,9.09,15.98,15.85,3.72,6.77,5.58,14.59,5.58,23.46s-1.9,16.68-5.71,23.65-9.19,12.45-16.17,16.42c-6.98,3.98-15.16,5.96-24.54,5.96ZM738.7,157.61v57.83h12.05c6.09,0,11.18-1.14,15.28-3.42,4.1-2.28,7.19-5.62,9.26-10.01,2.07-4.4,3.11-9.73,3.11-15.99s-1.04-11.24-3.11-15.47c-2.07-4.22-5.16-7.43-9.26-9.64-4.1-2.19-9.19-3.3-15.28-3.3h-12.05Z"
+          />
+          <path
+            class="st0"
+            d="M852.83,233.96c-6.59,0-12.7-1.19-18.32-3.55-5.62-2.36-10.54-5.68-14.77-9.96-4.23-4.27-7.53-9.3-9.89-15.09-2.37-5.79-3.55-12.11-3.55-18.96s1.18-13.15,3.55-18.9c2.37-5.75,5.67-10.74,9.89-14.97,4.23-4.23,9.15-7.52,14.77-9.89,5.62-2.36,11.73-3.55,18.32-3.55s12.72,1.19,18.39,3.55c5.66,2.37,10.63,5.67,14.9,9.89,4.27,4.23,7.59,9.22,9.95,14.97,2.37,5.75,3.55,12.05,3.55,18.9s-1.19,13.17-3.55,18.96c-2.37,5.79-5.69,10.82-9.95,15.09-4.27,4.28-9.24,7.6-14.9,9.96-5.67,2.36-11.79,3.55-18.39,3.55ZM852.83,216.71c4.14,0,7.88-.78,11.22-2.35,3.34-1.57,6.17-3.75,8.5-6.53,2.33-2.79,4.1-6.02,5.33-9.7,1.22-3.67,1.84-7.59,1.84-11.73s-.61-8.03-1.84-11.67c-1.23-3.63-3-6.82-5.33-9.57-2.33-2.75-5.16-4.9-8.5-6.47-3.34-1.56-7.08-2.35-11.22-2.35s-7.86.79-11.16,2.35c-3.3,1.57-6.11,3.72-8.43,6.47-2.33,2.75-4.1,5.94-5.33,9.57-1.23,3.64-1.84,7.52-1.84,11.67s.61,8.05,1.84,11.73c1.23,3.68,3,6.91,5.33,9.7,2.32,2.79,5.14,4.97,8.43,6.53,3.3,1.57,7.02,2.35,11.16,2.35Z"
+          />
+          <path
+            class="st0"
+            d="M972.29,232.05l-41.72-63.53v63.53h-17.63v-91.05h20.8l39.69,60.37v-60.37h17.75v91.05h-18.9Z"
+          />
+          <path
+            class="st0"
+            d="M1071.2,215.31v16.74h-61.25v-91.05h60.36v16.74h-41.09v19.14h37.28v16.61h-37.28v21.81h41.97Z"
+          />
         </g>
         <g>
           <g>
-            <path class="st0" d="M753.03,338.06h-14.33v29.67h-19.28v-91.05h33.61c7.44,0,13.84,1.14,19.21,3.42,5.36,2.28,9.51,5.67,12.43,10.14,2.92,4.48,4.38,10.06,4.38,16.74s-1.46,12.22-4.38,16.87c-2.92,4.65-7.06,8.17-12.43,10.59-5.37,2.41-11.77,3.62-19.21,3.62ZM752.9,292.91h-14.2v28.91h14.2c5.41,0,9.6-1.33,12.55-3.99,2.96-2.66,4.44-6.23,4.44-10.71s-1.48-7.96-4.44-10.46c-2.96-2.49-7.15-3.74-12.55-3.74Z" />
-            <path class="st0" d="M821.38,367.73h-19.28v-91.05h35.64c11.5,0,20.41,2.56,26.76,7.68,6.34,5.11,9.51,12.4,9.51,21.87,0,6.09-1.8,11.48-5.39,16.17-3.6,4.69-8.64,8.1-15.15,10.21l23.46,35.13h-22.95l-20.54-32.21h-12.05v32.21ZM821.38,292.66v27.01h15.47c5.83,0,10.27-1.12,13.31-3.36,3.05-2.24,4.57-5.6,4.57-10.09s-1.52-7.96-4.57-10.21c-3.04-2.23-7.48-3.36-13.31-3.36h-15.47Z" />
-            <path class="st0" d="M929.68,369.64c-6.59,0-12.7-1.19-18.32-3.55-5.62-2.36-10.54-5.68-14.77-9.96-4.23-4.27-7.53-9.3-9.89-15.09-2.37-5.79-3.55-12.11-3.55-18.96s1.18-13.15,3.55-18.9c2.37-5.75,5.67-10.74,9.89-14.97,4.23-4.23,9.15-7.52,14.77-9.89,5.62-2.36,11.73-3.55,18.32-3.55s12.72,1.19,18.39,3.55c5.66,2.37,10.63,5.67,14.9,9.89,4.27,4.23,7.59,9.22,9.95,14.97,2.37,5.75,3.55,12.05,3.55,18.9s-1.19,13.17-3.55,18.96c-2.37,5.79-5.69,10.82-9.95,15.09-4.27,4.28-9.24,7.6-14.9,9.96-5.67,2.36-11.79,3.55-18.39,3.55ZM929.68,352.39c4.14,0,7.88-.78,11.22-2.35,3.34-1.57,6.17-3.75,8.5-6.53,2.33-2.79,4.1-6.02,5.33-9.7,1.22-3.67,1.84-7.59,1.84-11.73s-.61-8.03-1.84-11.67c-1.23-3.63-3-6.82-5.33-9.57-2.33-2.75-5.16-4.9-8.5-6.47-3.34-1.56-7.08-2.35-11.22-2.35s-7.86.79-11.16,2.35c-3.3,1.57-6.11,3.72-8.43,6.47-2.33,2.75-4.1,5.94-5.33,9.57-1.23,3.64-1.84,7.52-1.84,11.67s.61,8.05,1.84,11.73c1.23,3.68,3,6.91,5.33,9.7,2.32,2.79,5.14,4.97,8.43,6.53,3.3,1.57,7.02,2.35,11.16,2.35Z" />
-            <path class="st0" d="M1022.13,367.73h-32.34v-91.05h32.34c9.64,0,17.92,1.9,24.86,5.71,6.93,3.8,12.26,9.09,15.98,15.85,3.72,6.77,5.58,14.59,5.58,23.46s-1.9,16.68-5.71,23.65c-3.81,6.98-9.19,12.45-16.17,16.42-6.98,3.98-15.16,5.96-24.54,5.96ZM1009.06,293.29v57.83h12.05c6.09,0,11.18-1.14,15.28-3.42,4.1-2.28,7.19-5.62,9.26-10.01,2.07-4.4,3.11-9.73,3.11-15.99s-1.04-11.24-3.11-15.47c-2.07-4.22-5.16-7.43-9.26-9.64-4.1-2.19-9.19-3.3-15.28-3.3h-12.05Z" />
-            <path class="st0" d="M1156.68,276.68v56.43c0,7.19-1.46,13.53-4.37,19.02-2.92,5.5-7.17,9.79-12.75,12.88-5.58,3.09-12.35,4.63-20.29,4.63s-14.84-1.54-20.42-4.63c-5.58-3.09-9.83-7.38-12.74-12.88-2.92-5.49-4.38-11.83-4.38-19.02v-56.43h19.28v56.82c0,3.72.63,7.02,1.9,9.89,1.27,2.87,3.23,5.09,5.9,6.65,2.66,1.57,6.15,2.35,10.46,2.35s7.67-.78,10.34-2.35c2.66-1.57,4.63-3.79,5.9-6.65,1.27-2.88,1.9-6.17,1.9-9.89v-56.82h19.27Z" />
-            <path class="st0" d="M1313.29,367.73h-19.28v-73.68h-28.66v-17.38h76.72v17.38h-28.79v73.68Z" />
+            <path
+              class="st0"
+              d="M753.03,338.06h-14.33v29.67h-19.28v-91.05h33.61c7.44,0,13.84,1.14,19.21,3.42,5.36,2.28,9.51,5.67,12.43,10.14,2.92,4.48,4.38,10.06,4.38,16.74s-1.46,12.22-4.38,16.87c-2.92,4.65-7.06,8.17-12.43,10.59-5.37,2.41-11.77,3.62-19.21,3.62ZM752.9,292.91h-14.2v28.91h14.2c5.41,0,9.6-1.33,12.55-3.99,2.96-2.66,4.44-6.23,4.44-10.71s-1.48-7.96-4.44-10.46c-2.96-2.49-7.15-3.74-12.55-3.74Z"
+            />
+            <path
+              class="st0"
+              d="M821.38,367.73h-19.28v-91.05h35.64c11.5,0,20.41,2.56,26.76,7.68,6.34,5.11,9.51,12.4,9.51,21.87,0,6.09-1.8,11.48-5.39,16.17-3.6,4.69-8.64,8.1-15.15,10.21l23.46,35.13h-22.95l-20.54-32.21h-12.05v32.21ZM821.38,292.66v27.01h15.47c5.83,0,10.27-1.12,13.31-3.36,3.05-2.24,4.57-5.6,4.57-10.09s-1.52-7.96-4.57-10.21c-3.04-2.23-7.48-3.36-13.31-3.36h-15.47Z"
+            />
+            <path
+              class="st0"
+              d="M929.68,369.64c-6.59,0-12.7-1.19-18.32-3.55-5.62-2.36-10.54-5.68-14.77-9.96-4.23-4.27-7.53-9.3-9.89-15.09-2.37-5.79-3.55-12.11-3.55-18.96s1.18-13.15,3.55-18.9c2.37-5.75,5.67-10.74,9.89-14.97,4.23-4.23,9.15-7.52,14.77-9.89,5.62-2.36,11.73-3.55,18.32-3.55s12.72,1.19,18.39,3.55c5.66,2.37,10.63,5.67,14.9,9.89,4.27,4.23,7.59,9.22,9.95,14.97,2.37,5.75,3.55,12.05,3.55,18.9s-1.19,13.17-3.55,18.96c-2.37,5.79-5.69,10.82-9.95,15.09-4.27,4.28-9.24,7.6-14.9,9.96-5.67,2.36-11.79,3.55-18.39,3.55ZM929.68,352.39c4.14,0,7.88-.78,11.22-2.35,3.34-1.57,6.17-3.75,8.5-6.53,2.33-2.79,4.1-6.02,5.33-9.7,1.22-3.67,1.84-7.59,1.84-11.73s-.61-8.03-1.84-11.67c-1.23-3.63-3-6.82-5.33-9.57-2.33-2.75-5.16-4.9-8.5-6.47-3.34-1.56-7.08-2.35-11.22-2.35s-7.86.79-11.16,2.35c-3.3,1.57-6.11,3.72-8.43,6.47-2.33,2.75-4.1,5.94-5.33,9.57-1.23,3.64-1.84,7.52-1.84,11.67s.61,8.05,1.84,11.73c1.23,3.68,3,6.91,5.33,9.7,2.32,2.79,5.14,4.97,8.43,6.53,3.3,1.57,7.02,2.35,11.16,2.35Z"
+            />
+            <path
+              class="st0"
+              d="M1022.13,367.73h-32.34v-91.05h32.34c9.64,0,17.92,1.9,24.86,5.71,6.93,3.8,12.26,9.09,15.98,15.85,3.72,6.77,5.58,14.59,5.58,23.46s-1.9,16.68-5.71,23.65c-3.81,6.98-9.19,12.45-16.17,16.42-6.98,3.98-15.16,5.96-24.54,5.96ZM1009.06,293.29v57.83h12.05c6.09,0,11.18-1.14,15.28-3.42,4.1-2.28,7.19-5.62,9.26-10.01,2.07-4.4,3.11-9.73,3.11-15.99s-1.04-11.24-3.11-15.47c-2.07-4.22-5.16-7.43-9.26-9.64-4.1-2.19-9.19-3.3-15.28-3.3h-12.05Z"
+            />
+            <path
+              class="st0"
+              d="M1156.68,276.68v56.43c0,7.19-1.46,13.53-4.37,19.02-2.92,5.5-7.17,9.79-12.75,12.88-5.58,3.09-12.35,4.63-20.29,4.63s-14.84-1.54-20.42-4.63c-5.58-3.09-9.83-7.38-12.74-12.88-2.92-5.49-4.38-11.83-4.38-19.02v-56.43h19.28v56.82c0,3.72.63,7.02,1.9,9.89,1.27,2.87,3.23,5.09,5.9,6.65,2.66,1.57,6.15,2.35,10.46,2.35s7.67-.78,10.34-2.35c2.66-1.57,4.63-3.79,5.9-6.65,1.27-2.88,1.9-6.17,1.9-9.89v-56.82h19.27Z"
+            />
+            <path
+              class="st0"
+              d="M1313.29,367.73h-19.28v-73.68h-28.66v-17.38h76.72v17.38h-28.79v73.68Z"
+            />
           </g>
-          <path class="st0" d="M1240.37,328.96c-.85,3.4-2.21,6.49-4.12,9.24-2.32,3.34-5.26,5.96-8.81,7.86-3.55,1.9-7.48,2.85-11.79,2.85-3.97,0-7.54-.74-10.71-2.22-3.17-1.48-5.92-3.58-8.24-6.28-2.33-2.71-4.1-5.9-5.33-9.58-1.23-3.67-1.84-7.76-1.84-12.23s.61-8.44,1.84-12.11c1.23-3.68,3-6.87,5.33-9.57,2.32-2.71,5.07-4.78,8.24-6.22,3.17-1.43,6.74-2.15,10.71-2.15,4.31,0,8.22.93,11.73,2.79,3.51,1.86,6.47,4.44,8.88,7.74,1.99,2.72,3.35,5.83,4.16,9.3h20.53c-1.2-6.86-3.69-12.96-7.51-18.3-4.23-5.92-9.62-10.53-16.17-13.82-6.55-3.3-13.84-4.95-21.88-4.95-6.34,0-12.3,1.21-17.88,3.62-5.58,2.41-10.44,5.77-14.58,10.08-4.14,4.32-7.38,9.32-9.7,15.03-2.33,5.71-3.49,11.9-3.49,18.58s1.16,12.89,3.49,18.64c2.32,5.75,5.56,10.8,9.7,15.16,4.14,4.36,9,7.73,14.58,10.14,5.58,2.41,11.54,3.62,17.88,3.62,8.03,0,15.3-1.65,21.81-4.95,6.51-3.3,11.88-7.9,16.11-13.82,3.82-5.34,6.35-11.49,7.61-18.42h-20.55Z" />
-        </g>      </svg>
+          <path
+            class="st0"
+            d="M1240.37,328.96c-.85,3.4-2.21,6.49-4.12,9.24-2.32,3.34-5.26,5.96-8.81,7.86-3.55,1.9-7.48,2.85-11.79,2.85-3.97,0-7.54-.74-10.71-2.22-3.17-1.48-5.92-3.58-8.24-6.28-2.33-2.71-4.1-5.9-5.33-9.58-1.23-3.67-1.84-7.76-1.84-12.23s.61-8.44,1.84-12.11c1.23-3.68,3-6.87,5.33-9.57,2.32-2.71,5.07-4.78,8.24-6.22,3.17-1.43,6.74-2.15,10.71-2.15,4.31,0,8.22.93,11.73,2.79,3.51,1.86,6.47,4.44,8.88,7.74,1.99,2.72,3.35,5.83,4.16,9.3h20.53c-1.2-6.86-3.69-12.96-7.51-18.3-4.23-5.92-9.62-10.53-16.17-13.82-6.55-3.3-13.84-4.95-21.88-4.95-6.34,0-12.3,1.21-17.88,3.62-5.58,2.41-10.44,5.77-14.58,10.08-4.14,4.32-7.38,9.32-9.7,15.03-2.33,5.71-3.49,11.9-3.49,18.58s1.16,12.89,3.49,18.64c2.32,5.75,5.56,10.8,9.7,15.16,4.14,4.36,9,7.73,14.58,10.14,5.58,2.41,11.54,3.62,17.88,3.62,8.03,0,15.3-1.65,21.81-4.95,6.51-3.3,11.88-7.9,16.11-13.82,3.82-5.34,6.35-11.49,7.61-18.42h-20.55Z"
+          />
+        </g>
+      </svg>
     </div>
 
     <!-- =====================================================
@@ -2370,7 +2467,11 @@
           </div>
           <div class="hero-ctas">
             <span class="planet-light" aria-hidden="true"></span>
-            <a href="/pdf/Company.pdf" download="웰던프로덕트_회사소개서.pdf" class="btn-hero btn-hero-outline">
+            <a
+              href="/pdf/Company.pdf"
+              download="웰던프로덕트_회사소개서.pdf"
+              class="btn-hero btn-hero-outline"
+            >
               회사소개서 받기
               <svg
                 viewBox="0 0 24 24"
@@ -2400,16 +2501,20 @@
       <section class="section" id="how-1">
         <div class="container">
           <div class="section-head">
-            <h2><span style="color:var(--primary)">처음부터 끝까지,</span><br />AI와 전문가가 함께합니다</h2>
+            <h2>
+              <span style="color: var(--primary)">처음부터 끝까지,</span
+              ><br />AI와 전문가가 함께합니다
+            </h2>
             <p class="lead">
-              기획·디자인·개발·테스트까지 외주 개발의 모든 단계에서 AI를 활용해 일합니다.
+              기획·디자인·개발·테스트까지 외주 개발의<br />모든 단계에서 AI를
+              활용해 일합니다.
             </p>
           </div>
 
           <div class="ai-standard">
             <div class="ai-standard-point">
               <strong>사내 검수 체크리스트</strong>
-              AI 산출물은 모든 단계에서 사내 표준 체크리스트로 점검합니다.
+              AI 산출물은 모든 단계에서 사내 표준<br class="br-m" /> 체크리스트로 점검합니다.
             </div>
             <div class="ai-standard-point">
               <strong>전문가의 최종 검수</strong>
@@ -2417,14 +2522,18 @@
             </div>
             <div class="ai-standard-point">
               <strong>변경 이력 자동 정리</strong>
-              산출물·변경 이력을 정리해 인수인계까지 그대로 전달합니다.
+              산출물·변경 이력을 정리해 인수인계까지<br class="br-m" /> 그대로 전달합니다.
             </div>
           </div>
 
           <div class="workflow">
             <div class="workflow-stage">
               <span class="workflow-stage-number">1</span>
-              <img class="workflow-stage-icon" src="/workflow-icon/idea.png" alt="" />
+              <img
+                class="workflow-stage-icon"
+                src="/workflow-icon/idea.png"
+                alt=""
+              />
               <div class="workflow-stage-name">기획</div>
               <div class="workflow-stage-tags">
                 <span class="tag tag-ai">AI</span>
@@ -2438,7 +2547,11 @@
             </div>
             <div class="workflow-stage">
               <span class="workflow-stage-number">2</span>
-              <img class="workflow-stage-icon" src="/workflow-icon/design.png" alt="" />
+              <img
+                class="workflow-stage-icon"
+                src="/workflow-icon/design.png"
+                alt=""
+              />
               <div class="workflow-stage-name">디자인</div>
               <div class="workflow-stage-tags">
                 <span class="tag tag-ai">AI</span>
@@ -2451,7 +2564,11 @@
             </div>
             <div class="workflow-stage">
               <span class="workflow-stage-number">3</span>
-              <img class="workflow-stage-icon" src="/workflow-icon/development.png" alt="" />
+              <img
+                class="workflow-stage-icon"
+                src="/workflow-icon/development.png"
+                alt=""
+              />
               <div class="workflow-stage-name">개발</div>
               <div class="workflow-stage-tags">
                 <span class="tag tag-ai">AI</span>
@@ -2464,7 +2581,11 @@
             </div>
             <div class="workflow-stage">
               <span class="workflow-stage-number">4</span>
-              <img class="workflow-stage-icon" src="/workflow-icon/loading.png" alt="" />
+              <img
+                class="workflow-stage-icon"
+                src="/workflow-icon/loading.png"
+                alt=""
+              />
               <div class="workflow-stage-name">테스트</div>
               <div class="workflow-stage-tags">
                 <span class="tag tag-ai">AI</span>
@@ -2477,14 +2598,18 @@
             </div>
             <div class="workflow-stage">
               <span class="workflow-stage-number">5</span>
-              <img class="workflow-stage-icon" src="/workflow-icon/wrench.png" alt="" />
+              <img
+                class="workflow-stage-icon"
+                src="/workflow-icon/wrench.png"
+                alt=""
+              />
               <div class="workflow-stage-name">유지보수·인수인계</div>
               <div class="workflow-stage-tags">
                 <span class="tag tag-ai">AI</span>
                 <span class="tag tag-human">담당 PM</span>
               </div>
               <ul class="workflow-stage-tasks">
-                <li>기획·디자인·코드 등 인수인계 자료 자동 정리</li>
+                <li>기획·디자인·코드 등 인수인계 자료<br class="br-m" /> 자동 정리</li>
                 <li>변경 이력·유지보수 가이드 작성</li>
               </ul>
             </div>
@@ -2603,12 +2728,12 @@
               </div>
             </div>
             <div class="week-markers">
-              <span class="week-marker demo">W1 시연</span>
-              <span class="week-marker demo">W2 시연</span>
-              <span class="week-marker demo">W3 시연</span>
-              <span class="week-marker demo">W4 시연</span>
-              <span class="week-marker demo">W5 시연</span>
-              <span class="week-marker demo">W6 시연</span>
+              <span class="week-marker demo">W1</span>
+              <span class="week-marker demo">W2</span>
+              <span class="week-marker demo">W3</span>
+              <span class="week-marker demo">W4</span>
+              <span class="week-marker demo">W5</span>
+              <span class="week-marker demo">W6</span>
             </div>
           </div>
         </div>
@@ -2649,7 +2774,8 @@
             <div class="result-card-number"><span class="unit">~</span>30%</div>
             <div class="result-card-title">투입 비용도 줄어듭니다</div>
             <div class="result-card-body">
-              기간이 짧아진 만큼 투입 인력·시간이 줄어<br />비용 부담도 낮아집니다.
+              기간이 짧아진 만큼 투입 인력·시간이 줄어<br />비용 부담도
+              낮아집니다.
             </div>
           </div>
           <div class="result-card">
@@ -2657,7 +2783,8 @@
             <div class="result-card-number text">200%</div>
             <div class="result-card-title">버그·누락이 줄어듭니다</div>
             <div class="result-card-body">
-              AI가 누락된 요구사항을 잡아내고,<br />전문가가 한 번 더 검수해 완성도를 높입니다.
+              AI가 누락된 요구사항을 잡아내고,<br />전문가가 한 번 더 검수해
+              완성도를 높입니다.
             </div>
           </div>
         </div>
@@ -2675,7 +2802,7 @@
         <div class="section-head">
           <h2>
             필요한 IT 프로덕트를,<br />
-            <span style="color:var(--primary)">AI-Native 방식으로</span>
+            <span style="color: var(--primary)">AI-Native 방식으로</span>
             만듭니다
           </h2>
           <p class="lead">
@@ -2743,14 +2870,27 @@
           <!-- Row 1 -->
           <article class="case-card">
             <div class="case-thumb">
-              <img class="case-thumb-img" src="/portfolio-bg/fantiks.png" alt="팬틱스" />
-              <div class="case-thumb-overlay" style="background:rgba(55,10,103,0.5);"></div>
-              <img class="case-thumb-logo" src="/portfolio-logo/fantiks.png" alt="팬틱스 로고" />
+              <img
+                class="case-thumb-img"
+                src="/portfolio-bg/fantiks.png"
+                alt="팬틱스"
+              />
+              <div
+                class="case-thumb-overlay"
+                style="background: rgba(55, 10, 103, 0.5)"
+              ></div>
+              <img
+                class="case-thumb-logo"
+                src="/portfolio-logo/fantiks.png"
+                alt="팬틱스 로고"
+              />
             </div>
             <div class="case-body">
               <div class="case-title-wrap">
                 <h3 class="case-title">팬틱스</h3>
-                <p class="case-sub">아이돌 팬덤 플랫폼<br>(SNS+커머스+실시간채팅)</p>
+                <p class="case-sub">
+                  아이돌 팬덤 플랫폼<br />(SNS+커머스+실시간채팅)
+                </p>
               </div>
               <div class="case-tags">
                 <span class="case-tag">엔터테인먼트</span>
@@ -2761,9 +2901,20 @@
 
           <article class="case-card">
             <div class="case-thumb">
-              <img class="case-thumb-img" src="/portfolio-bg/yonsei.png" alt="연세대" />
-              <div class="case-thumb-overlay" style="background:rgba(0,32,101,0.5);"></div>
-              <img class="case-thumb-logo" src="/portfolio-logo/yonsei.png" alt="연세대 로고" />
+              <img
+                class="case-thumb-img"
+                src="/portfolio-bg/yonsei.png"
+                alt="연세대"
+              />
+              <div
+                class="case-thumb-overlay"
+                style="background: rgba(0, 32, 101, 0.5)"
+              ></div>
+              <img
+                class="case-thumb-logo"
+                src="/portfolio-logo/yonsei.png"
+                alt="연세대 로고"
+              />
             </div>
             <div class="case-body">
               <div class="case-title-wrap">
@@ -2779,9 +2930,20 @@
 
           <article class="case-card">
             <div class="case-thumb">
-              <img class="case-thumb-img" src="/portfolio-bg/aju.png" alt="아주대학교의료원" />
-              <div class="case-thumb-overlay" style="background:rgba(29,17,0,0.5);"></div>
-              <img class="case-thumb-logo" src="/portfolio-logo/aju.png" alt="아주대 로고" />
+              <img
+                class="case-thumb-img"
+                src="/portfolio-bg/aju.png"
+                alt="아주대학교의료원"
+              />
+              <div
+                class="case-thumb-overlay"
+                style="background: rgba(29, 17, 0, 0.5)"
+              ></div>
+              <img
+                class="case-thumb-logo"
+                src="/portfolio-logo/aju.png"
+                alt="아주대 로고"
+              />
             </div>
             <div class="case-body">
               <div class="case-title-wrap">
@@ -2798,9 +2960,20 @@
           <!-- Row 2 -->
           <article class="case-card">
             <div class="case-thumb">
-              <img class="case-thumb-img" src="/portfolio-bg/medix.png" alt="한국메딕스" />
-              <div class="case-thumb-overlay" style="background:rgba(8,26,59,0.5);"></div>
-              <img class="case-thumb-logo" src="/portfolio-logo/medix.png" alt="한국메딕스 로고" />
+              <img
+                class="case-thumb-img"
+                src="/portfolio-bg/medix.png"
+                alt="한국메딕스"
+              />
+              <div
+                class="case-thumb-overlay"
+                style="background: rgba(8, 26, 59, 0.5)"
+              ></div>
+              <img
+                class="case-thumb-logo"
+                src="/portfolio-logo/medix.png"
+                alt="한국메딕스 로고"
+              />
             </div>
             <div class="case-body">
               <div class="case-title-wrap">
@@ -2816,9 +2989,20 @@
 
           <article class="case-card">
             <div class="case-thumb">
-              <img class="case-thumb-img" src="/portfolio-bg/cnc.png" alt="씨앤씨미술학원" />
-              <div class="case-thumb-overlay" style="background:rgba(47,2,38,0.5);"></div>
-              <img class="case-thumb-logo" src="/portfolio-logo/cnc.png" alt="씨앤씨 로고" />
+              <img
+                class="case-thumb-img"
+                src="/portfolio-bg/cnc.png"
+                alt="씨앤씨미술학원"
+              />
+              <div
+                class="case-thumb-overlay"
+                style="background: rgba(47, 2, 38, 0.5)"
+              ></div>
+              <img
+                class="case-thumb-logo"
+                src="/portfolio-logo/cnc.png"
+                alt="씨앤씨 로고"
+              />
             </div>
             <div class="case-body">
               <div class="case-title-wrap">
@@ -2834,9 +3018,20 @@
 
           <article class="case-card">
             <div class="case-thumb">
-              <img class="case-thumb-img" src="/portfolio-bg/higher.png" alt="하이어코퍼레이션" />
-              <div class="case-thumb-overlay" style="background:rgba(34,39,41,0.5);"></div>
-              <img class="case-thumb-logo" src="/portfolio-logo/higher.png" alt="하이어 로고" />
+              <img
+                class="case-thumb-img"
+                src="/portfolio-bg/higher.png"
+                alt="하이어코퍼레이션"
+              />
+              <div
+                class="case-thumb-overlay"
+                style="background: rgba(34, 39, 41, 0.5)"
+              ></div>
+              <img
+                class="case-thumb-logo"
+                src="/portfolio-logo/higher.png"
+                alt="하이어 로고"
+              />
             </div>
             <div class="case-body">
               <div class="case-title-wrap">
@@ -2853,9 +3048,20 @@
           <!-- Row 3 -->
           <article class="case-card">
             <div class="case-thumb">
-              <img class="case-thumb-img" src="/portfolio-bg/modu.png" alt="모두의인증" />
-              <div class="case-thumb-overlay" style="background:rgba(4,25,59,0.5);"></div>
-              <img class="case-thumb-logo" src="/portfolio-logo/modu.png" alt="모두의인증 로고" />
+              <img
+                class="case-thumb-img"
+                src="/portfolio-bg/modu.png"
+                alt="모두의인증"
+              />
+              <div
+                class="case-thumb-overlay"
+                style="background: rgba(4, 25, 59, 0.5)"
+              ></div>
+              <img
+                class="case-thumb-logo"
+                src="/portfolio-logo/modu.png"
+                alt="모두의인증 로고"
+              />
             </div>
             <div class="case-body">
               <div class="case-title-wrap">
@@ -2871,9 +3077,20 @@
 
           <article class="case-card">
             <div class="case-thumb">
-              <img class="case-thumb-img" src="/portfolio-bg/nbridge.png" alt="엔브릿지" />
-              <div class="case-thumb-overlay" style="background:rgba(31,31,31,0.4);"></div>
-              <img class="case-thumb-logo" src="/portfolio-logo/nbridge.png" alt="엔브릿지 로고" />
+              <img
+                class="case-thumb-img"
+                src="/portfolio-bg/nbridge.png"
+                alt="엔브릿지"
+              />
+              <div
+                class="case-thumb-overlay"
+                style="background: rgba(31, 31, 31, 0.4)"
+              ></div>
+              <img
+                class="case-thumb-logo"
+                src="/portfolio-logo/nbridge.png"
+                alt="엔브릿지 로고"
+              />
             </div>
             <div class="case-body">
               <div class="case-title-wrap">
@@ -2887,8 +3104,6 @@
             </div>
           </article>
         </div>
-
-
       </div>
     </section>
 
@@ -2930,29 +3145,113 @@
               <span class="logo-name">하이어</span>
             </span>
             <!-- 묶음 2~4 (복제) -->
-            <span class="logo-item" aria-hidden="true"><img src="/logo/yonsei.png" alt="" /><span class="logo-name">연세대학교</span></span>
-            <span class="logo-item" aria-hidden="true"><img src="/logo/aju.png" alt="" /><span class="logo-name">아주대학교의료원</span></span>
-            <span class="logo-item" aria-hidden="true"><img src="/logo/lotte.png" alt="" /><span class="logo-name">롯데이노베이트</span></span>
-            <span class="logo-item" aria-hidden="true"><img src="/logo/cnc.png" alt="" /><span class="logo-name">씨앤씨 미술학원</span></span>
-            <span class="logo-item" aria-hidden="true"><img src="/logo/Koreamedix.png" alt="" /><span class="logo-name">한국메딕스</span></span>
-            <span class="logo-item" aria-hidden="true"><img src="/logo/fantiks.png" alt="" /><span class="logo-name">팬틱스</span></span>
-            <span class="logo-item" aria-hidden="true"><img src="/logo/Higher.png" alt="" /><span class="logo-name">하이어</span></span>
-            <span class="logo-item" aria-hidden="true"><img src="/logo/yonsei.png" alt="" /><span class="logo-name">연세대학교</span></span>
-            <span class="logo-item" aria-hidden="true"><img src="/logo/aju.png" alt="" /><span class="logo-name">아주대학교의료원</span></span>
-            <span class="logo-item" aria-hidden="true"><img src="/logo/lotte.png" alt="" /><span class="logo-name">롯데이노베이트</span></span>
-            <span class="logo-item" aria-hidden="true"><img src="/logo/cnc.png" alt="" /><span class="logo-name">씨앤씨 미술학원</span></span>
-            <span class="logo-item" aria-hidden="true"><img src="/logo/Koreamedix.png" alt="" /><span class="logo-name">한국메딕스</span></span>
-            <span class="logo-item" aria-hidden="true"><img src="/logo/fantiks.png" alt="" /><span class="logo-name">팬틱스</span></span>
-            <span class="logo-item" aria-hidden="true"><img src="/logo/Higher.png" alt="" /><span class="logo-name">하이어</span></span>
-            <span class="logo-item" aria-hidden="true"><img src="/logo/yonsei.png" alt="" /><span class="logo-name">연세대학교</span></span>
-            <span class="logo-item" aria-hidden="true"><img src="/logo/aju.png" alt="" /><span class="logo-name">아주대학교의료원</span></span>
-            <span class="logo-item" aria-hidden="true"><img src="/logo/lotte.png" alt="" /><span class="logo-name">롯데이노베이트</span></span>
-            <span class="logo-item" aria-hidden="true"><img src="/logo/cnc.png" alt="" /><span class="logo-name">씨앤씨 미술학원</span></span>
-            <span class="logo-item" aria-hidden="true"><img src="/logo/Koreamedix.png" alt="" /><span class="logo-name">한국메딕스</span></span>
-            <span class="logo-item" aria-hidden="true"><img src="/logo/fantiks.png" alt="" /><span class="logo-name">팬틱스</span></span>
-            <span class="logo-item" aria-hidden="true"><img src="/logo/Higher.png" alt="" /><span class="logo-name">하이어</span></span>
+            <span class="logo-item" aria-hidden="true"
+              ><img src="/logo/yonsei.png" alt="" /><span class="logo-name"
+                >연세대학교</span
+              ></span
+            >
+            <span class="logo-item" aria-hidden="true"
+              ><img src="/logo/aju.png" alt="" /><span class="logo-name"
+                >아주대학교의료원</span
+              ></span
+            >
+            <span class="logo-item" aria-hidden="true"
+              ><img src="/logo/lotte.png" alt="" /><span class="logo-name"
+                >롯데이노베이트</span
+              ></span
+            >
+            <span class="logo-item" aria-hidden="true"
+              ><img src="/logo/cnc.png" alt="" /><span class="logo-name"
+                >씨앤씨 미술학원</span
+              ></span
+            >
+            <span class="logo-item" aria-hidden="true"
+              ><img src="/logo/Koreamedix.png" alt="" /><span class="logo-name"
+                >한국메딕스</span
+              ></span
+            >
+            <span class="logo-item" aria-hidden="true"
+              ><img src="/logo/fantiks.png" alt="" /><span class="logo-name"
+                >팬틱스</span
+              ></span
+            >
+            <span class="logo-item" aria-hidden="true"
+              ><img src="/logo/Higher.png" alt="" /><span class="logo-name"
+                >하이어</span
+              ></span
+            >
+            <span class="logo-item" aria-hidden="true"
+              ><img src="/logo/yonsei.png" alt="" /><span class="logo-name"
+                >연세대학교</span
+              ></span
+            >
+            <span class="logo-item" aria-hidden="true"
+              ><img src="/logo/aju.png" alt="" /><span class="logo-name"
+                >아주대학교의료원</span
+              ></span
+            >
+            <span class="logo-item" aria-hidden="true"
+              ><img src="/logo/lotte.png" alt="" /><span class="logo-name"
+                >롯데이노베이트</span
+              ></span
+            >
+            <span class="logo-item" aria-hidden="true"
+              ><img src="/logo/cnc.png" alt="" /><span class="logo-name"
+                >씨앤씨 미술학원</span
+              ></span
+            >
+            <span class="logo-item" aria-hidden="true"
+              ><img src="/logo/Koreamedix.png" alt="" /><span class="logo-name"
+                >한국메딕스</span
+              ></span
+            >
+            <span class="logo-item" aria-hidden="true"
+              ><img src="/logo/fantiks.png" alt="" /><span class="logo-name"
+                >팬틱스</span
+              ></span
+            >
+            <span class="logo-item" aria-hidden="true"
+              ><img src="/logo/Higher.png" alt="" /><span class="logo-name"
+                >하이어</span
+              ></span
+            >
+            <span class="logo-item" aria-hidden="true"
+              ><img src="/logo/yonsei.png" alt="" /><span class="logo-name"
+                >연세대학교</span
+              ></span
+            >
+            <span class="logo-item" aria-hidden="true"
+              ><img src="/logo/aju.png" alt="" /><span class="logo-name"
+                >아주대학교의료원</span
+              ></span
+            >
+            <span class="logo-item" aria-hidden="true"
+              ><img src="/logo/lotte.png" alt="" /><span class="logo-name"
+                >롯데이노베이트</span
+              ></span
+            >
+            <span class="logo-item" aria-hidden="true"
+              ><img src="/logo/cnc.png" alt="" /><span class="logo-name"
+                >씨앤씨 미술학원</span
+              ></span
+            >
+            <span class="logo-item" aria-hidden="true"
+              ><img src="/logo/Koreamedix.png" alt="" /><span class="logo-name"
+                >한국메딕스</span
+              ></span
+            >
+            <span class="logo-item" aria-hidden="true"
+              ><img src="/logo/fantiks.png" alt="" /><span class="logo-name"
+                >팬틱스</span
+              ></span
+            >
+            <span class="logo-item" aria-hidden="true"
+              ><img src="/logo/Higher.png" alt="" /><span class="logo-name"
+                >하이어</span
+              ></span
+            >
           </div>
-          </div>
+        </div>
       </div>
     </section>
     <!-- /partners -->
@@ -2969,11 +3268,29 @@
         <div class="trust-grid">
           <div class="trust-item">
             <div class="trust-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M20 7V20C20 20.5304 19.7893 21.0391 19.4142 21.4142C19.0391 21.7893 18.5304 22 18 22H6C5.46957 22 4.96086 21.7893 4.58578 21.4142C4.21071 21.0391 4 20.5304 4 20V4C4 3.46957 4.21071 2.96083 4.58578 2.58575C4.96086 2.21068 5.46957 2 6 2H15L20 7Z" fill="#9889F8"/>
-                <path d="M16 7H20L15 2V6C15 6.26522 15.1054 6.51956 15.2929 6.70709C15.4804 6.89463 15.7348 7 16 7Z" fill="#E3DFFE"/>
-                <path d="M16.5 11H7.5C7.22386 11 7 11.2239 7 11.5V12.5C7 12.7761 7.22386 13 7.5 13H16.5C16.7761 13 17 12.7761 17 12.5V11.5C17 11.2239 16.7761 11 16.5 11Z" fill="white"/>
-                <path d="M16.5 15H7.5C7.22386 15 7 15.2239 7 15.5V16.5C7 16.7761 7.22386 17 7.5 17H16.5C16.7761 17 17 16.7761 17 16.5V15.5C17 15.2239 16.7761 15 16.5 15Z" fill="white"/>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 7V20C20 20.5304 19.7893 21.0391 19.4142 21.4142C19.0391 21.7893 18.5304 22 18 22H6C5.46957 22 4.96086 21.7893 4.58578 21.4142C4.21071 21.0391 4 20.5304 4 20V4C4 3.46957 4.21071 2.96083 4.58578 2.58575C4.96086 2.21068 5.46957 2 6 2H15L20 7Z"
+                  fill="#9889F8"
+                />
+                <path
+                  d="M16 7H20L15 2V6C15 6.26522 15.1054 6.51956 15.2929 6.70709C15.4804 6.89463 15.7348 7 16 7Z"
+                  fill="#E3DFFE"
+                />
+                <path
+                  d="M16.5 11H7.5C7.22386 11 7 11.2239 7 11.5V12.5C7 12.7761 7.22386 13 7.5 13H16.5C16.7761 13 17 12.7761 17 12.5V11.5C17 11.2239 16.7761 11 16.5 11Z"
+                  fill="white"
+                />
+                <path
+                  d="M16.5 15H7.5C7.22386 15 7 15.2239 7 15.5V16.5C7 16.7761 7.22386 17 7.5 17H16.5C16.7761 17 17 16.7761 17 16.5V15.5C17 15.2239 16.7761 15 16.5 15Z"
+                  fill="white"
+                />
               </svg>
             </div>
             <div class="trust-title">전문가 검수</div>
@@ -2983,37 +3300,93 @@
           </div>
           <div class="trust-item">
             <div class="trust-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M19 8H5C3.89543 8 3 8.89543 3 10V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V10C21 8.89543 20.1046 8 19 8Z" fill="#FFD633"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 3.25C11.0054 3.25 10.0516 3.6451 9.34833 4.34836C8.64508 5.05162 8.25 6.00543 8.25 7V8H5.75V7C5.75 5.34241 6.40845 3.7527 7.58056 2.58059C8.75266 1.40849 10.3424 0.75 12 0.75C13.6576 0.75 15.2473 1.4085 16.4194 2.58059C17.5915 3.75269 18.25 5.34239 18.25 7V8H15.75V7C15.75 6.00545 15.3549 5.05163 14.6516 4.34836C13.9484 3.64509 12.9946 3.25 12 3.25Z" fill="#7D8389"/>
-                <path d="M12.25 13H11.75C11.1977 13 10.75 13.4477 10.75 14V16C10.75 16.5523 11.1977 17 11.75 17H12.25C12.8023 17 13.25 16.5523 13.25 16V14C13.25 13.4477 12.8023 13 12.25 13Z" fill="#7D8389"/>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M19 8H5C3.89543 8 3 8.89543 3 10V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V10C21 8.89543 20.1046 8 19 8Z"
+                  fill="#FFD633"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M12 3.25C11.0054 3.25 10.0516 3.6451 9.34833 4.34836C8.64508 5.05162 8.25 6.00543 8.25 7V8H5.75V7C5.75 5.34241 6.40845 3.7527 7.58056 2.58059C8.75266 1.40849 10.3424 0.75 12 0.75C13.6576 0.75 15.2473 1.4085 16.4194 2.58059C17.5915 3.75269 18.25 5.34239 18.25 7V8H15.75V7C15.75 6.00545 15.3549 5.05163 14.6516 4.34836C13.9484 3.64509 12.9946 3.25 12 3.25Z"
+                  fill="#7D8389"
+                />
+                <path
+                  d="M12.25 13H11.75C11.1977 13 10.75 13.4477 10.75 14V16C10.75 16.5523 11.1977 17 11.75 17H12.25C12.8023 17 13.25 16.5523 13.25 16V14C13.25 13.4477 12.8023 13 12.25 13Z"
+                  fill="#7D8389"
+                />
               </svg>
             </div>
             <div class="trust-title">격리 환경</div>
             <p class="trust-body">
-              엔터프라이즈 환경에서 분리해 운영하고, 학습에는 사용하지 않습니다.
+              엔터프라이즈 환경에서 분리해 운영하고,<br class="br-m" /> 학습에는 사용하지 않습니다.
             </p>
           </div>
           <div class="trust-item">
             <div class="trust-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V4C20 2.89543 19.1046 2 18 2Z" fill="#E1E3E6"/>
-                <path d="M10.49 8H6.5C6.22386 8 6 8.22386 6 8.5V9.5C6 9.77614 6.22386 10 6.5 10H10.49C10.7661 10 10.99 9.77614 10.99 9.5V8.5C10.99 8.22386 10.7661 8 10.49 8Z" fill="#7D8389"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M15.0001 8.58574L17.293 6.29285L18.7072 7.70706L15.0001 11.4142L12.293 8.70706L13.7072 7.29285L15.0001 8.58574Z" fill="#3496E0"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M15.0001 14.5857L17.293 12.2928L18.7072 13.7071L15.0001 17.4142L12.293 14.7071L13.7072 13.2928L15.0001 14.5857Z" fill="#3496E0"/>
-                <path d="M10.4998 14H6.50977C6.23362 14 6.00977 14.2239 6.00977 14.5V15.53C6.00977 15.8061 6.23362 16.03 6.50977 16.03H10.4998C10.7759 16.03 10.9998 15.8061 10.9998 15.53V14.5C10.9998 14.2239 10.7759 14 10.4998 14Z" fill="#7D8389"/>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M18 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V4C20 2.89543 19.1046 2 18 2Z"
+                  fill="#E1E3E6"
+                />
+                <path
+                  d="M10.49 8H6.5C6.22386 8 6 8.22386 6 8.5V9.5C6 9.77614 6.22386 10 6.5 10H10.49C10.7661 10 10.99 9.77614 10.99 9.5V8.5C10.99 8.22386 10.7661 8 10.49 8Z"
+                  fill="#7D8389"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M15.0001 8.58574L17.293 6.29285L18.7072 7.70706L15.0001 11.4142L12.293 8.70706L13.7072 7.29285L15.0001 8.58574Z"
+                  fill="#3496E0"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M15.0001 14.5857L17.293 12.2928L18.7072 13.7071L15.0001 17.4142L12.293 14.7071L13.7072 13.2928L15.0001 14.5857Z"
+                  fill="#3496E0"
+                />
+                <path
+                  d="M10.4998 14H6.50977C6.23362 14 6.00977 14.2239 6.00977 14.5V15.53C6.00977 15.8061 6.23362 16.03 6.50977 16.03H10.4998C10.7759 16.03 10.9998 15.8061 10.9998 15.53V14.5C10.9998 14.2239 10.7759 14 10.4998 14Z"
+                  fill="#7D8389"
+                />
               </svg>
             </div>
             <div class="trust-title">NDA · DPA</div>
             <p class="trust-body">
-              프로젝트 시작 전 NDA·DPA 표준 양식을 체결한 뒤 진행합니다.
+              프로젝트 시작 전 NDA·DPA 표준 양식을<br class="br-m" /> 체결한 뒤 진행합니다.
             </p>
           </div>
           <div class="trust-item">
             <div class="trust-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M21.5001 5L12.0001 1L2.50007 5V9C2.49107 12.0185 3.39297 14.9695 5.08786 17.4672C6.78276 19.9649 9.19179 21.8932 12.0001 23C14.8083 21.8932 17.2174 19.9649 18.9123 17.4672C20.6072 14.9695 21.5091 12.0185 21.5001 9V5Z" fill="#7AD7B5"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M11.4089 11.5203L15.2373 7.69995L17.0032 9.46958L11.3316 15.1293L7.7002 11.181L9.54027 9.48858L11.4089 11.5203Z" fill="white"/>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M21.5001 5L12.0001 1L2.50007 5V9C2.49107 12.0185 3.39297 14.9695 5.08786 17.4672C6.78276 19.9649 9.19179 21.8932 12.0001 23C14.8083 21.8932 17.2174 19.9649 18.9123 17.4672C20.6072 14.9695 21.5091 12.0185 21.5001 9V5Z"
+                  fill="#7AD7B5"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M11.4089 11.5203L15.2373 7.69995L17.0032 9.46958L11.3316 15.1293L7.7002 11.181L9.54027 9.48858L11.4089 11.5203Z"
+                  fill="white"
+                />
               </svg>
             </div>
             <div class="trust-title">무상 유지보수</div>
@@ -3082,7 +3455,7 @@
           </div>
           <div class="faq-item">
             <button class="faq-question" type="button">
-              <span>진행 중에 요구사항이 바뀌면 어떻게 대응하나요?</span>
+              <span>진행 중에 요구사항이 바뀌면<br class="br-m" /> 어떻게 대응하나요?</span>
               <span class="faq-icon"
                 ><svg
                   width="14"
@@ -3126,7 +3499,7 @@
           </div>
           <div class="faq-item">
             <button class="faq-question" type="button">
-              <span>AI를 사용하는데 우리 회사 자료는 안전한가요?</span>
+              <span>AI를 사용하는데 우리 회사 자료는<br class="br-m" /> 안전한가요?</span>
               <span class="faq-icon"
                 ><svg
                   width="14"
@@ -3235,7 +3608,7 @@
           <div class="cta-head">
             <h2>프로젝트 상담 신청</h2>
             <p class="cta-sub">
-              예상 기간과 견적이 궁금하시다면 상담을 신청해보세요.
+              예상 기간과 견적이 궁금하시다면<br class="br-m" /> 상담을 신청해보세요.
             </p>
           </div>
 
@@ -3369,14 +3742,14 @@
       <div class="footer-band">
         <div class="container">
           <div class="footer-band-text">
-            잘 만든다는 약속을 지키기 위해,<br />우리는 처음부터 일하는 방식을
+            잘 만든다는 약속을 지키기 위해,<br />우리는 처음부터 일하는 방식을<br class="br-m" />
             다시 짰습니다.
           </div>
           <div class="footer-band-invite">
-            이제, 웰던프로덕트와 함께 처음부터 다르게 일해보세요.
+            이제, 웰던프로덕트와<br class="br-m" /> 함께 처음부터 다르게 일해보세요.
           </div>
           <div class="footer-band-tagline">
-            AI와 함께 처음부터 다르게. AI-Native 외주개발사 웰던프로덕트.
+            AI와 함께 처음부터 다르게.<br class="br-m" /> AI-Native 외주개발사 웰던프로덕트.
           </div>
         </div>
       </div>
@@ -3736,64 +4109,81 @@
             setTimeout(() => s.remove(), 1700);
           }
         }
-
       })();
     </script>
-  <!-- Top button -->
-  <button id="top-btn" aria-label="맨 위로" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M10 15V5M10 5L5 10M10 5L15 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </button>
+    <!-- Top button -->
+    <button
+      id="top-btn"
+      aria-label="맨 위로"
+      onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+    >
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M10 15V5M10 5L5 10M10 5L15 10"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
 
-  <style>
-    #top-btn {
-      position: fixed;
-      right: 80px;
-      bottom: 80px;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: var(--primary);
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 16px rgba(0, 80, 255, 0.3);
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(8px);
-      transition: opacity 200ms ease, transform 200ms ease;
-      z-index: 900;
-    }
-    #top-btn.visible {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
-    }
-    #top-btn:hover {
-      background: var(--primary-dark);
-    }
-    @media (max-width: 768px) {
+    <style>
       #top-btn {
-        right: 24px;
-        bottom: 24px;
+        position: fixed;
+        right: 80px;
+        bottom: 80px;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: var(--primary);
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 16px rgba(0, 80, 255, 0.3);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(8px);
+        transition:
+          opacity 200ms ease,
+          transform 200ms ease;
+        z-index: 900;
       }
-    }
-  </style>
+      #top-btn.visible {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+      #top-btn:hover {
+        background: var(--primary-dark);
+      }
+      @media (max-width: 768px) {
+        #top-btn {
+          right: 24px;
+          bottom: 24px;
+        }
+      }
+    </style>
 
-  <script>
-    (function () {
-      const btn = document.getElementById('top-btn');
-      const hero = document.getElementById('hero');
-      const observer = new IntersectionObserver(
-        ([entry]) => btn.classList.toggle('visible', !entry.isIntersecting),
-        { threshold: 0 }
-      );
-      observer.observe(hero);
-    })();
-  </script>
+    <script>
+      (function () {
+        const btn = document.getElementById("top-btn");
+        const hero = document.getElementById("hero");
+        const observer = new IntersectionObserver(
+          ([entry]) => btn.classList.toggle("visible", !entry.isIntersecting),
+          { threshold: 0 },
+        );
+        observer.observe(hero);
+      })();
+    </script>
   </body>
 </html>
