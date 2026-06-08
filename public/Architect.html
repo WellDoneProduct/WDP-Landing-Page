@@ -1096,6 +1096,12 @@
         font-size: 14px;
         color: var(--text-muted);
       }
+      /* PC: 3개 li 기준으로 박스 높이 통일 (li=14px*1.5+8px=29px, 3개+패딩 36px) */
+      @media (min-width: 769px) {
+        .workflow-stage-tasks {
+          min-height: 123px;
+        }
+      }
       .workflow-stage-tasks li {
         padding: 4px 0 4px 14px;
         position: relative;
@@ -2360,7 +2366,7 @@
           </div>
           <div class="hero-ctas">
             <span class="planet-light" aria-hidden="true"></span>
-            <a href="#" class="btn-hero btn-hero-outline">
+            <a href="/pdf/Company.pdf" download="웰던프로덕트_회사소개서.pdf" class="btn-hero btn-hero-outline">
               회사소개서 받기
               <svg
                 viewBox="0 0 24 24"
