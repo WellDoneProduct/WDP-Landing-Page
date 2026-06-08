@@ -348,7 +348,7 @@
       }
       .logo img,
       .logo svg {
-        height: 28px;
+        height: 36px;
         width: auto;
         display: block;
       }
@@ -359,6 +359,10 @@
       }
       .site-header.scrolled .logo svg {
         fill: var(--primary);
+      }
+      /* 어둡거나 색이 적용된 섹션 위에서는 로고를 흰색으로(우선 적용) */
+      .site-header.on-dark .logo svg {
+        fill: #ffffff;
       }
       .nav {
         display: none;
@@ -498,24 +502,39 @@
         position: fixed;
         inset: 0;
         z-index: 9999;
-        background: #000818;
+        background:
+          radial-gradient(
+            ellipse 90% 55% at 50% 88%,
+            rgba(27, 167, 255, 0.16) 0%,
+            rgba(27, 95, 255, 0.12) 35%,
+            transparent 70%
+          ),
+          #000818;
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: opacity 0.6s ease;
+        transition: opacity 0.7s ease;
         will-change: opacity;
       }
-      /* inline SVG 로고: path를 움직이는 그라데이션으로 채워 글자 위로 빛이 sweep */
       .splash-logo {
-        width: 380px;
+        width: 253px;
         height: auto;
-        opacity: 0;
-        filter: drop-shadow(0 0 12px rgba(150, 190, 255, 0.4));
-        animation: splash-logo-enter 0.5s ease forwards;
       }
-      @keyframes splash-logo-enter {
+      .splash-logo .st0 {
+        fill: #ece8df;
+        opacity: 0;
+        transform: translateY(26px) scale(0.96);
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+      .splash-logo .st0.fx-seq {
+        animation: splashSeqIn 620ms cubic-bezier(0.65, 0.02, 0.18, 1) forwards;
+        animation-delay: calc(var(--i) * 70ms);
+      }
+      @keyframes splashSeqIn {
         to {
           opacity: 1;
+          transform: translateY(0) scale(1);
         }
       }
       .splash.is-fading {
@@ -954,90 +973,61 @@
        S2 — 일하는 방식 1 (모든 단계에 AI + 전문가)
        ============================================================= */
       .ai-standard {
-        margin-top: 40px;
-        padding: 28px 32px;
-        background: var(--primary-wash);
-        border-radius: var(--radius-lg);
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: 28px;
-        align-items: center;
-      }
-      .ai-standard-label {
-        font-size: 13px;
-        font-weight: 700;
-        color: var(--primary);
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        white-space: nowrap;
-        padding-right: 28px;
-        border-right: 1px solid rgba(0, 80, 255, 0.18);
-      }
-      .ai-standard-points {
+        margin-top: 56px;
+        margin-bottom: 40px;
+        padding: 28px 40px;
+        background: var(--surface-subtle);
+        border-radius: 16px;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
+        gap: 0;
       }
       .ai-standard-point {
-        font-size: 14px;
-        color: var(--text);
+        text-align: center;
+        padding: 0 28px;
+        border-right: 1px solid var(--border);
+        font-size: 13px;
+        color: var(--text-muted);
         line-height: 1.55;
+      }
+      .ai-standard-point:last-child {
+        border-right: none;
       }
       .ai-standard-point strong {
         display: block;
         font-weight: 700;
+        font-size: 16px;
         color: var(--text);
-        margin-bottom: 2px;
+        margin-bottom: 8px;
       }
       @media (max-width: 768px) {
         .ai-standard {
           grid-template-columns: 1fr;
-          gap: 16px;
-          padding: 20px 22px;
+          gap: 20px;
+          padding: 24px 22px;
         }
-        .ai-standard-label {
-          padding-right: 0;
+        .ai-standard-point {
+          padding: 0 0 16px;
           border-right: none;
-          border-bottom: 1px solid rgba(0, 80, 255, 0.18);
-          padding-bottom: 12px;
+          border-bottom: 1px solid var(--border);
         }
-        .ai-standard-points {
-          grid-template-columns: 1fr;
-          gap: 14px;
+        .ai-standard-point:last-child {
+          padding-bottom: 0;
+          border-bottom: none;
         }
       }
 
       .workflow {
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 12px;
-        margin-top: 56px;
-        position: relative;
-      }
-      .workflow::before {
-        content: "";
-        position: absolute;
-        top: 74px;
-        left: 6%;
-        right: 6%;
-        height: 2px;
-        background: linear-gradient(
-          90deg,
-          transparent 0%,
-          var(--primary-wash) 8%,
-          var(--primary-wash) 92%,
-          transparent 100%
-        );
-        z-index: 0;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
       }
       .workflow-stage {
         background: var(--card);
         border: 1px solid var(--border);
-        border-radius: var(--radius-lg);
-        padding: 24px 18px;
-        text-align: center;
+        border-radius: 16px;
+        padding: 28px;
         position: relative;
-        z-index: 1;
         transition: all 250ms ease;
       }
       .workflow-stage:hover {
@@ -1046,37 +1036,46 @@
         transform: translateY(-2px);
       }
       .workflow-stage-number {
-        width: 32px;
-        height: 32px;
+        width: 28px;
+        height: 28px;
         border-radius: 50%;
-        background: var(--primary-wash);
-        color: var(--primary);
-        font-weight: 600;
-        font-size: 14px;
+        background: #111827;
+        color: #fff;
+        font-weight: 700;
+        font-size: 13px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 16px;
+      }
+      .workflow-stage-icon {
+        position: absolute;
+        top: 26px;
+        right: 28px;
+        width: 36px;
+        height: 36px;
+        object-fit: contain;
       }
       .workflow-stage-name {
-        font-weight: 600;
-        font-size: 18px;
-        margin-bottom: 20px;
+        font-weight: 700;
+        font-size: 20px;
+        margin-top: 20px;
+        margin-bottom: 14px;
+        color: #111827;
+        letter-spacing: -0.01em;
       }
       .workflow-stage-tags {
         display: flex;
-        flex-direction: column;
         gap: 8px;
+        margin-bottom: 20px;
       }
       .tag {
         font-size: 13px;
-        padding: 6px 10px;
-        border-radius: 8px;
-        font-weight: 500;
+        padding: 4px 12px;
+        border-radius: 999px;
+        font-weight: 600;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 6px;
       }
       .tag-ai {
         background: var(--primary-wash);
@@ -1090,24 +1089,15 @@
       /* Workflow stage detailed AI tasks */
       .workflow-stage-tasks {
         list-style: none;
-        margin: 20px 0 0;
-        padding: 20px 0 0;
-        border-top: 1px solid var(--border);
-        text-align: left;
-        font-size: 13px;
+        margin: 0;
+        padding: 18px 20px;
+        background: var(--surface-subtle);
+        border-radius: 12px;
+        font-size: 14px;
         color: var(--text-muted);
       }
-      .workflow-stage-tasks-label {
-        display: block;
-        font-size: 11px;
-        font-weight: 600;
-        color: var(--primary);
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        margin-bottom: 10px;
-      }
       .workflow-stage-tasks li {
-        padding: 5px 0 5px 16px;
+        padding: 4px 0 4px 14px;
         position: relative;
         line-height: 1.5;
       }
@@ -1116,9 +1106,9 @@
         position: absolute;
         left: 2px;
         top: 11px;
-        width: 5px;
-        height: 5px;
-        background: var(--primary);
+        width: 4px;
+        height: 4px;
+        background: var(--text-muted);
         border-radius: 50%;
       }
 
@@ -1369,21 +1359,12 @@
         }
       }
 
-      @media (max-width: 1100px) {
-        .workflow {
-          grid-template-columns: repeat(3, 1fr);
-          gap: 16px;
-        }
-        .workflow::before {
-          display: none;
-        }
-      }
-      @media (max-width: 700px) {
+      @media (max-width: 900px) {
         .workflow {
           grid-template-columns: repeat(2, 1fr);
         }
       }
-      @media (max-width: 480px) {
+      @media (max-width: 560px) {
         .workflow {
           grid-template-columns: 1fr;
         }
@@ -1786,28 +1767,131 @@
        S8 — CTA
        ============================================================= */
       .cta-section {
-        background: linear-gradient(135deg, var(--primary) 0%, #1a5dff 100%);
         color: white;
         position: relative;
         overflow: hidden;
-      }
-      .cta-section::before {
-        content: "";
-        position: absolute;
-        top: -50%;
-        right: -20%;
-        width: 600px;
-        height: 600px;
-        background: radial-gradient(
-          circle,
-          rgba(255, 255, 255, 0.08) 0%,
-          transparent 60%
-        );
-        pointer-events: none;
+        isolation: isolate;
       }
       .cta-section .container {
         max-width: 1080px;
         position: relative;
+        z-index: 2;
+      }
+
+      /* ===== Floating gradient 배경 (#1a5dff 베이스 위 블루 유영) ===== */
+      .gbg {
+        --gb-base: #1a5dff;
+        --gb-blue-1: #3f79ff;
+        --gb-blue-2: #5f93ff;
+        --gb-blue-3: #86b2ff;
+        --gb-blue-4: #b3d2ff;
+        --gb-cyan: #46c8ff;
+        --gb-blur: 120px;
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        background: var(--gb-base);
+        isolation: isolate;
+        z-index: 0;
+      }
+      /* 미세 비네팅 */
+      .gbg::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        pointer-events: none;
+        background: radial-gradient(
+          120% 120% at 50% 42%,
+          transparent 55%,
+          rgba(3, 28, 90, 0.28) 100%
+        );
+      }
+      /* 마이크로 그레인 — 밴딩 제거 + 매트한 질감 */
+      .gbg::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 4;
+        pointer-events: none;
+        opacity: 0.05;
+        mix-blend-mode: overlay;
+        background-size: 160px 160px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+      .gbg__field {
+        position: absolute;
+        inset: -10%;
+        z-index: 1;
+      }
+      .gbg__field,
+      .gbg__blob {
+        transform: translateZ(0);
+        backface-visibility: hidden;
+      }
+      .gbg__blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(var(--gb-blur));
+        will-change: transform;
+        mix-blend-mode: screen;
+        opacity: 0.9;
+      }
+      /* AURORA DRIFT — 4개 오로라가 독립 경로로 표류 */
+      .gbg--aurora .b1 {
+        width: 62%;
+        aspect-ratio: 1;
+        left: -6%;
+        top: -12%;
+        background: radial-gradient(circle at 50% 50%, var(--gb-blue-3), transparent 68%);
+        animation: gb-driftA 78s ease-in-out infinite alternate;
+      }
+      .gbg--aurora .b2 {
+        width: 70%;
+        aspect-ratio: 1;
+        right: -12%;
+        bottom: -18%;
+        background: radial-gradient(circle at 50% 50%, var(--gb-blue-2), transparent 70%);
+        animation: gb-driftB 92s ease-in-out infinite alternate;
+      }
+      .gbg--aurora .b3 {
+        width: 40%;
+        aspect-ratio: 1;
+        left: 34%;
+        top: 20%;
+        background: radial-gradient(circle at 50% 50%, var(--gb-blue-4), transparent 64%);
+        opacity: 0.75;
+        animation: gb-driftC 66s ease-in-out infinite alternate;
+      }
+      .gbg--aurora .b4 {
+        width: 50%;
+        aspect-ratio: 1;
+        left: 6%;
+        bottom: -14%;
+        background: radial-gradient(circle at 50% 50%, var(--gb-cyan), transparent 72%);
+        opacity: 0.5;
+        animation: gb-driftD 84s ease-in-out infinite alternate;
+      }
+      @keyframes gb-driftA {
+        0% { transform: translate(0, 0) scale(1); }
+        100% { transform: translate(22%, 16%) scale(1.18); }
+      }
+      @keyframes gb-driftB {
+        0% { transform: translate(0, 0) scale(1.1); }
+        100% { transform: translate(-20%, -12%) scale(0.92); }
+      }
+      @keyframes gb-driftC {
+        0% { transform: translate(0, 0) scale(0.95); }
+        100% { transform: translate(-16%, 22%) scale(1.22); }
+      }
+      @keyframes gb-driftD {
+        0% { transform: translate(0, 0) scale(1); }
+        100% { transform: translate(26%, -18%) scale(1.15); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .gbg__blob {
+          animation: none !important;
+        }
       }
       .cta-grid {
         display: flex;
@@ -1939,9 +2023,23 @@
         cursor: pointer;
       }
       .form-agree input {
-        margin-top: 2px;
+        appearance: none;
+        -webkit-appearance: none;
+        margin: 1px 0 0;
+        width: 18px;
+        height: 18px;
         flex-shrink: 0;
-        accent-color: var(--primary);
+        cursor: pointer;
+        background: url("/checkbox/inactive.svg") no-repeat center / contain;
+        transition: background-image 120ms ease;
+      }
+      .form-agree input:checked {
+        background-image: url("/checkbox/active.svg");
+      }
+      .form-agree input:focus-visible {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+        border-radius: 5px;
       }
       .form-agree-link {
         color: var(--primary);
@@ -2127,101 +2225,41 @@
        ===================================================== -->
     <div class="splash" id="splash" aria-hidden="true">
       <svg
+        id="splashLogo"
         class="splash-logo"
-        viewBox="0 0 115 32"
+        viewBox="0 0 1342.08 374.79"
         role="img"
         aria-label="웰던프로덕트"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <defs>
-          <linearGradient
-            id="splashShine"
-            gradientUnits="userSpaceOnUse"
-            x1="22.5"
-            y1="0"
-            x2="92.5"
-            y2="0"
-            gradientTransform="rotate(150 57.5 -165)"
-          >
-            <stop offset="0" stop-color="#ffffff" stop-opacity="0.5" />
-            <stop offset="0.34" stop-color="#ffffff" stop-opacity="0.5" />
-            <stop offset="0.46" stop-color="#eef4ff" stop-opacity="0.92" />
-            <stop offset="0.5" stop-color="#ffffff" stop-opacity="1" />
-            <stop offset="0.54" stop-color="#eef4ff" stop-opacity="0.92" />
-            <stop offset="0.66" stop-color="#ffffff" stop-opacity="0.5" />
-            <stop offset="1" stop-color="#ffffff" stop-opacity="0.5" />
-            <!-- 로고 위 한 점(57.5,-50)을 중심으로 빛 띠를 회전시켜 부채꼴 sweep -->
-            <animateTransform
-              id="splashShineAnim"
-              attributeName="gradientTransform"
-              type="rotate"
-              values="100 57.5 -50; -50 57.5 -50"
-              keyTimes="0; 1"
-              begin="indefinite"
-              dur="2s"
-              fill="freeze"
-              calcMode="spline"
-              keySplines="0.4 0 0.2 1"
-            />
-          </linearGradient>
-        </defs>
-        <g fill="url(#splashShine)">
-          <path
-            d="M36.8252 7.97246L23.0157 31.8928H13.8095L9.2063 23.9174H18.4126L23.0157 15.9449L18.4126 7.97246H27.6188L32.2221 0L36.8252 7.97246Z"
-          />
-          <path
-            d="M18.4126 7.97246L13.8125 15.9449L9.20926 23.9174L0 7.97246H9.20926L13.8125 0L18.4126 7.97246Z"
-          />
-          <path
-            d="M55.2378 7.97246L41.4283 31.8928H32.2221L27.619 23.9174H36.8252L50.6347 0L55.2378 7.97246Z"
-          />
-          <path
-            d="M67.0985 8.34911L65.6512 2.93329L64.2038 8.34911H62.5429L60.5557 0.602057H62.1544L63.4059 5.85771L64.8296 0.602057H66.5024L67.8845 5.87847L69.1481 0.602057H70.7556L68.7596 8.34911H67.0985Z"
-          />
-          <path
-            d="M76.8951 6.92545V8.34911H71.684V0.602057H76.821V2.02571H73.3242V3.65402H76.4976V5.06878H73.3242V6.92545H76.8951Z"
-          />
-          <path
-            d="M83.177 8.34911H78.1705V0.602057H79.8106V6.87207H83.177V8.35207V8.34911Z"
-          />
-          <path
-            d="M89.3076 8.34911H84.3011V0.602057H85.9413V6.87207H89.3076V8.35207V8.34911Z"
-          />
-          <path
-            d="M63.9694 19.7442H61.2171V11.9971H63.9694C64.7911 11.9971 65.494 12.1602 66.0842 12.4836C66.6744 12.8069 67.1283 13.2576 67.4455 13.833C67.7629 14.4084 67.9202 15.0758 67.9202 15.8292C67.9202 16.5825 67.757 17.2469 67.4338 17.843C67.1104 18.4362 66.6506 18.9019 66.0575 19.24C65.4643 19.5781 64.7673 19.7472 63.9694 19.7472V19.7442ZM62.8573 13.4119V18.3324H63.8834C64.4026 18.3324 64.8356 18.2345 65.1826 18.0417C65.5325 17.849 65.7935 17.5642 65.9715 17.1905C66.1465 16.8168 66.2355 16.3631 66.2355 15.8292C66.2355 15.2953 66.1465 14.8742 65.9715 14.5123C65.7965 14.1534 65.5325 13.8805 65.1826 13.6936C64.8326 13.5069 64.3996 13.4119 63.8834 13.4119H62.8573Z"
-          />
-          <path
-            d="M72.5706 19.9074C72.0101 19.9074 71.4911 19.8066 71.0106 19.6049C70.5331 19.4032 70.1119 19.1215 69.7531 18.7566C69.3942 18.3948 69.1124 17.9647 68.9107 17.4724C68.709 16.98 68.6082 16.4432 68.6082 15.8589C68.6082 15.2746 68.709 14.7407 68.9107 14.2513C69.1124 13.762 69.3942 13.3378 69.7531 12.9789C70.1119 12.6201 70.5331 12.3383 71.0106 12.1367C71.4881 11.9349 72.0101 11.8341 72.5706 11.8341C73.1313 11.8341 73.6533 11.9349 74.1367 12.1367C74.6172 12.3383 75.0413 12.6201 75.4061 12.9789C75.768 13.3378 76.0527 13.762 76.2544 14.2513C76.4561 14.7407 76.5569 15.2776 76.5569 15.8589C76.5569 16.4403 76.4561 16.98 76.2544 17.4724C76.0527 17.9647 75.771 18.3918 75.4061 18.7566C75.0413 19.1215 74.6202 19.4032 74.1367 19.6049C73.6533 19.8066 73.1343 19.9074 72.5706 19.9074ZM72.5706 18.4393C72.9236 18.4393 73.241 18.3741 73.5257 18.2406C73.8104 18.1071 74.0507 17.9232 74.2494 17.6859C74.4482 17.4487 74.5994 17.1728 74.7032 16.8614C74.8071 16.5499 74.8603 16.2148 74.8603 15.8649C74.8603 15.5149 74.8071 15.1826 74.7032 14.8712C74.5994 14.5627 74.4482 14.29 74.2494 14.0556C74.0507 13.8213 73.8104 13.6374 73.5257 13.5039C73.241 13.3704 72.9236 13.3052 72.5706 13.3052C72.2178 13.3052 71.9004 13.3734 71.6216 13.5039C71.3399 13.6374 71.1025 13.8213 70.9038 14.0556C70.7051 14.29 70.5538 14.5598 70.4501 14.8712C70.3462 15.1797 70.2928 15.5119 70.2928 15.8649C70.2928 16.2178 70.3462 16.5499 70.4501 16.8614C70.5538 17.1758 70.7051 17.4487 70.9038 17.6859C71.1025 17.9232 71.3399 18.1101 71.6216 18.2406C71.9034 18.3741 72.2178 18.4393 72.5706 18.4393Z"
-          />
-          <path
-            d="M82.735 19.7442L79.1847 14.3373V19.7442H77.684V11.9971H79.4547L82.8329 17.1342V11.9971H84.3426V19.7442H82.735Z"
-          />
-          <path
-            d="M91.1523 18.3205V19.7442H85.9412V11.9971H91.0782V13.4208H87.5814V15.0492H90.7548V16.4638H87.5814V18.3205H91.1523Z"
-          />
-          <path
-            d="M64.0763 28.7667H62.8573V31.2906H61.2171V23.5437H64.0763C64.708 23.5437 65.2537 23.6415 65.7105 23.8343C66.1673 24.0271 66.5201 24.3177 66.7664 24.6973C67.0155 25.08 67.14 25.5546 67.14 26.121C67.14 26.6875 67.0155 27.1591 66.7664 27.5565C66.5173 27.951 66.1643 28.2535 65.7105 28.4582C65.2537 28.6628 64.708 28.7667 64.0763 28.7667ZM64.0673 24.9257H62.8603V27.3845H64.0673C64.5271 27.3845 64.883 27.2718 65.1351 27.0434C65.3872 26.818 65.5117 26.5125 65.5117 26.1329C65.5117 25.7532 65.3872 25.4537 65.1351 25.2431C64.883 25.0326 64.5271 24.9257 64.0673 24.9257Z"
-          />
-          <path
-            d="M69.8925 31.2906H68.2523V23.5437H71.2835C72.2623 23.5437 73.0216 23.7602 73.5613 24.1962C74.1012 24.6321 74.3711 25.252 74.3711 26.0557C74.3711 26.5749 74.2168 27.0316 73.9113 27.432C73.6058 27.8324 73.1758 28.12 72.6212 28.301L74.6172 31.2906H72.6627L70.9157 28.5502H69.8896V31.2906H69.8925ZM69.8925 24.9021V27.2006H71.2094C71.7048 27.2006 72.0844 27.1057 72.3424 26.9159C72.6004 26.7261 72.7309 26.4384 72.7309 26.0587C72.7309 25.6791 72.6004 25.3796 72.3424 25.1897C72.0844 24.9998 71.7048 24.905 71.2094 24.905H69.8925V24.9021Z"
-          />
-          <path
-            d="M79.1077 31.4539C78.5471 31.4539 78.028 31.353 77.5475 31.1513C77.07 30.9497 76.6489 30.6679 76.29 30.303C75.9311 29.9413 75.6494 29.5111 75.4477 29.0189C75.246 28.5265 75.1451 27.9896 75.1451 27.4053C75.1451 26.8211 75.246 26.2872 75.4477 25.7978C75.6494 25.3084 75.9311 24.8843 76.29 24.5254C76.6489 24.1665 77.07 23.8847 77.5475 23.6831C78.0251 23.4815 78.5471 23.3806 79.1077 23.3806C79.6682 23.3806 80.1902 23.4815 80.6736 23.6831C81.1541 23.8847 81.5783 24.1665 81.9431 24.5254C82.3049 24.8843 82.5897 25.3084 82.7914 25.7978C82.993 26.2872 83.0939 26.8241 83.0939 27.4053C83.0939 27.9867 82.993 28.5265 82.7914 29.0189C82.5897 29.5111 82.3079 29.9383 81.9431 30.303C81.5783 30.6679 81.1571 30.9497 80.6736 31.1513C80.1902 31.353 79.6712 31.4539 79.1077 31.4539ZM79.1077 29.9858C79.4606 29.9858 79.778 29.9205 80.0627 29.787C80.3475 29.6535 80.5876 29.4696 80.7864 29.2324C80.9851 28.9951 81.1364 28.7192 81.2401 28.4079C81.344 28.0965 81.3974 27.7612 81.3974 27.4113C81.3974 27.0613 81.344 26.7292 81.2401 26.4177C81.1364 26.1093 80.9851 25.8364 80.7864 25.602C80.5876 25.3678 80.3475 25.1839 80.0627 25.0504C79.778 24.9169 79.4606 24.8516 79.1077 24.8516C78.7547 24.8516 78.4373 24.9199 78.1586 25.0504C77.8768 25.1839 77.6395 25.3678 77.4408 25.602C77.242 25.8364 77.0908 26.1063 76.987 26.4177C76.8832 26.7262 76.8298 27.0583 76.8298 27.4113C76.8298 27.7642 76.8832 28.0965 76.987 28.4079C77.0908 28.7222 77.242 28.9951 77.4408 29.2324C77.6395 29.4696 77.8768 29.6565 78.1586 29.787C78.4403 29.9205 78.7547 29.9858 79.1077 29.9858Z"
-          />
-          <path
-            d="M86.9764 31.2906H84.2239V23.5437H86.9764C87.7979 23.5437 88.5008 23.7068 89.0911 24.03C89.6812 24.3533 90.1351 24.8042 90.4525 25.3796C90.7697 25.955 90.927 26.6223 90.927 27.3756C90.927 28.129 90.7639 28.7933 90.4406 29.3894C90.1172 29.9827 89.6576 30.4483 89.0643 30.7865C88.4712 31.1246 87.7742 31.2936 86.9764 31.2936V31.2906ZM85.8641 24.9554V29.8759H86.8903C87.4094 29.8759 87.8424 29.7781 88.1894 29.5852C88.5394 29.3924 88.8004 29.1077 88.9783 28.734C89.1533 28.3603 89.2423 27.9065 89.2423 27.3726C89.2423 26.8388 89.1533 26.4176 88.9783 26.0557C88.8033 25.6969 88.5394 25.4241 88.1894 25.2372C87.8394 25.0503 87.4064 24.9554 86.8903 24.9554H85.8641Z"
-          />
-          <path
-            d="M98.4249 23.5437V28.3455C98.4249 28.9564 98.3003 29.4963 98.0542 29.9648C97.805 30.4335 97.4432 30.7983 96.9686 31.0593C96.4941 31.3232 95.9187 31.4539 95.2425 31.4539C94.5662 31.4539 93.9789 31.3232 93.5044 31.0593C93.0298 30.7954 92.668 30.4306 92.4189 29.9648C92.1698 29.4992 92.0451 28.9594 92.0451 28.3455V23.5437H93.6853V28.3782C93.6853 28.6954 93.7387 28.9743 93.8484 29.2204C93.9552 29.4637 94.1243 29.6534 94.3497 29.7869C94.5751 29.9204 94.8717 29.9857 95.2395 29.9857C95.6072 29.9857 95.892 29.9204 96.1204 29.7869C96.3487 29.6534 96.5149 29.4637 96.6216 29.2204C96.7284 28.9743 96.7848 28.6954 96.7848 28.3782V23.5437H98.4249Z"
-          />
-          <path
-            d="M111.751 31.2908H110.111V25.0208H107.673V23.5408H114.201V25.0208H111.751V31.2908Z"
-          />
-          <path
-            d="M105.546 27.9926C105.475 28.2832 105.359 28.5442 105.196 28.7786C104.997 29.0633 104.748 29.2857 104.446 29.4488C104.143 29.609 103.808 29.6921 103.443 29.6921C103.105 29.6921 102.803 29.6297 102.533 29.5022C102.263 29.3777 102.028 29.1967 101.833 28.9683C101.634 28.7371 101.483 28.4671 101.379 28.1527C101.275 27.8413 101.222 27.4913 101.222 27.1117C101.222 26.732 101.275 26.3939 101.379 26.0825C101.483 25.7681 101.634 25.4982 101.833 25.2669C102.031 25.0355 102.266 24.8605 102.533 24.739C102.803 24.6173 103.105 24.5551 103.443 24.5551C103.811 24.5551 104.143 24.6351 104.443 24.7923C104.742 24.9495 104.994 25.172 105.199 25.4507C105.368 25.6821 105.484 25.9461 105.552 26.2426H107.299C107.198 25.6584 106.985 25.1394 106.661 24.6856C106.302 24.1813 105.843 23.7898 105.285 23.5081C104.728 23.2263 104.108 23.0869 103.422 23.0869C102.883 23.0869 102.375 23.1907 101.901 23.3953C101.426 23.6001 101.011 23.8877 100.661 24.2525C100.308 24.6203 100.032 25.0445 99.8367 25.5309C99.6379 26.0173 99.5401 26.5423 99.5401 27.1117C99.5401 27.6812 99.6379 28.2091 99.8367 28.6984C100.035 29.1878 100.308 29.618 100.661 29.9886C101.014 30.3594 101.426 30.6471 101.901 30.8517C102.375 31.0564 102.883 31.1601 103.422 31.1601C104.105 31.1601 104.725 31.0208 105.279 30.739C105.834 30.4572 106.291 30.0657 106.649 29.5616C106.976 29.1077 107.189 28.5828 107.296 27.9926H105.546Z"
-          />
+        <g>
+          <polygon class="st0" points="432.76 93.7 270.46 374.79 162.29 374.79 108.19 281.1 216.39 281.1 270.49 187.4 216.39 93.7 324.56 93.7 378.66 0 432.76 93.7" />
+          <polygon class="st0" points="216.37 93.7 162.3 187.4 108.2 281.1 0 93.7 108.2 93.7 162.3 0 216.37 93.7" />
+          <polygon class="st0" points="649.14 93.7 486.87 374.79 378.67 374.79 324.57 281.1 432.77 281.1 595.04 0 649.14 93.7" />
         </g>
-      </svg>
+        <g>
+          <path class="st0" d="M788.53,98.11l-16.99-63.66-16.99,63.66h-19.53l-23.34-91.05h18.77l14.71,61.76,16.74-61.76h19.66l16.23,62.02,14.84-62.02h18.9l-23.46,91.05h-19.53Z" />
+          <path class="st0" d="M903.68,81.37v16.74h-61.25V7.06h60.36v16.74h-41.09v19.14h37.28v16.61h-37.28v21.81h41.97Z" />
+          <path class="st0" d="M977.49,98.11h-58.84V7.06h19.28v73.68h39.57v17.38Z" />
+          <path class="st0" d="M1049.52,98.11h-58.84V7.06h19.28v73.68h39.57v17.38Z" />
+        </g>
+        <g>
+          <path class="st0" d="M751.76,232.05h-32.34v-91.05h32.34c9.64,0,17.92,1.9,24.86,5.71,6.93,3.8,12.26,9.09,15.98,15.85,3.72,6.77,5.58,14.59,5.58,23.46s-1.9,16.68-5.71,23.65-9.19,12.45-16.17,16.42c-6.98,3.98-15.16,5.96-24.54,5.96ZM738.7,157.61v57.83h12.05c6.09,0,11.18-1.14,15.28-3.42,4.1-2.28,7.19-5.62,9.26-10.01,2.07-4.4,3.11-9.73,3.11-15.99s-1.04-11.24-3.11-15.47c-2.07-4.22-5.16-7.43-9.26-9.64-4.1-2.19-9.19-3.3-15.28-3.3h-12.05Z" />
+          <path class="st0" d="M852.83,233.96c-6.59,0-12.7-1.19-18.32-3.55-5.62-2.36-10.54-5.68-14.77-9.96-4.23-4.27-7.53-9.3-9.89-15.09-2.37-5.79-3.55-12.11-3.55-18.96s1.18-13.15,3.55-18.9c2.37-5.75,5.67-10.74,9.89-14.97,4.23-4.23,9.15-7.52,14.77-9.89,5.62-2.36,11.73-3.55,18.32-3.55s12.72,1.19,18.39,3.55c5.66,2.37,10.63,5.67,14.9,9.89,4.27,4.23,7.59,9.22,9.95,14.97,2.37,5.75,3.55,12.05,3.55,18.9s-1.19,13.17-3.55,18.96c-2.37,5.79-5.69,10.82-9.95,15.09-4.27,4.28-9.24,7.6-14.9,9.96-5.67,2.36-11.79,3.55-18.39,3.55ZM852.83,216.71c4.14,0,7.88-.78,11.22-2.35,3.34-1.57,6.17-3.75,8.5-6.53,2.33-2.79,4.1-6.02,5.33-9.7,1.22-3.67,1.84-7.59,1.84-11.73s-.61-8.03-1.84-11.67c-1.23-3.63-3-6.82-5.33-9.57-2.33-2.75-5.16-4.9-8.5-6.47-3.34-1.56-7.08-2.35-11.22-2.35s-7.86.79-11.16,2.35c-3.3,1.57-6.11,3.72-8.43,6.47-2.33,2.75-4.1,5.94-5.33,9.57-1.23,3.64-1.84,7.52-1.84,11.67s.61,8.05,1.84,11.73c1.23,3.68,3,6.91,5.33,9.7,2.32,2.79,5.14,4.97,8.43,6.53,3.3,1.57,7.02,2.35,11.16,2.35Z" />
+          <path class="st0" d="M972.29,232.05l-41.72-63.53v63.53h-17.63v-91.05h20.8l39.69,60.37v-60.37h17.75v91.05h-18.9Z" />
+          <path class="st0" d="M1071.2,215.31v16.74h-61.25v-91.05h60.36v16.74h-41.09v19.14h37.28v16.61h-37.28v21.81h41.97Z" />
+        </g>
+        <g>
+          <g>
+            <path class="st0" d="M753.03,338.06h-14.33v29.67h-19.28v-91.05h33.61c7.44,0,13.84,1.14,19.21,3.42,5.36,2.28,9.51,5.67,12.43,10.14,2.92,4.48,4.38,10.06,4.38,16.74s-1.46,12.22-4.38,16.87c-2.92,4.65-7.06,8.17-12.43,10.59-5.37,2.41-11.77,3.62-19.21,3.62ZM752.9,292.91h-14.2v28.91h14.2c5.41,0,9.6-1.33,12.55-3.99,2.96-2.66,4.44-6.23,4.44-10.71s-1.48-7.96-4.44-10.46c-2.96-2.49-7.15-3.74-12.55-3.74Z" />
+            <path class="st0" d="M821.38,367.73h-19.28v-91.05h35.64c11.5,0,20.41,2.56,26.76,7.68,6.34,5.11,9.51,12.4,9.51,21.87,0,6.09-1.8,11.48-5.39,16.17-3.6,4.69-8.64,8.1-15.15,10.21l23.46,35.13h-22.95l-20.54-32.21h-12.05v32.21ZM821.38,292.66v27.01h15.47c5.83,0,10.27-1.12,13.31-3.36,3.05-2.24,4.57-5.6,4.57-10.09s-1.52-7.96-4.57-10.21c-3.04-2.23-7.48-3.36-13.31-3.36h-15.47Z" />
+            <path class="st0" d="M929.68,369.64c-6.59,0-12.7-1.19-18.32-3.55-5.62-2.36-10.54-5.68-14.77-9.96-4.23-4.27-7.53-9.3-9.89-15.09-2.37-5.79-3.55-12.11-3.55-18.96s1.18-13.15,3.55-18.9c2.37-5.75,5.67-10.74,9.89-14.97,4.23-4.23,9.15-7.52,14.77-9.89,5.62-2.36,11.73-3.55,18.32-3.55s12.72,1.19,18.39,3.55c5.66,2.37,10.63,5.67,14.9,9.89,4.27,4.23,7.59,9.22,9.95,14.97,2.37,5.75,3.55,12.05,3.55,18.9s-1.19,13.17-3.55,18.96c-2.37,5.79-5.69,10.82-9.95,15.09-4.27,4.28-9.24,7.6-14.9,9.96-5.67,2.36-11.79,3.55-18.39,3.55ZM929.68,352.39c4.14,0,7.88-.78,11.22-2.35,3.34-1.57,6.17-3.75,8.5-6.53,2.33-2.79,4.1-6.02,5.33-9.7,1.22-3.67,1.84-7.59,1.84-11.73s-.61-8.03-1.84-11.67c-1.23-3.63-3-6.82-5.33-9.57-2.33-2.75-5.16-4.9-8.5-6.47-3.34-1.56-7.08-2.35-11.22-2.35s-7.86.79-11.16,2.35c-3.3,1.57-6.11,3.72-8.43,6.47-2.33,2.75-4.1,5.94-5.33,9.57-1.23,3.64-1.84,7.52-1.84,11.67s.61,8.05,1.84,11.73c1.23,3.68,3,6.91,5.33,9.7,2.32,2.79,5.14,4.97,8.43,6.53,3.3,1.57,7.02,2.35,11.16,2.35Z" />
+            <path class="st0" d="M1022.13,367.73h-32.34v-91.05h32.34c9.64,0,17.92,1.9,24.86,5.71,6.93,3.8,12.26,9.09,15.98,15.85,3.72,6.77,5.58,14.59,5.58,23.46s-1.9,16.68-5.71,23.65c-3.81,6.98-9.19,12.45-16.17,16.42-6.98,3.98-15.16,5.96-24.54,5.96ZM1009.06,293.29v57.83h12.05c6.09,0,11.18-1.14,15.28-3.42,4.1-2.28,7.19-5.62,9.26-10.01,2.07-4.4,3.11-9.73,3.11-15.99s-1.04-11.24-3.11-15.47c-2.07-4.22-5.16-7.43-9.26-9.64-4.1-2.19-9.19-3.3-15.28-3.3h-12.05Z" />
+            <path class="st0" d="M1156.68,276.68v56.43c0,7.19-1.46,13.53-4.37,19.02-2.92,5.5-7.17,9.79-12.75,12.88-5.58,3.09-12.35,4.63-20.29,4.63s-14.84-1.54-20.42-4.63c-5.58-3.09-9.83-7.38-12.74-12.88-2.92-5.49-4.38-11.83-4.38-19.02v-56.43h19.28v56.82c0,3.72.63,7.02,1.9,9.89,1.27,2.87,3.23,5.09,5.9,6.65,2.66,1.57,6.15,2.35,10.46,2.35s7.67-.78,10.34-2.35c2.66-1.57,4.63-3.79,5.9-6.65,1.27-2.88,1.9-6.17,1.9-9.89v-56.82h19.27Z" />
+            <path class="st0" d="M1313.29,367.73h-19.28v-73.68h-28.66v-17.38h76.72v17.38h-28.79v73.68Z" />
+          </g>
+          <path class="st0" d="M1240.37,328.96c-.85,3.4-2.21,6.49-4.12,9.24-2.32,3.34-5.26,5.96-8.81,7.86-3.55,1.9-7.48,2.85-11.79,2.85-3.97,0-7.54-.74-10.71-2.22-3.17-1.48-5.92-3.58-8.24-6.28-2.33-2.71-4.1-5.9-5.33-9.58-1.23-3.67-1.84-7.76-1.84-12.23s.61-8.44,1.84-12.11c1.23-3.68,3-6.87,5.33-9.57,2.32-2.71,5.07-4.78,8.24-6.22,3.17-1.43,6.74-2.15,10.71-2.15,4.31,0,8.22.93,11.73,2.79,3.51,1.86,6.47,4.44,8.88,7.74,1.99,2.72,3.35,5.83,4.16,9.3h20.53c-1.2-6.86-3.69-12.96-7.51-18.3-4.23-5.92-9.62-10.53-16.17-13.82-6.55-3.3-13.84-4.95-21.88-4.95-6.34,0-12.3,1.21-17.88,3.62-5.58,2.41-10.44,5.77-14.58,10.08-4.14,4.32-7.38,9.32-9.7,15.03-2.33,5.71-3.49,11.9-3.49,18.58s1.16,12.89,3.49,18.64c2.32,5.75,5.56,10.8,9.7,15.16,4.14,4.36,9,7.73,14.58,10.14,5.58,2.41,11.54,3.62,17.88,3.62,8.03,0,15.3-1.65,21.81-4.95,6.51-3.3,11.88-7.9,16.11-13.82,3.82-5.34,6.35-11.49,7.61-18.42h-20.55Z" />
+        </g>      </svg>
     </div>
 
     <!-- =====================================================
@@ -2358,12 +2396,28 @@
             </p>
           </div>
 
+          <div class="ai-standard">
+            <div class="ai-standard-point">
+              <strong>사내 검수 체크리스트</strong>
+              AI 산출물은 모든 단계에서 사내 표준 체크리스트로 점검합니다.
+            </div>
+            <div class="ai-standard-point">
+              <strong>전문가의 최종 검수</strong>
+              결과물의 모든 라인은 전문가가 확인하고 책임집니다.
+            </div>
+            <div class="ai-standard-point">
+              <strong>변경 이력 자동 정리</strong>
+              산출물·변경 이력을 정리해 인수인계까지 그대로 전달합니다.
+            </div>
+          </div>
+
           <div class="workflow">
             <div class="workflow-stage">
               <span class="workflow-stage-number">1</span>
+              <img class="workflow-stage-icon" src="/workflow-icon/idea.png" alt="" />
               <div class="workflow-stage-name">기획</div>
               <div class="workflow-stage-tags">
-                <span class="tag tag-ai">AI 에이전트</span>
+                <span class="tag tag-ai">AI</span>
                 <span class="tag tag-human">담당 PM</span>
               </div>
               <ul class="workflow-stage-tasks">
@@ -2374,10 +2428,11 @@
             </div>
             <div class="workflow-stage">
               <span class="workflow-stage-number">2</span>
+              <img class="workflow-stage-icon" src="/workflow-icon/design.png" alt="" />
               <div class="workflow-stage-name">디자인</div>
               <div class="workflow-stage-tags">
-                <span class="tag tag-ai">AI 에이전트</span>
-                <span class="tag tag-human">담당 UX/UI 디자이너</span>
+                <span class="tag tag-ai">AI</span>
+                <span class="tag tag-human">담당 디자이너</span>
               </div>
               <ul class="workflow-stage-tasks">
                 <li>요구사항 기반 UX/UI 디자인 초안 작성</li>
@@ -2386,9 +2441,10 @@
             </div>
             <div class="workflow-stage">
               <span class="workflow-stage-number">3</span>
+              <img class="workflow-stage-icon" src="/workflow-icon/development.png" alt="" />
               <div class="workflow-stage-name">개발</div>
               <div class="workflow-stage-tags">
-                <span class="tag tag-ai">AI 에이전트</span>
+                <span class="tag tag-ai">AI</span>
                 <span class="tag tag-human">담당 개발자</span>
               </div>
               <ul class="workflow-stage-tasks">
@@ -2398,45 +2454,29 @@
             </div>
             <div class="workflow-stage">
               <span class="workflow-stage-number">4</span>
+              <img class="workflow-stage-icon" src="/workflow-icon/loading.png" alt="" />
               <div class="workflow-stage-name">테스트</div>
               <div class="workflow-stage-tags">
-                <span class="tag tag-ai">AI 에이전트</span>
+                <span class="tag tag-ai">AI</span>
                 <span class="tag tag-human">담당 QA</span>
               </div>
               <ul class="workflow-stage-tasks">
                 <li>요구사항 기반 테스트 시나리오 작성</li>
-                <li>자동화 테스트 진행</li>
+                <li>자동화 테스트 진행 작성</li>
               </ul>
             </div>
             <div class="workflow-stage">
               <span class="workflow-stage-number">5</span>
+              <img class="workflow-stage-icon" src="/workflow-icon/wrench.png" alt="" />
               <div class="workflow-stage-name">유지보수·인수인계</div>
               <div class="workflow-stage-tags">
-                <span class="tag tag-ai">AI 에이전트</span>
+                <span class="tag tag-ai">AI</span>
                 <span class="tag tag-human">담당 PM</span>
               </div>
               <ul class="workflow-stage-tasks">
                 <li>기획·디자인·코드 등 인수인계 자료 자동 정리</li>
                 <li>변경 이력·유지보수 가이드 작성</li>
               </ul>
-            </div>
-          </div>
-
-          <div class="ai-standard">
-            <div class="ai-standard-label">AI 표준 운영</div>
-            <div class="ai-standard-points">
-              <div class="ai-standard-point">
-                <strong>사내 검수 체크리스트</strong>
-                AI 산출물은 모든 단계에서 사내 표준 체크리스트로 점검합니다.
-              </div>
-              <div class="ai-standard-point">
-                <strong>전문가의 최종 검수</strong>
-                결과물의 모든 라인은 전문가가 확인하고 책임집니다.
-              </div>
-              <div class="ai-standard-point">
-                <strong>변경 이력 자동 정리</strong>
-                산출물·변경 이력을 정리해 인수인계까지 그대로 전달합니다.
-              </div>
             </div>
           </div>
         </div>
@@ -3172,6 +3212,14 @@
        S9 · CTA
        ===================================================== -->
     <section class="section cta-section" id="cta">
+      <div class="gbg gbg--aurora" aria-hidden="true">
+        <div class="gbg__field">
+          <div class="gbg__blob b1"></div>
+          <div class="gbg__blob b2"></div>
+          <div class="gbg__blob b3"></div>
+          <div class="gbg__blob b4"></div>
+        </div>
+      </div>
       <div class="container">
         <div class="cta-grid">
           <div class="cta-head">
@@ -3384,6 +3432,12 @@
       // 히어로 섹션을 벗어나면 로고 색을 흰->파로 전환
       var header = document.querySelector(".site-header");
       var heroSection = document.getElementById("hero");
+      // 어둡거나 색이 적용된 배경 섹션 → 로고 흰색
+      var darkSections = ["how-2", "areas", "trust", "cta"]
+        .map(function (id) {
+          return document.getElementById(id);
+        })
+        .filter(Boolean);
       function updateHeader() {
         // 오프셋도 히어로와 같은 --glow-scale(=화면폭/1920, 최대 1)로 환산 → 전 사이즈 동일 타이밍
         var scale = Math.min(1, window.innerWidth / 1920);
@@ -3391,12 +3445,20 @@
           ? heroSection.offsetHeight - header.offsetHeight - 700 * scale
           : 20;
         header.classList.toggle("scrolled", window.scrollY > threshold);
+
+        // 헤더 중앙 높이 지점에 걸친 섹션이 다크 섹션이면 로고 흰색
+        var probeY = header.offsetHeight / 2;
+        var onDark = darkSections.some(function (sec) {
+          var r = sec.getBoundingClientRect();
+          return r.top <= probeY && r.bottom >= probeY;
+        });
+        header.classList.toggle("on-dark", onDark);
       }
       window.addEventListener("scroll", updateHeader, { passive: true });
       window.addEventListener("resize", updateHeader);
       updateHeader();
 
-      // Splash intro: 로고에 빛이 스쳐 반짝인 뒤 페이드아웃
+      // Splash intro: 로고 도형이 순차적으로 떠오르며 등장 → 페이드아웃으로 히어로 연결
       (function () {
         var reduceMotion = window.matchMedia(
           "(prefers-reduced-motion: reduce)",
@@ -3409,14 +3471,21 @@
           return;
         }
 
-        // shine sweep: 자동재생(begin=indefinite) 끄고 여기서 딱 1회 트리거
-        // → 로드 타이밍 흔들려도 파싱 중 중복 재생/초기 흰띠 플래시 없음
-        var shine = document.getElementById("splashShineAnim");
-        if (shine && shine.beginElement) {
-          try {
-            shine.beginElement();
-          } catch (e) {}
-        }
+        // 시퀀스 등장: 각 .st0 도형에 index 부여 후 애니메이션 클래스 적용
+        var STAGGER = 70; // 도형 간 등장 간격(ms)
+        var DURATION = 620; // 한 도형 등장 지속(ms)
+        var logo = document.getElementById("splashLogo");
+        var shapes = logo
+          ? Array.prototype.slice.call(logo.querySelectorAll(".st0"))
+          : [];
+        shapes.forEach(function (s, i) {
+          s.style.setProperty("--i", String(i));
+          s.classList.add("fx-seq");
+        });
+
+        // 마지막 도형 등장 완료 시점 = (n-1)*stagger + duration
+        var animEnd =
+          shapes.length > 0 ? (shapes.length - 1) * STAGGER + DURATION : 1200;
 
         // 스플래시 동안 스크롤 잠금
         var html = document.documentElement;
@@ -3426,16 +3495,24 @@
           html.style.overflow = prevOverflow;
         };
 
-        window.addEventListener("load", function () {
-          // 샤인(begin 0.4s + dur 1s ≈ 1.4s) 끝난 뒤 페이드
+        var run = function () {
+          // 로고 등장이 끝나면 잠깐 머문 뒤 페이드 시작 → 히어로로 자연스럽게 전환
+          var holdAfter = animEnd + 300;
           setTimeout(function () {
             splash.classList.add("is-fading");
-          }, 1550);
+          }, holdAfter);
+          // CSS transition(opacity 0.7s)이 끝난 뒤 DOM에서 제거 + 스크롤 해제
           setTimeout(function () {
             splash.classList.add("is-hidden");
             unlock();
-          }, 2150);
-        });
+          }, holdAfter + 700);
+        };
+
+        if (document.readyState === "complete") {
+          run();
+        } else {
+          window.addEventListener("load", run);
+        }
       })();
     </script>
 
