@@ -2544,7 +2544,8 @@
             <span class="planet-light" aria-hidden="true"></span>
             <a
               href="/pdf/Company.pdf"
-              download="[웰던프로덕트] 회사소개서.pdf"
+              download="[웰던프로덕트] 회사소개서"
+              data-download-pdf
               class="btn-hero btn-hero-outline"
             >
               회사소개서 받기
@@ -4322,6 +4323,40 @@
           });
         });
         mo.observe(document.body, { childList: true, subtree: true });
+      })();
+    </script>
+    <script>
+      // 회사소개서 다운로드: apex→www 교차출처 리다이렉트 시 download 속성의
+      // 파일명이 무시되는 문제를 회피하기 위해 blob으로 받아 강제 파일명 지정.
+      (function () {
+        document.querySelectorAll("a[data-download-pdf]").forEach(function (a) {
+          a.addEventListener("click", function (e) {
+            e.preventDefault();
+            var url = a.getAttribute("href");
+            var filename = a.getAttribute("download") || "download.pdf";
+            fetch(url)
+              .then(function (res) {
+                if (!res.ok) throw new Error("fetch failed");
+                return res.blob();
+              })
+              .then(function (blob) {
+                var objUrl = URL.createObjectURL(blob);
+                var tmp = document.createElement("a");
+                tmp.href = objUrl;
+                tmp.download = filename;
+                document.body.appendChild(tmp);
+                tmp.click();
+                document.body.removeChild(tmp);
+                setTimeout(function () {
+                  URL.revokeObjectURL(objUrl);
+                }, 1000);
+              })
+              .catch(function () {
+                // 폴백: 기본 동작(새 탭/직접 이동)
+                window.location.href = url;
+              });
+          });
+        });
       })();
     </script>
   </body>
