@@ -4214,5 +4214,44 @@
         observer.observe(hero);
       })();
     </script>
+
+    <!-- 이미지 로딩 실패 시 자동 재시도 (최대 3회, 지수 백오프) -->
+    <script>
+      (function () {
+        var MAX_RETRY = 3;
+        var DELAY_BASE = 800; // ms
+
+        function attachRetry(img) {
+          if (img.dataset.retryAttached) return;
+          img.dataset.retryAttached = "1";
+          var count = 0;
+          img.addEventListener("error", function retry() {
+            if (count >= MAX_RETRY) return;
+            count++;
+            var delay = DELAY_BASE * Math.pow(2, count - 1); // 800 / 1600 / 3200ms
+            var original = img.src;
+            setTimeout(function () {
+              img.src = "";
+              img.src = original + (original.indexOf("?") >= 0 ? "&" : "?") + "_r=" + count;
+            }, delay);
+          });
+        }
+
+        // 현재 DOM의 모든 img에 적용
+        document.querySelectorAll("img").forEach(attachRetry);
+
+        // 이후 동적으로 추가되는 img에도 적용
+        var mo = new MutationObserver(function (mutations) {
+          mutations.forEach(function (m) {
+            m.addedNodes.forEach(function (node) {
+              if (node.nodeType !== 1) return;
+              if (node.tagName === "IMG") attachRetry(node);
+              node.querySelectorAll && node.querySelectorAll("img").forEach(attachRetry);
+            });
+          });
+        });
+        mo.observe(document.body, { childList: true, subtree: true });
+      })();
+    </script>
   </body>
 </html>
