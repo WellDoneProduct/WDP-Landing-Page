@@ -239,7 +239,7 @@
       @media (max-width: 768px) {
         #how-1 {
           background: #ffffff;
-          margin-top: 0;
+          margin-top: -200px;
         }
       }
       .section-alt {
@@ -412,16 +412,10 @@
       .hero {
         position: relative;
         isolation: isolate;
-        /* 버튼 아래 dark 버퍼 = Figma 버튼바닥(617)~hero바닥(1728) = 1111px × scale.
-           콘텐츠 높이(모바일 줄바꿈)와 무관하게 glow 들어갈 공간 확보 → 전 사이즈 일관.
-           (min-height는 너비스케일이라 모바일서 콘텐츠보다 짧아져 겹침 발생 → 폐기) */
-        padding: 418px 0 calc(1111px * var(--glow-scale));
+        /* 상단: 뷰포트 비례 반응형 (22vh), 하단: glow 공간 원본 유지 */
+        padding: clamp(100px, 22vh, 280px) 0 calc(1111px * var(--glow-scale));
         text-align: center;
-        /* svg 톤(#1B5FFF 블루 / #1BA7FF 시안)에 맞춰 dark에 깊은 블루-틸 기운 +
-           바닥 중앙에 은은한 블루/시안 번짐 → glow와 자연스럽게 섞임.
-           dark는 75%까지 crisp, 마지막만 transparent 페이드(초광폭 양옆 연결). */
         background: #000000;
-        /* glow가 S2까지 흘러내리도록 hero 자체는 visible (클립은 래퍼가 담당) */
         overflow: visible;
       }
       .hero-inner {
@@ -821,9 +815,32 @@
       }
 
       @media (max-width: 768px) {
-        /* top만 줄이고 아래 버퍼는 base의 (1111px×scale) 유지 */
         .hero {
-          padding-top: 96px;
+          padding: clamp(80px, 18vh, 160px) 0
+            calc(1111px * var(--glow-scale) + 220px);
+        }
+        .hero-inner {
+          margin-top: 56px;
+          margin-bottom: 20px;
+        }
+        /* 모바일: glow(그라디언트 원)를 CTA 아래로 더 내림 + 검정 배경 확보 */
+        .hero-ctas::after,
+        .hero-ctas::before {
+          top: calc(100% + 100px);
+        }
+        .hero-ctas {
+          flex-direction: column;
+          align-items: center;
+          gap: 14px;
+        }
+        .btn-hero {
+          padding: 14px 22px;
+          font-size: 15px;
+          line-height: 22px;
+        }
+        .btn-hero-outline svg {
+          width: 20px;
+          height: 20px;
         }
         .hero-inner {
           gap: 48px;
@@ -874,7 +891,7 @@
         margin-bottom: 8px;
       }
       .service-area-title {
-        font-size: 26px;
+        font-size: 22px;
         font-weight: 700;
         color: var(--text);
         letter-spacing: -0.01em;
@@ -909,10 +926,11 @@
           padding: 20px 18px;
         }
         .service-area-title {
-          font-size: 15px;
+          font-size: 22px;
+          margin-bottom: 20px;
         }
         .service-area-desc {
-          font-size: 12.5px;
+          font-size: 14px;
         }
       }
 
@@ -1104,7 +1122,7 @@
       }
       .workflow-stage-name {
         font-weight: 700;
-        font-size: 26px;
+        font-size: 22px;
         color: #111827;
         letter-spacing: -0.01em;
       }
@@ -1313,7 +1331,7 @@
       @media (max-width: 768px) {
         .logo-track {
           gap: 40px;
-          animation-duration: 48s;
+          animation-duration: 36s;
         }
         .logo-item {
           height: 76px;
@@ -1448,7 +1466,7 @@
       }
       .comparison-title {
         font-weight: 700;
-        font-size: 26px;
+        font-size: 22px;
         letter-spacing: -0.01em;
         margin-bottom: 6px;
       }
@@ -1737,7 +1755,7 @@
       }
       .trust-title {
         font-weight: 700;
-        font-size: 26px;
+        font-size: 22px;
         margin-bottom: 20px;
         letter-spacing: -0.01em;
         line-height: 1.3;
@@ -2932,29 +2950,27 @@
             <div class="case-thumb">
               <img
                 class="case-thumb-img"
-                src="/portfolio-bg/fantiks.webp"
-                alt="팬틱스"
+                src="/portfolio-bg/aju.webp"
+                alt="아주대학교의료원"
               />
               <div
                 class="case-thumb-overlay"
-                style="background: rgba(55, 10, 103, 0.5)"
+                style="background: rgba(29, 17, 0, 0.5)"
               ></div>
               <img
                 class="case-thumb-logo"
-                src="/portfolio-logo/fantiks.webp"
-                alt="팬틱스 로고"
+                src="/portfolio-logo/aju.webp"
+                alt="아주대 로고"
               />
             </div>
             <div class="case-body">
               <div class="case-title-wrap">
-                <h3 class="case-title">팬틱스</h3>
-                <p class="case-sub">
-                  아이돌 팬덤 플랫폼 (SNS + 커머스 + 실시간 채팅)
-                </p>
+                <h3 class="case-title">아주대학교의료원</h3>
+                <p class="case-sub">교직원용 모바일 그룹웨어</p>
               </div>
               <div class="case-tags">
-                <span class="case-tag">엔터테인먼트</span>
-                <span class="case-tag">2025.12 ~</span>
+                <span class="case-tag">의료</span>
+                <span class="case-tag">2026.03 ~</span>
               </div>
             </div>
           </article>
@@ -2992,36 +3008,6 @@
             <div class="case-thumb">
               <img
                 class="case-thumb-img"
-                src="/portfolio-bg/aju.webp"
-                alt="아주대학교의료원"
-              />
-              <div
-                class="case-thumb-overlay"
-                style="background: rgba(29, 17, 0, 0.5)"
-              ></div>
-              <img
-                class="case-thumb-logo"
-                src="/portfolio-logo/aju.webp"
-                alt="아주대 로고"
-              />
-            </div>
-            <div class="case-body">
-              <div class="case-title-wrap">
-                <h3 class="case-title">아주대학교의료원</h3>
-                <p class="case-sub">교직원용 모바일 그룹웨어</p>
-              </div>
-              <div class="case-tags">
-                <span class="case-tag">의료</span>
-                <span class="case-tag">2026.03 ~</span>
-              </div>
-            </div>
-          </article>
-
-          <!-- Row 2 -->
-          <article class="case-card">
-            <div class="case-thumb">
-              <img
-                class="case-thumb-img"
                 src="/portfolio-bg/medix.webp"
                 alt="한국메딕스"
               />
@@ -3047,6 +3033,7 @@
             </div>
           </article>
 
+          <!-- Row 2 -->
           <article class="case-card">
             <div class="case-thumb">
               <img
@@ -3072,6 +3059,37 @@
               <div class="case-tags">
                 <span class="case-tag">교육·AI</span>
                 <span class="case-tag">2025.09 ~</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="case-card">
+            <div class="case-thumb">
+              <img
+                class="case-thumb-img"
+                src="/portfolio-bg/fantiks.webp"
+                alt="팬틱스"
+              />
+              <div
+                class="case-thumb-overlay"
+                style="background: rgba(55, 10, 103, 0.5)"
+              ></div>
+              <img
+                class="case-thumb-logo"
+                src="/portfolio-logo/fantiks.webp"
+                alt="팬틱스 로고"
+              />
+            </div>
+            <div class="case-body">
+              <div class="case-title-wrap">
+                <h3 class="case-title">팬틱스</h3>
+                <p class="case-sub">
+                  아이돌 팬덤 플랫폼 (SNS + 커머스 + 실시간 채팅)
+                </p>
+              </div>
+              <div class="case-tags">
+                <span class="case-tag">엔터테인먼트</span>
+                <span class="case-tag">2025.12 ~</span>
               </div>
             </div>
           </article>
