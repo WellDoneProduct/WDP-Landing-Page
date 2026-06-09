@@ -1285,9 +1285,14 @@
       .logo-track {
         display: flex;
         align-items: center;
-        gap: 96px;
         width: max-content;
-        animation: logo-marquee 64s linear infinite;
+        animation: logo-marquee 26s linear infinite;
+        will-change: transform;
+        backface-visibility: hidden;
+      }
+      /* gap 대신 margin-right로 마지막 항목 뒤에도 동일 간격 → translateX(-25%) seamless */
+      .logo-track .logo-item {
+        margin-right: 96px;
       }
       .logo-marquee:hover .logo-track {
         animation-play-state: paused;
@@ -1324,15 +1329,17 @@
       .logo-item img {
         height: 38px;
         width: auto;
-        max-width: 170px;
+        max-width: 220px;
         object-fit: contain;
       }
       /* 연세대 워드마크만 1.5배 */
 
       @media (max-width: 768px) {
         .logo-track {
-          gap: 40px;
-          animation-duration: 36s;
+          animation-duration: 20s;
+        }
+        .logo-track .logo-item {
+          margin-right: 40px;
         }
         .logo-item {
           height: 76px;
@@ -1343,7 +1350,7 @@
         }
         .logo-item img {
           height: 30px;
-          max-width: 130px;
+          max-width: 180px;
         }
       }
       @media (prefers-reduced-motion: reduce) {
@@ -3167,136 +3174,136 @@
             <!-- 한 묶음 = 로고 6종. 두 묶음 복제 → translateX(-50%) 매끄러운 루프 -->
             <!-- 묶음 1 -->
             <span class="logo-item">
-              <img src="/logo/yonsei.webp" alt="연세대학교" />
+              <img src="/logo/yonsei.webp" alt="연세대학교" decoding="async" />
               <span class="logo-name">연세대학교</span>
             </span>
             <span class="logo-item">
-              <img src="/logo/aju.webp" alt="아주대학교의료원" />
+              <img src="/logo/aju.webp" alt="아주대학교의료원" decoding="async" />
               <span class="logo-name">아주대학교의료원</span>
             </span>
             <span class="logo-item">
-              <img src="/logo/lotte.webp" alt="롯데이노베이트" />
+              <img src="/logo/lotte.webp" alt="롯데이노베이트" decoding="async" />
               <span class="logo-name">롯데이노베이트</span>
             </span>
             <span class="logo-item">
-              <img src="/logo/cnc.webp" alt="씨앤씨 미술학원" />
+              <img src="/logo/cnc.webp" alt="씨앤씨 미술학원" decoding="async" />
               <span class="logo-name">씨앤씨 미술학원</span>
             </span>
             <span class="logo-item">
-              <img src="/logo/Koreamedix.webp" alt="한국메딕스" />
+              <img src="/logo/Koreamedix.webp" alt="한국메딕스" decoding="async" />
               <span class="logo-name">한국메딕스</span>
             </span>
             <span class="logo-item">
-              <img src="/logo/fantiks.webp" alt="팬틱스" />
+              <img src="/logo/fantiks.webp" alt="팬틱스" decoding="async" />
               <span class="logo-name">팬틱스</span>
             </span>
             <span class="logo-item">
-              <img src="/logo/Higher.webp" alt="하이어" />
+              <img src="/logo/Higher.webp" alt="하이어" decoding="async" />
               <span class="logo-name">하이어</span>
             </span>
             <!-- 묶음 2~4 (복제) -->
             <span class="logo-item" aria-hidden="true"
-              ><img src="/logo/yonsei.webp" alt="" /><span class="logo-name"
+              ><img src="/logo/yonsei.webp" alt="" decoding="async" /><span class="logo-name"
                 >연세대학교</span
               ></span
             >
             <span class="logo-item" aria-hidden="true"
-              ><img src="/logo/aju.webp" alt="" /><span class="logo-name"
+              ><img src="/logo/aju.webp" alt="" decoding="async" /><span class="logo-name"
                 >아주대학교의료원</span
               ></span
             >
             <span class="logo-item" aria-hidden="true"
-              ><img src="/logo/lotte.webp" alt="" /><span class="logo-name"
+              ><img src="/logo/lotte.webp" alt="" decoding="async" /><span class="logo-name"
                 >롯데이노베이트</span
               ></span
             >
             <span class="logo-item" aria-hidden="true"
-              ><img src="/logo/cnc.webp" alt="" /><span class="logo-name"
+              ><img src="/logo/cnc.webp" alt="" decoding="async" /><span class="logo-name"
                 >씨앤씨 미술학원</span
               ></span
             >
             <span class="logo-item" aria-hidden="true"
-              ><img src="/logo/Koreamedix.webp" alt="" /><span class="logo-name"
+              ><img src="/logo/Koreamedix.webp" alt="" decoding="async" /><span class="logo-name"
                 >한국메딕스</span
               ></span
             >
             <span class="logo-item" aria-hidden="true"
-              ><img src="/logo/fantiks.webp" alt="" /><span class="logo-name"
+              ><img src="/logo/fantiks.webp" alt="" decoding="async" /><span class="logo-name"
                 >팬틱스</span
               ></span
             >
             <span class="logo-item" aria-hidden="true"
-              ><img src="/logo/Higher.webp" alt="" /><span class="logo-name"
+              ><img src="/logo/Higher.webp" alt="" decoding="async" /><span class="logo-name"
                 >하이어</span
               ></span
             >
             <span class="logo-item" aria-hidden="true"
-              ><img src="/logo/yonsei.webp" alt="" /><span class="logo-name"
+              ><img src="/logo/yonsei.webp" alt="" decoding="async" /><span class="logo-name"
                 >연세대학교</span
               ></span
             >
             <span class="logo-item" aria-hidden="true"
-              ><img src="/logo/aju.webp" alt="" /><span class="logo-name"
+              ><img src="/logo/aju.webp" alt="" decoding="async" /><span class="logo-name"
                 >아주대학교의료원</span
               ></span
             >
             <span class="logo-item" aria-hidden="true"
-              ><img src="/logo/lotte.webp" alt="" /><span class="logo-name"
+              ><img src="/logo/lotte.webp" alt="" decoding="async" /><span class="logo-name"
                 >롯데이노베이트</span
               ></span
             >
             <span class="logo-item" aria-hidden="true"
-              ><img src="/logo/cnc.webp" alt="" /><span class="logo-name"
+              ><img src="/logo/cnc.webp" alt="" decoding="async" /><span class="logo-name"
                 >씨앤씨 미술학원</span
               ></span
             >
             <span class="logo-item" aria-hidden="true"
-              ><img src="/logo/Koreamedix.webp" alt="" /><span class="logo-name"
+              ><img src="/logo/Koreamedix.webp" alt="" decoding="async" /><span class="logo-name"
                 >한국메딕스</span
               ></span
             >
             <span class="logo-item" aria-hidden="true"
-              ><img src="/logo/fantiks.webp" alt="" /><span class="logo-name"
+              ><img src="/logo/fantiks.webp" alt="" decoding="async" /><span class="logo-name"
                 >팬틱스</span
               ></span
             >
             <span class="logo-item" aria-hidden="true"
-              ><img src="/logo/Higher.webp" alt="" /><span class="logo-name"
+              ><img src="/logo/Higher.webp" alt="" decoding="async" /><span class="logo-name"
                 >하이어</span
               ></span
             >
             <span class="logo-item" aria-hidden="true"
-              ><img src="/logo/yonsei.webp" alt="" /><span class="logo-name"
+              ><img src="/logo/yonsei.webp" alt="" decoding="async" /><span class="logo-name"
                 >연세대학교</span
               ></span
             >
             <span class="logo-item" aria-hidden="true"
-              ><img src="/logo/aju.webp" alt="" /><span class="logo-name"
+              ><img src="/logo/aju.webp" alt="" decoding="async" /><span class="logo-name"
                 >아주대학교의료원</span
               ></span
             >
             <span class="logo-item" aria-hidden="true"
-              ><img src="/logo/lotte.webp" alt="" /><span class="logo-name"
+              ><img src="/logo/lotte.webp" alt="" decoding="async" /><span class="logo-name"
                 >롯데이노베이트</span
               ></span
             >
             <span class="logo-item" aria-hidden="true"
-              ><img src="/logo/cnc.webp" alt="" /><span class="logo-name"
+              ><img src="/logo/cnc.webp" alt="" decoding="async" /><span class="logo-name"
                 >씨앤씨 미술학원</span
               ></span
             >
             <span class="logo-item" aria-hidden="true"
-              ><img src="/logo/Koreamedix.webp" alt="" /><span class="logo-name"
+              ><img src="/logo/Koreamedix.webp" alt="" decoding="async" /><span class="logo-name"
                 >한국메딕스</span
               ></span
             >
             <span class="logo-item" aria-hidden="true"
-              ><img src="/logo/fantiks.webp" alt="" /><span class="logo-name"
+              ><img src="/logo/fantiks.webp" alt="" decoding="async" /><span class="logo-name"
                 >팬틱스</span
               ></span
             >
             <span class="logo-item" aria-hidden="true"
-              ><img src="/logo/Higher.webp" alt="" /><span class="logo-name"
+              ><img src="/logo/Higher.webp" alt="" decoding="async" /><span class="logo-name"
                 >하이어</span
               ></span
             >
@@ -4277,6 +4284,7 @@
         observer.observe(hero);
       })();
     </script>
+
 
     <!-- 이미지 로딩 실패 시 자동 재시도 (최대 3회, 지수 백오프) -->
     <script>
