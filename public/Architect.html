@@ -415,7 +415,7 @@
         /* 버튼 아래 dark 버퍼 = Figma 버튼바닥(617)~hero바닥(1728) = 1111px × scale.
            콘텐츠 높이(모바일 줄바꿈)와 무관하게 glow 들어갈 공간 확보 → 전 사이즈 일관.
            (min-height는 너비스케일이라 모바일서 콘텐츠보다 짧아져 겹침 발생 → 폐기) */
-        padding: 160px 0 calc(1111px * var(--glow-scale));
+        padding: 418px 0 calc(1111px * var(--glow-scale));
         text-align: center;
         /* svg 톤(#1B5FFF 블루 / #1BA7FF 시안)에 맞춰 dark에 깊은 블루-틸 기운 +
            바닥 중앙에 은은한 블루/시안 번짐 → glow와 자연스럽게 섞임.
@@ -543,8 +543,8 @@
         transform-origin: center;
       }
       .splash-logo .st0.fx-seq {
-        animation: splashSeqIn 420ms cubic-bezier(0.65, 0.02, 0.18, 1) forwards;
-        animation-delay: calc(var(--i) * 45ms);
+        animation: splashSeqIn 510ms cubic-bezier(0.65, 0.02, 0.18, 1) forwards;
+        animation-delay: calc(var(--i) * 63ms);
       }
       @keyframes splashSeqIn {
         to {
@@ -575,6 +575,30 @@
       .hero h1 {
         max-width: 920px;
         margin: 0 auto;
+      }
+      .hero-h1-cat {
+        position: relative;
+        display: inline;
+      }
+      .hero-h1-cat::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 50%;
+        background: rgba(0, 72, 255, 0.40);
+        border-radius: 4px;
+        z-index: -1;
+        transform-origin: left center;
+        transform: scaleX(0);
+      }
+      .hero-h1-cat.highlight-on::after {
+        animation: highlight-draw 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      }
+      @keyframes highlight-draw {
+        from { transform: scaleX(0); }
+        to   { transform: scaleX(1); }
       }
       .hero-h1-group {
         display: flex;
@@ -825,10 +849,10 @@
       }
       .service-area-card {
         position: relative;
-        padding: 24px 22px 22px;
+        padding: 20px;
         background: var(--card);
         border: 1px solid var(--border);
-        border-radius: 14px;
+        border-radius: 16px;
         transition: all 200ms ease;
       }
       .service-area-card:hover {
@@ -840,21 +864,22 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 24px;
-        height: 24px;
+        width: 28px;
+        height: 28px;
         border-radius: 999px;
         background: var(--primary-wash);
         color: var(--primary);
-        font-size: 12px;
-        font-weight: 700;
-        margin-bottom: 12px;
-      }
-      .service-area-title {
         font-size: 16px;
         font-weight: 700;
+        margin-bottom: 8px;
+      }
+      .service-area-title {
+        font-size: 26px;
+        font-weight: 700;
         color: var(--text);
-        margin-bottom: 6px;
-        line-height: 1.4;
+        letter-spacing: -0.01em;
+        margin-bottom: 20px;
+        line-height: 1.3;
       }
       .service-area-desc {
         font-size: 13px;
@@ -989,7 +1014,7 @@
       .ai-standard {
         margin-top: 56px;
         margin-bottom: 40px;
-        padding: 28px 40px;
+        padding: 28px 24px;
         background: var(--surface-subtle);
         border-radius: 16px;
         display: grid;
@@ -998,11 +1023,12 @@
       }
       .ai-standard-point {
         text-align: center;
-        padding: 0 28px;
+        padding: 0 16px;
         border-right: 1px solid var(--border);
         font-size: 13px;
         color: var(--text-muted);
         line-height: 1.55;
+        white-space: nowrap;
       }
       .ai-standard-point:last-child {
         border-right: none;
@@ -1040,7 +1066,7 @@
         background: var(--card);
         border: 1px solid var(--border);
         border-radius: 16px;
-        padding: 28px;
+        padding: 20px;
         position: relative;
         transition: all 250ms ease;
       }
@@ -1056,29 +1082,29 @@
         background: #111827;
         color: #fff;
         font-weight: 700;
-        font-size: 13px;
+        font-size: 16px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
       }
       .workflow-stage-icon {
         position: absolute;
-        top: 26px;
-        right: 28px;
+        top: 20px;
+        right: 20px;
         width: 36px;
         height: 36px;
         object-fit: contain;
       }
       .workflow-stage-header {
-        margin-top: 20px;
+        margin-top: 8px;
         margin-bottom: 20px;
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 6px;
       }
       .workflow-stage-name {
         font-weight: 700;
-        font-size: 28px;
+        font-size: 26px;
         color: #111827;
         letter-spacing: -0.01em;
       }
@@ -1406,8 +1432,8 @@
       .comparison-panel {
         background: var(--card);
         border: 1px solid var(--border);
-        border-radius: var(--radius-lg);
-        padding: 32px;
+        border-radius: 16px;
+        padding: 24px;
         position: relative;
       }
       .comparison-panel.preferred {
@@ -1418,12 +1444,13 @@
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
-        margin-bottom: 24px;
+        margin-bottom: 20px;
       }
       .comparison-title {
-        font-weight: 600;
-        font-size: 17px;
-        margin-bottom: 4px;
+        font-weight: 700;
+        font-size: 26px;
+        letter-spacing: -0.01em;
+        margin-bottom: 6px;
       }
       .comparison-subtitle {
         font-size: 14px;
@@ -1522,8 +1549,8 @@
       .result-card {
         background: var(--card);
         border: 1px solid var(--border);
-        border-radius: var(--radius-lg);
-        padding: 40px 32px;
+        border-radius: 16px;
+        padding: 28px 24px;
         transition: all 250ms ease;
       }
       .result-card:hover {
@@ -1537,14 +1564,14 @@
         color: var(--primary);
         text-transform: uppercase;
         letter-spacing: 0.08em;
-        margin-bottom: 16px;
+        margin-bottom: 8px;
       }
       .result-card-number {
         font-size: 56px;
         font-weight: 700;
         letter-spacing: -0.025em;
         color: var(--text);
-        margin-bottom: 8px;
+        margin-bottom: 6px;
         line-height: 1;
       }
       .result-card-number .unit {
@@ -1559,7 +1586,7 @@
       .result-card-title {
         font-weight: 600;
         font-size: 18px;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
         letter-spacing: -0.01em;
       }
       .result-card-body {
@@ -1636,7 +1663,7 @@
         gap: 4px;
       }
       .case-title {
-        font-size: 24px;
+        font-size: 26px;
         font-weight: 700;
         color: #000;
         line-height: 36px;
@@ -1686,10 +1713,10 @@
         margin-top: 56px;
       }
       .trust-item {
-        padding: 32px 24px;
+        padding: 20px;
         background: var(--card);
         border: 1px solid var(--border);
-        border-radius: var(--radius-lg);
+        border-radius: 16px;
         transition: all 250ms ease;
       }
       .trust-item:hover {
@@ -1706,13 +1733,14 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 20px;
+        margin-bottom: 8px;
       }
       .trust-title {
-        font-weight: 600;
-        font-size: 17px;
-        margin-bottom: 8px;
+        font-weight: 700;
+        font-size: 26px;
+        margin-bottom: 20px;
         letter-spacing: -0.01em;
+        line-height: 1.3;
       }
       .trust-body {
         font-size: 14px;
@@ -2473,7 +2501,7 @@
             <span class="planet-light" aria-hidden="true"></span>
             <a
               href="/pdf/Company.pdf"
-              download="웰던프로덕트_회사소개서.pdf"
+              download="[웰던프로덕트] 회사소개서.pdf"
               class="btn-hero btn-hero-outline"
             >
               회사소개서 받기
@@ -2510,7 +2538,7 @@
               ><br />AI와 전문가가 함께합니다
             </h2>
             <p class="lead">
-              기획·디자인·개발·테스트까지 외주 개발의<br />모든 단계에서 AI를
+              기획·디자인·개발·테스트까지<br />외주 개발의 모든 단계에서 AI를
               활용해 일합니다.
             </p>
           </div>
@@ -2518,8 +2546,7 @@
           <div class="ai-standard">
             <div class="ai-standard-point">
               <strong>사내 검수 체크리스트</strong>
-              AI 산출물은 모든 단계에서 사내 표준<br class="br-m" />
-              체크리스트로 점검합니다.
+              AI 산출물은 모든 단계에서 사내 표준 체크리스트로 점검합니다.
             </div>
             <div class="ai-standard-point">
               <strong>전문가의 최종 검수</strong>
@@ -2527,8 +2554,7 @@
             </div>
             <div class="ai-standard-point">
               <strong>변경 이력 자동 정리</strong>
-              산출물·변경 이력을 정리해 인수인계까지<br class="br-m" />
-              그대로 전달합니다.
+              산출물·변경 이력을 정리해 인수인계까지 그대로 전달합니다.
             </div>
           </div>
 
@@ -2568,8 +2594,8 @@
                 </div>
               </div>
               <ul class="workflow-stage-tasks">
-                <li>요구사항 기반 UX/UI 디자인 초안 작성</li>
-                <li>디자인 시스템 컴포넌트 적용</li>
+                <li>UX/UI 디자인 시안 제작</li>
+                <li>디자인 시스템 적용</li>
               </ul>
             </div>
             <div class="workflow-stage">
@@ -2906,7 +2932,7 @@
               <div class="case-title-wrap">
                 <h3 class="case-title">팬틱스</h3>
                 <p class="case-sub">
-                  아이돌 팬덤 플랫폼<br />(SNS+커머스+실시간채팅)
+                  아이돌 팬덤 플랫폼 (SNS + 커머스 + 실시간 채팅)
                 </p>
               </div>
               <div class="case-tags">
@@ -2935,7 +2961,7 @@
             </div>
             <div class="case-body">
               <div class="case-title-wrap">
-                <h3 class="case-title">연세대 기후적응리빙랩</h3>
+                <h3 class="case-title">연세대학교 기후적응리빙랩</h3>
                 <p class="case-sub">기후적응 RAG 솔루션 사이트</p>
               </div>
               <div class="case-tags">
@@ -3063,35 +3089,6 @@
           </article>
 
           <!-- Row 3 -->
-          <article class="case-card">
-            <div class="case-thumb">
-              <img
-                class="case-thumb-img"
-                src="/portfolio-bg/modu.webp"
-                alt="모두의인증"
-              />
-              <div
-                class="case-thumb-overlay"
-                style="background: rgba(4, 25, 59, 0.5)"
-              ></div>
-              <img
-                class="case-thumb-logo"
-                src="/portfolio-logo/modu.webp"
-                alt="모두의인증 로고"
-              />
-            </div>
-            <div class="case-body">
-              <div class="case-title-wrap">
-                <h3 class="case-title">모두의인증</h3>
-                <p class="case-sub">제품 시험·인증 관리 플랫폼</p>
-              </div>
-              <div class="case-tags">
-                <span class="case-tag">시험·인증</span>
-                <span class="case-tag">2025.06~2026.01</span>
-              </div>
-            </div>
-          </article>
-
           <article class="case-card">
             <div class="case-thumb">
               <img
@@ -3493,8 +3490,7 @@
               ></span>
             </button>
             <div class="faq-answer">
-              병렬 진행 방식이라 변경 대응이 빠릅니다. 변경된 요구사항은 다음 주
-              시연에 반영됩니다.
+              병렬 진행 방식이라 빠르게 변경 대응이 가능합니다. 단, 스코프를 벗어나는 변경은 일정·견적을 재조정해 진행합니다.
             </div>
           </div>
           <div class="faq-item">
@@ -3540,9 +3536,7 @@
               ></span>
             </button>
             <div class="faq-answer">
-              엔터프라이즈 환경에서 분리해 운영하고, 자료는 AI 학습에 사용하지
-              않습니다. 프로젝트 시작 전 NDA·DPA 표준 양식을 체결한 뒤 진행하며,
-              AI 산출물은 모두 사내 전문가가 검토합니다.
+              AI 활용 단계에서도 보안을 최우선으로 신경 씁니다. 프로젝트 시작 전 NDA·DPA 표준 양식을 체결하고, 학습에 사용되지 않는 비즈니스 플랜 환경에서 자료를 처리합니다. 민감 정보는 사전 협의 후 별도 정책에 따라 다루며, AI 산출물은 모두 사내 전문가가 검토합니다.
             </div>
           </div>
           <div class="faq-item">
@@ -3770,15 +3764,15 @@
           <div class="footer-band-text">
             잘 만든다는 약속을 지키기 위해,<br />우리는 처음부터 일하는
             방식을<br class="br-m" />
-            다시 짰습니다.
+            다시 짰습니다
           </div>
           <div class="footer-band-invite">
             이제, 웰던프로덕트와<br class="br-m" />
-            함께 처음부터 다르게 일해보세요.
+            함께 처음부터 다르게 일해보세요
           </div>
           <div class="footer-band-tagline">
-            AI와 함께 처음부터 다르게.<br class="br-m" />
-            AI-Native 외주개발사 웰던프로덕트.
+            AI와 함께 처음부터 다르게<br class="br-m" />
+            AI-Native 외주개발사 웰던프로덕트
           </div>
         </div>
       </div>
@@ -3792,7 +3786,7 @@
                 ><img src="Logo.svg" alt="웰던프로덕트"
               /></span>
               <p class="footer-mission">
-                AI-Native 외주개발사 웰던프로덕트.<br />AI와 함께 처음부터
+                AI-Native 외주개발사 웰던프로덕트,<br />AI와 함께 처음부터
                 다르게 일합니다.
               </p>
               <p style="font-size: 12px; color: rgba(255, 255, 255, 0.4)">
@@ -3884,8 +3878,8 @@
         }
 
         // 시퀀스 등장: 각 .st0 도형에 index 부여 후 애니메이션 클래스 적용
-        var STAGGER = 45; // 도형 간 등장 간격(ms)
-        var DURATION = 420; // 한 도형 등장 지속(ms)
+        var STAGGER = 63; // 도형 간 등장 간격(ms)
+        var DURATION = 510; // 한 도형 등장 지속(ms)
         var logo = document.getElementById("splashLogo");
         var shapes = logo
           ? Array.prototype.slice.call(logo.querySelectorAll(".st0"))
@@ -3909,15 +3903,18 @@
 
         var run = function () {
           // 로고 등장 완료 후 잠깐 머문 뒤 페이드 아웃
-          var holdAfter = animEnd + 150;
+          var holdAfter = animEnd + 200;
           setTimeout(function () {
             splash.classList.add("is-fading");
           }, holdAfter);
-          // 페이드 아웃(0.4s) 완료 후 DOM 제거 + 스크롤 해제
+          // 페이드 아웃(0.5s) 완료 후 DOM 제거 + 스크롤 해제
           setTimeout(function () {
             splash.classList.add("is-hidden");
             unlock();
-          }, holdAfter + 400);
+            // 스플래시 종료 직후 히어로 타이틀 하이라이트 드로우
+            var cat = document.querySelector(".hero-h1-cat");
+            if (cat) cat.classList.add("highlight-on");
+          }, holdAfter + 500);
         };
 
         if (document.readyState === "complete") {
