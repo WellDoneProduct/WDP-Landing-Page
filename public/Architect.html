@@ -513,7 +513,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: opacity 0.7s ease;
+        transition: opacity 0.5s ease;
         will-change: opacity;
       }
       .splash-logo {
@@ -528,8 +528,8 @@
         transform-origin: center;
       }
       .splash-logo .st0.fx-seq {
-        animation: splashSeqIn 620ms cubic-bezier(0.65, 0.02, 0.18, 1) forwards;
-        animation-delay: calc(var(--i) * 70ms);
+        animation: splashSeqIn 420ms cubic-bezier(0.65, 0.02, 0.18, 1) forwards;
+        animation-delay: calc(var(--i) * 45ms);
       }
       @keyframes splashSeqIn {
         to {
@@ -3478,8 +3478,8 @@
         }
 
         // 시퀀스 등장: 각 .st0 도형에 index 부여 후 애니메이션 클래스 적용
-        var STAGGER = 70; // 도형 간 등장 간격(ms)
-        var DURATION = 620; // 한 도형 등장 지속(ms)
+        var STAGGER = 45; // 도형 간 등장 간격(ms)
+        var DURATION = 420; // 한 도형 등장 지속(ms)
         var logo = document.getElementById("splashLogo");
         var shapes = logo
           ? Array.prototype.slice.call(logo.querySelectorAll(".st0"))
@@ -3502,16 +3502,16 @@
         };
 
         var run = function () {
-          // 로고 등장이 끝나면 잠깐 머문 뒤 페이드 시작 → 히어로로 자연스럽게 전환
-          var holdAfter = animEnd + 300;
+          // 로고 등장 완료 후 잠깐 머문 뒤 페이드 아웃
+          var holdAfter = animEnd + 150;
           setTimeout(function () {
             splash.classList.add("is-fading");
           }, holdAfter);
-          // CSS transition(opacity 0.7s)이 끝난 뒤 DOM에서 제거 + 스크롤 해제
+          // 페이드 아웃(0.4s) 완료 후 DOM 제거 + 스크롤 해제
           setTimeout(function () {
             splash.classList.add("is-hidden");
             unlock();
-          }, holdAfter + 700);
+          }, holdAfter + 400);
         };
 
         if (document.readyState === "complete") {
