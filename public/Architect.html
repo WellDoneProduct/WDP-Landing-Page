@@ -8,10 +8,29 @@
       name="description"
       content="AI와 함께 처음부터 다르게 일합니다. AI-Native 외주개발사 웰던프로덕트."
     />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://welldoneproduct.com/Architect.html" />
     <meta property="og:title" content="웰던프로덕트 | AI-Native 외주개발사" />
     <meta
       property="og:description"
       content="AI와 함께 처음부터 다르게 일합니다."
+    />
+    <meta
+      property="og:image"
+      content="https://welldoneproduct.com/og-image.png"
+    />
+    <meta property="og:image:width" content="1800" />
+    <meta property="og:image:height" content="945" />
+    <!-- Twitter/X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="웰던프로덕트 | AI-Native 외주개발사" />
+    <meta
+      name="twitter:description"
+      content="AI와 함께 처음부터 다르게 일합니다."
+    />
+    <meta
+      name="twitter:image"
+      content="https://welldoneproduct.com/og-image.png"
     />
 
     <!-- Favicon -->
@@ -3955,8 +3974,7 @@
                 ><a
                   href="#"
                   class="form-agree-link"
-                  target="_blank"
-                  rel="noopener"
+                  data-privacy-open
                   >개인정보 수집·이용</a
                 >에 동의합니다. <strong>(필수)</strong></span
               >
@@ -4157,7 +4175,11 @@
           if (lastFocused && lastFocused.focus) lastFocused.focus();
         }
         document.querySelectorAll("[data-privacy-open]").forEach(function (b) {
-          b.addEventListener("click", open);
+          b.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            open();
+          });
         });
         modal.querySelectorAll("[data-privacy-close]").forEach(function (b) {
           b.addEventListener("click", close);
