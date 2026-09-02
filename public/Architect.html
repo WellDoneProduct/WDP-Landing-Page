@@ -1099,7 +1099,11 @@
         display: flex;
         gap: 16px;
         overflow-x: auto;
-        padding-bottom: 4px;
+        /* overflow-x를 지정하면 세로축도 auto로 계산되어 hover 시 떠오른 카드와
+           그림자가 잘린다. padding으로 여유 공간을 주고 margin으로 상쇄해
+           레이아웃 위치는 그대로 유지한다. */
+        padding: 16px 0 40px;
+        margin: -16px 0 -36px;
       }
       .workflow::-webkit-scrollbar { display: none; }
       .workflow-stage {
