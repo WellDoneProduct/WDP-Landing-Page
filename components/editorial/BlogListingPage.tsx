@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { SiteHeader } from '@/components/editorial/SiteChrome';
-import BlogList, { blogUrl, filterPosts, pageCount, POSTS_PER_PAGE } from '@/components/editorial/BlogList';
+import BlogList from '@/components/editorial/BlogList';
+import { blogUrl, filterPosts, listingTitle, pageCount, POSTS_PER_PAGE } from '@/lib/blog';
 import JsonLd from '@/components/editorial/JsonLd';
 import { getPosts, getCategories } from '@/lib/content';
 import { pageMetadata, absoluteUrl } from '@/lib/seo';
@@ -29,7 +30,7 @@ const loadListing = async (rawCategory: string, page: number) => {
 
 export const listingMetadata = async (category: string, page: number) => {
   const { active } = await loadListing(category, page);
-  return pageMetadata(`${active === 'All' ? '블로그' : `${active} 블로그`}${page > 1 ? ` · ${page}페이지` : ''} | 웰던프로덕트`, `웰던프로덕트의 ${active === 'All' ? 'AI 개발, 프론트엔드·백엔드 개발, PM과 디자인' : active} 인사이트를 만나보세요. 실제 서비스를 만드는 과정에서 얻은 경험과 업무 자동화 노하우를 공유합니다.`, blogUrl(active, page));
+  return pageMetadata(listingTitle(active, page), `웰던프로덕트의 ${active === 'All' ? 'AI 개발, 프론트엔드·백엔드 개발, PM과 디자인' : active} 인사이트를 만나보세요. 실제 서비스를 만드는 과정에서 얻은 경험과 업무 자동화 노하우를 공유합니다.`, blogUrl(active, page));
 };
 
 // Params for generateStaticParams: every category, and every page beyond the first.
