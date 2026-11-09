@@ -7,6 +7,9 @@ import { getPost, getPosts } from '@/lib/content';
 import PostNavigation from '@/components/editorial/PostNavigation';
 
 type Props = { params: Promise<{ slug: string }> };
+// Built at deploy time; new posts arrive through the Sanity → Vercel Deploy Hook rebuild.
+export const dynamicParams = false;
+export const generateStaticParams = async () => ((await getPosts()) ?? []).filter(post => post?.slug).map(post => ({ slug: post.slug }));
 export async function generateMetadata({ params }: Props) {
   const post = await getPost((await params).slug);
   if (!post) return {title: '글을 찾을 수 없습니다', robots: {index: false}};

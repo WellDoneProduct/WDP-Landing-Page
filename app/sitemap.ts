@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { getPosts, getProjects } from '@/lib/content';
 import { absoluteUrl, isIndexable } from '@/lib/seo';
-export const revalidate = 300;
+export const dynamic = 'force-static';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Never advertise test or development CMS URLs to search engines.
   if (!isIndexable) return [];

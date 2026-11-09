@@ -15,7 +15,10 @@ const postFields = `_id, _updatedAt, "slug": slug.current, title, "category": ca
 const projectFields = `_id, "slug": slug.current, title, category, service, "description": coalesce(description, ""), "period": coalesce(period, ""), "scope": coalesce(scope, ""), "client": coalesce(client, ""), "tags": coalesce(tags, []), order, "status": coalesce(status, "comingSoon"), thumbnail${image}, logo${image}, logoWidth, tint, heroImage${image}, heroMobileImage${image}, "overview": coalesce(overview, ""), "related": related[]._ref`;
 const published = '!(_id in path("drafts.**"))';
 const postVisibility = isIndexable ? ' && isTest != true && !(_id match "blog-*-test-*")' : '';
-const options = { next: { revalidate: 30 } };
+// Pages are prerendered at build and rebuilt by the Sanity → Vercel Deploy Hook on publish.
+// no-store keeps Sanity results out of the Data Cache, which persists across deployments and would
+// otherwise feed a stale response into the next build. Routes stay static via `dynamic = 'force-static'`.
+const options = { cache: 'no-store' as const };
 // A configured CMS failure must surface as an error, never as sample content.
 export const getPosts = cache(async (): Promise<Post[]> => client ? client.fetch(`*[_type == "blogPost" && ${published}${postVisibility} && defined(slug.current) && publishedAt <= now()] | order(publishedAt desc, _id asc) {${postFields}, "body": []}`, {}, options) : isDesignPreview ? demoPosts : []);
 export const getPost = cache(async (slug: string): Promise<Post | undefined> => client ? client.fetch(`*[_type == "blogPost" && ${published}${postVisibility} && slug.current == $slug && publishedAt <= now()][0]{${postFields}, ${body}}`, { slug }, options) : isDesignPreview ? demoPosts.find(post => post.slug === slug) : undefined);
