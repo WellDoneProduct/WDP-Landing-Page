@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+import { SITE_URL, organization, pageMetadata } from '@/lib/seo';
+import JsonLd from '@/components/editorial/JsonLd';
 export const metadata: Metadata = {
-  title: "잘 만드는 외주개발사, 웰던프로덕트",
-  description: "직원들이 매일 반복하는 그 업무, 시스템이 대신합니다. 엑셀 취합, 수기 입력, 카톡 결재 자동화.",
+  metadataBase: new URL(SITE_URL),
+  ...pageMetadata('웰던프로덕트 | AI-Native 외주개발사', 'AI와 함께 일하는 웰던프로덕트. 업무 자동화 시스템, 웹·앱 서비스 개발과 프로젝트 사례, AI 개발 인사이트를 만나보세요.', '/'),
 };
 
 export default function RootLayout({
@@ -13,13 +15,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className="h-full antialiased">
-      <head>
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
-        />
-      </head>
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <head><link rel="stylesheet" href="/fonts/pretendard.css" /></head>
+      <body className="min-h-full flex flex-col font-sans"><JsonLd data={organization} />{children}</body>
     </html>
   );
 }

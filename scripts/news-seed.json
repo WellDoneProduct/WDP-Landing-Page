@@ -1,0 +1,23 @@
+[
+  {
+    "_id": "news-kue",
+    "title": "[기업탐방] “외주개발의 공식을 바꾸다” - 웰던프로덕트(대표 이신일), 신뢰 기반 IT 개발 생태계 구축",
+    "publishedAt": "2026-04-15T06:00:00+09:00",
+    "url": "https://www.kueherald.co.kr/news/articleView.html?idxno=57812",
+    "image": "https://cdn.kueherald.co.kr/news/photo/202604/57812_39465_048.png"
+  },
+  {
+    "_id": "news-ai",
+    "title": "'2025 스마트 워크 & 컨택센터 엑스포' 성황리 개막...비즈니스 중심 전시회로 자리매김",
+    "publishedAt": "2025-08-20T20:46:03+09:00",
+    "url": "https://www.aitimes.kr/news/articleView.html?idxno=36122",
+    "image": "https://cdn.aitimes.kr/news/photo/202508/36122_54875_3758.jpg"
+  },
+  {
+    "_id": "news-et",
+    "title": "'2025 스마트 워크 & 컨택센터 엑스포' 성황리 개막...AI 에이젼트, 비즈니스 중심 전시회로...",
+    "publishedAt": "2025-08-21T15:07:33+09:00",
+    "url": "https://www.etnews.com/20250821000292",
+    "image": "https://img.etnews.com/news/article/2025/08/21/news-p.v1.20250821.9b724b85e2f743db8db5f0049cba2b2d_P1.jpg"
+  }
+]
