@@ -12,8 +12,6 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
-    // Personal local launcher (CommonJS, machine-specific path); not part of the app.
-    "start-dev.js",
   ]),
 ]);
 

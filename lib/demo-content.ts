@@ -1,7 +1,7 @@
 import type { ContentBlock, Post, Project } from './content-types';
 
 export const categories = ['AI', 'FE-Dev', 'BE-Dev', 'PM', 'PD'];
-export const textBlock = (key: string, text: string, style = 'normal'): ContentBlock => ({ _key: key, _type: 'block', style, children: [{ _key: `${key}-span`, _type: 'span', text }] });
+const textBlock = (key: string, text: string, style = 'normal'): ContentBlock => ({ _key: key, _type: 'block', style, children: [{ _key: `${key}-span`, _type: 'span', text }] });
 const lorem = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
 export const demoPosts: Post[] = Array.from({ length: 12 }, (_, i) => ({
   _id: `demo-post-${i + 1}`, slug: `design-preview-${i + 1}`, title: '제목영역입니다. 최대 두줄까지 작성할 수 있습니다.', category: categories[i % categories.length], publishedAt: `2026-10-${String(30 - i).padStart(2, '0')}T00:00:00Z`,
