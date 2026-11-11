@@ -7,7 +7,7 @@ import type { Post, Project, NewsItem } from './content-types';
 
 const localDesignPreview = process.env.NODE_ENV === 'development' && process.env.WDP_LOCAL_DESIGN_PREVIEW === 'true';
 const projectId = localDesignPreview ? undefined : process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
-export const isDesignPreview = !projectId && (process.env.NODE_ENV === 'development' || (process.env.WDP_ENVIRONMENT === 'development' && process.env.WDP_DESIGN_PREVIEW === 'true'));
+const isDesignPreview = !projectId && (process.env.NODE_ENV === 'development' || (process.env.WDP_ENVIRONMENT === 'development' && process.env.WDP_DESIGN_PREVIEW === 'true'));
 const client = projectId ? createClient({ projectId, dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'development', apiVersion: '2026-11-06', perspective: 'published', useCdn: false, token: process.env.SANITY_API_READ_TOKEN }) : null;
 const image = '{"url": asset->url, alt, "width": asset->metadata.dimensions.width, "height": asset->metadata.dimensions.height}';
 const body = `body[]{..., _type == "contentImage" => {image${image}}, _type == "imageGallery" => {images[]${image}}}`;

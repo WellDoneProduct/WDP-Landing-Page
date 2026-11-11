@@ -1,5 +1,5 @@
 export type ContentImage = { url: string; alt: string; width?: number; height?: number };
-export type TextSpan = { _key: string; _type: 'span'; text: string; marks?: string[] };
+type TextSpan = { _key: string; _type: 'span'; text: string; marks?: string[] };
 export type TextBlock = { _key: string; _type: 'block'; style?: string; children: TextSpan[]; markDefs?: { _key: string; _type: string; href?: string }[]; listItem?: string; level?: number };
 export type ImageBlock = { _key: string; _type: 'contentImage'; image: ContentImage; caption?: string };
 export type GalleryBlock = { _key: string; _type: 'imageGallery'; images: ContentImage[]; caption?: string };
