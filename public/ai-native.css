@@ -411,3 +411,18 @@
 /* Blend the original hero glow into the white manifesto without extra spacing. */
 .ai-native-page .hero-glow-wrap::after{content:'';position:absolute;z-index:5;inset:auto 0 0;height:180px;background:linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,.35) 42%,rgba(255,255,255,.85) 78%,#fff);pointer-events:none}
 @media(max-width:768px){.ai-native-page .hero-glow-wrap::after{height:120px}}
+/* The hero glow continues beneath the manifesto; the section itself fades to white. */
+.ai-native-page .hero-glow-wrap{background:#fff}
+.ai-native-page .hero-glow-wrap::after{display:none}
+.ai-native-page .hero-glow-wrap > .native-content{position:relative}
+.ai-native-page .native-content #welldone{background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%)}
+/* Larger process tiles and portrait assurance cards. */
+.native-content .gcards{grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.native-content .gcard{aspect-ratio:380/440}
+.native-content .gc-cap{padding:64px 28px 28px}
+.native-content .acard{aspect-ratio:4/5;min-height:0;padding:40px 32px;justify-content:flex-end}
+.native-content .assurance-number{top:24px;left:24px;font-size:200px}
+@media(min-width:769px) and (max-width:1023px){.native-content .gcards{grid-template-columns:repeat(2,minmax(0,1fr))}.native-content .acards{grid-template-columns:repeat(3,minmax(0,1fr))}.native-content .acard{min-height:360px;aspect-ratio:auto;padding:28px 20px}.native-content .assurance-number{font-size:140px;left:16px}}
+@media(max-width:768px){.native-content .gcards{grid-template-columns:1fr;gap:20px}.native-content .gcard{aspect-ratio:353/400}.native-content .gc-cap{padding:48px 24px 24px}.native-content .acard{aspect-ratio:4/5;padding:32px 24px}.native-content .assurance-number{font-size:190px;left:20px}}
+/* Faster service-row response, keeping the original easing and coordinated layers. */
+.native-content #services{--d-row:.45s}

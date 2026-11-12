@@ -3,6 +3,17 @@
   const splash = document.getElementById('splash');
   const container = document.getElementById('splashLogo');
   if (!splash || !container) return;
+  const seenKey = 'wdp:splash:seen';
+  let seen = false;
+  try {
+    seen = sessionStorage.getItem(seenKey) === '1';
+    sessionStorage.setItem(seenKey, '1');
+  } catch { /* Storage restrictions must not prevent the page from opening. */ }
+  if (seen) {
+    splash.classList.add('is-hidden');
+    document.querySelector('.hero-h1-cat')?.classList.add('highlight-on');
+    return;
+  }
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const root = document.documentElement;
   const overflow = root.style.overflow;
