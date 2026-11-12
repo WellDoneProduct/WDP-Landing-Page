@@ -12,3 +12,29 @@ wdp-header{display:block;height:64px}wdp-top{display:contents}
 .wdp-contact,.post-navigation-list{transition:transform 200ms ease,box-shadow 200ms ease,filter 200ms ease}@media(hover:hover){.wdp-contact:hover,.post-navigation-list:hover{filter:brightness(.9);transform:translateY(-1px);box-shadow:0 8px 20px rgba(0,80,255,.25)}.post-navigation-list:hover{box-shadow:0 8px 20px rgba(34,39,41,.25)}}@media(prefers-reduced-motion:reduce){.wdp-contact,.post-navigation-list{transition:none}.wdp-contact:hover,.post-navigation-list:hover{transform:none}}
 
 .footer-site-links{display:flex;justify-content:center;flex-wrap:wrap;gap:24px;padding:24px 20px;color:#aeb5c0;font-size:14px}.footer-site-links a:hover{color:white}wdp-header[theme="hero"] .wdp-header:not(.has-scrolled),wdp-header[theme="dark"] .wdp-header:not(.has-scrolled){background:transparent;color:white;border-color:transparent}wdp-header[theme="hero"] .wdp-header:not(.has-scrolled) .wdp-logo img,wdp-header[theme="dark"] .wdp-header:not(.has-scrolled) .wdp-logo img{filter:brightness(0) invert(1)}
+
+/* Shared business navigation and original artifact logo motion. */
+.native-business{position:relative;font-size:15px;font-weight:600}
+.native-business summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px}
+
+.native-business-panel{position:absolute;top:calc(100% + 20px);left:50%;transform:translateX(-50%);width:330px;background:#111827;color:white;border:1px solid #374151;box-shadow:0 12px 32px #0003}
+.native-business-panel a,.native-business-panel span{display:flex!important;justify-content:space-between;gap:12px;padding:16px 18px!important;border-bottom:1px solid #ffffff20;font-size:14px}
+.native-business-panel a{color:#7ca1ff!important}
+.native-business-panel small{white-space:nowrap;color:#9ca3af;font-size:11px}
+.native-business-panel span{cursor:not-allowed;color:#b8bec9}
+.native-mobile-business{display:grid;gap:16px;padding:16px 0;border-bottom:1px solid #ddd}
+.native-mobile-business span{display:flex;justify-content:space-between;font-size:14px;color:#6b7280}
+.native-mobile-business small{font-size:11px}
+
+.native-business summary{line-height:20px;align-items:center}
+.native-business summary::-webkit-details-marker{display:none}
+.business-chevron{display:block;flex:none;transition:transform .2s ease}
+.native-business[open] .business-chevron{transform:rotate(180deg)}
+.wdp-logo{position:relative;width:114px;height:32px}
+.wdp-logo svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.wdp-logo path,.wdp-logo polygon{fill:currentColor}.wdp-logo polygon{stroke:currentColor}
+.wdp-logo #wm{transition:opacity .35s ease}.wdp-logo.moving #wm{opacity:0}
+.wdp-nav{align-items:center}.wdp-header .wdp-contact{border-radius:0}
+.wdp-mobile-menu{max-height:calc(100dvh - 64px);overflow-y:auto}
+.is-dark .native-mobile-business span{color:#a1a9b8}
+@media(prefers-reduced-motion:reduce){.business-chevron,.wdp-logo #wm{transition:none}}
