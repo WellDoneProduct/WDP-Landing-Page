@@ -15,6 +15,12 @@ const extract = (pattern: RegExp, name: string) => {
 
 export const headerMarkup = extract(/<header class="wdp-header">[\s\S]*?<\/header>/, 'Header');
 
-export const footerMarkup = extract(/<footer class="site-footer">[\s\S]*?<\/footer>/, 'Footer')
-  .replace('src="Logo.svg"', 'src="/Logo.svg"')
+export const footerInviteMarkup = extract(/<div class="footer-band">[\s\S]*?(?=\s*<!-- 4-column footer grid -->)/, 'Footer invite')
   .replace(/(<div class="footer-band-tagline">[\s\S]*?<\/div>)/, '$1<a class="wdp-contact footer-contact" href="/#cta">상담 신청</a>');
+
+export const footerMainMarkup = extract(/<div class="footer-main">[\s\S]*?(?=\s*<\/footer>)/, 'Footer information')
+  .replace('src="Logo.svg"', 'src="/Logo.svg"');
+
+export const contactMarkup = extract(/<section class="section cta-section" id="cta">[\s\S]*?<\/section>/, 'Contact')
+  + extract(/<dialog class="privacy-modal-dialog" id="privacyModal"[\s\S]*?<\/dialog>/, 'Privacy notice')
+  + extract(/<dialog class="privacy-modal-dialog" id="marketingModal"[\s\S]*?<\/dialog>/, 'Marketing notice');

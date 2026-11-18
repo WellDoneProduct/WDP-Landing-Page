@@ -1,0 +1,327 @@
+.cta-form {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 40px 44px;
+  color: var(--text);
+  width: 100%;
+  max-width: 720px;
+}
+.form-group {
+  margin-bottom: 16px;
+}
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+.form-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 15px;
+  transition:
+    border-color 200ms,
+    box-shadow 200ms;
+  background: white;
+  color: var(--text);
+}
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0, 80, 255, 0.1);
+}
+.form-input.is-error {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+.form-field-error {
+  display: none;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #ef4444;
+  font-weight: 500;
+}
+.form-field-error.visible {
+  display: block;
+}
+.form-agree.is-error span {
+  color: #ef4444;
+}
+.form-textarea {
+  min-height: 90px;
+  resize: vertical;
+  line-height: 1.5;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.form-label .optional {
+  font-size: 11px;
+  color: #848da0; /* --text-muted fails WCAG AA (3.2:1) on the dark form */
+  font-weight: 400;
+  margin-left: 6px;
+}
+.form-label .required {
+  color: var(--primary);
+  margin-left: 3px;
+}
+@media (max-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+.form-agree {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 16px 0 20px;
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.form-agree input {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 1px 0 0;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  cursor: pointer;
+  background: url("/checkbox/inactive.svg") no-repeat center / contain;
+  transition: background-image 120ms ease;
+}
+.form-agree input:checked {
+  background-image: url("/checkbox/active.svg");
+}
+.form-agree input:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 5px;
+}
+.form-agree-link {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity 200ms;
+}
+.form-agree-link:hover {
+  opacity: 0.7;
+}
+.form-submit {
+  width: 100%;
+  padding: 14px;
+  background: var(--primary);
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  transition: background 200ms;
+}
+.form-submit:hover {
+  background: var(--primary-dark);
+}
+.form-note {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 12px;
+}
+
+
+dialog.privacy-modal-dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  border: 0;
+  padding: 0;
+  width: min(640px, calc(100% - 32px));
+  max-height: calc(100dvh - 40px);
+  overscroll-behavior: contain;
+}
+dialog.privacy-modal-dialog::backdrop { background: rgb(15 23 42 / 55%); backdrop-filter: blur(2px); }
+html:has(dialog.privacy-modal-dialog[open]) { overflow: hidden; }
+.privacy-modal-dialog {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 24px 64px -16px rgba(0, 0, 0, 0.35);
+  color: #1f2937;
+  animation: privacy-pop 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes privacy-pop {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.privacy-modal-header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px 28px 20px;
+  background: #fff;
+  border-bottom: 1px solid #eef0f3;
+  border-radius: 16px 16px 0 0;
+}
+.privacy-modal-header h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.01em;
+}
+.privacy-modal-close {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #6b7280;
+  transition: background 200ms;
+}
+.privacy-modal-close:hover {
+  background: #e5e7eb;
+}
+.privacy-modal-body {
+  padding: 24px 28px 28px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #4b5563;
+}
+.privacy-modal-body > p {
+  margin: 0 0 20px;
+}
+.privacy-modal-body h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  margin: 20px 0 8px;
+}
+.privacy-modal-body ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.privacy-modal-body ul li {
+  position: relative;
+  padding-left: 14px;
+}
+.privacy-modal-body ul li::before {
+  content: "·";
+  position: absolute;
+  left: 2px;
+  color: #9ca3af;
+}
+.privacy-modal-body .pv-key {
+  font-weight: 600;
+  color: inherit;
+}
+.privacy-modal-body .pv-emph {
+  font-weight: 600;
+  color: inherit;
+}
+.privacy-modal-note {
+  margin-top: 24px;
+  padding: 16px 18px;
+  background: #f7f8fa;
+  border-radius: 10px;
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.6;
+}
+.privacy-modal-note a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+@media (max-width: 540px) {
+  .privacy-modal-header {
+    padding: 20px 20px 16px;
+  }
+  .privacy-modal-header h3 {
+    font-size: 18px;
+  }
+  .privacy-modal-body {
+    padding: 20px 20px 24px;
+  }
+}
+
+
+.cta-form .consent-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content;
+  align-items: center;
+  column-gap: 12px;
+  margin-block: 8px;
+}
+.cta-form .consent-row .form-agree { margin: 0; align-items: center; line-height: 1.5; }
+.cta-form .consent-row .form-agree input { margin: 0; }
+.cta-form .consent-row .form-agree span { word-break: keep-all; }
+.cta-form .consent-row .form-agree-link {
+  white-space: nowrap;
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.5;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding: 4px 0;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.cta-form .consent-row + .form-submit { margin-top: 12px; }
+.ai-native-page .cta-form .consent-row { color: #cbd5e1; }
+.ai-native-page .cta-form .consent-row .form-agree { color: inherit; }
+.ai-native-page .cta-form .consent-row .form-agree-link { color: #82a8ff; }
+@media (prefers-reduced-motion: reduce) {
+  .privacy-modal-dialog { animation: none; }
+}
+
+/* The listing pages use the same dark contact section as the business pages. */
+.editorial-contact {
+  --primary: #0048ff;
+  --primary-dark: #003acb;
+  --text-muted: #cbd5e1;
+  --text: #fff;
+  color: white;
+  background: #0b101b;
+  position: relative;
+  z-index: 1;
+}
+.editorial-contact .cta-section { padding: clamp(64px, 8vw, 112px) 20px; }
+.editorial-contact .cta-grid { max-width: 800px; margin-inline: auto; }
+.editorial-contact .cta-head { text-align: center; margin-bottom: 48px; }
+.editorial-contact .cta-head h2 { font-size: clamp(26px, 4vw, 40px); line-height: 1.3; font-weight: 700; }
+.editorial-contact .cta-sub { margin-top: 20px; color: #cbd5e1; }
+.editorial-contact .cta-form { margin-inline: auto; padding: 0; border: 0; background: transparent; }
+.editorial-contact .form-input { background: #182131; color: white; border: 0; border-radius: 0; }
+.editorial-contact .form-label, .editorial-contact .form-agree { color: #cbd5e1; }
+.editorial-contact .form-submit { border-radius: 0; cursor: pointer; }
+.editorial-contact .form-agree-link { color: #82a8ff; }
+.editorial-contact .form-note { margin-top: 12px; }
+.editorial-contact .form-input:focus-visible { outline: 2px solid #82a8ff; outline-offset: 2px; }
+.editorial-contact .cta-section > .container { max-width: 100%; margin-inline: auto; }
+.editorial-contact .kick:empty { display: none; }
