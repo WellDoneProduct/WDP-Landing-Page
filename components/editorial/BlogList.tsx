@@ -6,6 +6,11 @@ import { titleText } from '@/lib/title-text';
 import type { Post } from '@/lib/content-types';
 import { blogUrl, displayDate, filterPosts, listingTitle, parseBlogPath, POSTS_PER_PAGE } from '@/lib/blog';
 import { HoverPrefetchLink } from './HoverPrefetchLink';
+import { sanityImageUrl, sanitySrcSet } from '@/lib/sanity-image';
+
+// Cards are ~400px wide on desktop (3 columns) and full width on mobile.
+const THUMB_WIDTHS = [400, 640, 800, 1200];
+const THUMB_SIZES = '(max-width: 767px) calc(100vw - 40px), 400px';
 
 type Props = { posts: Post[]; categories: string[]; active?: string; page?: number };
 
@@ -39,7 +44,7 @@ export default function BlogList({ posts, categories, active: initialActive = 'A
 
   return <>
     <nav className="blog-filters" aria-label="블로그 카테고리"><div className="editorial-container filter-scroll">{allCategories.map(category => { const href = blogUrl(category); return <a key={category} href={href} onClick={go(href, false)} aria-current={active === category ? 'page' : undefined}>{category}</a>; })}</div></nav>
-    <div className="editorial-container blog-list"><div className="blog-grid">{filtered.slice((page - 1) * POSTS_PER_PAGE, page * POSTS_PER_PAGE).map(post => <HoverPrefetchLink className="blog-card" href={`/blog/${post.slug}`} key={post._id}><div className="blog-thumbnail">{post.thumbnail?.url && <img src={post.thumbnail.url} alt={post.thumbnail.alt?.trim() || post.title} />}</div><h2>{titleText(post.title)}</h2><div className="blog-card-meta"><span>{post.category}</span><time dateTime={post.publishedAt}>{displayDate(post.publishedAt)}</time></div></HoverPrefetchLink>)}</div>
+    <div className="editorial-container blog-list"><div className="blog-grid">{filtered.slice((page - 1) * POSTS_PER_PAGE, page * POSTS_PER_PAGE).map((post, index) => <HoverPrefetchLink className="blog-card" href={`/blog/${post.slug}`} key={post._id}><div className="blog-thumbnail">{post.thumbnail?.url && <img src={sanityImageUrl(post.thumbnail.url, 800)} srcSet={sanitySrcSet(post.thumbnail.url, THUMB_WIDTHS)} sizes={THUMB_SIZES} width={post.thumbnail.width} height={post.thumbnail.height} loading={index < 3 ? 'eager' : 'lazy'} fetchPriority={index === 0 ? 'high' : undefined} decoding="async" alt={post.thumbnail.alt?.trim() || post.title} />}</div><h2>{titleText(post.title)}</h2><div className="blog-card-meta"><span>{post.category}</span><time dateTime={post.publishedAt}>{displayDate(post.publishedAt)}</time></div></HoverPrefetchLink>)}</div>
     {!filtered.length && <p className="content-empty" role="status">아직 게시된 글이 없습니다.</p>}
     {total > 1 && <nav className="blog-pagination" aria-label="블로그 페이지">{page > 1 && <a href={blogUrl(active, page - 1)} onClick={go(blogUrl(active, page - 1), true)}>이전</a>}{Array.from({length: total}, (_, index) => index + 1).map(number => <a key={number} href={blogUrl(active, number)} onClick={go(blogUrl(active, number), true)} aria-current={page === number ? 'page' : undefined}>{number}</a>)}{page < total && <a href={blogUrl(active, page + 1)} onClick={go(blogUrl(active, page + 1), true)}>다음</a>}</nav>}
     </div>
