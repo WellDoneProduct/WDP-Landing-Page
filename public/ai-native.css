@@ -348,7 +348,6 @@
 .native-mobile-business-links>span{padding:12px 0}
 .native-mobile-business span{display:flex;justify-content:space-between;font-size:14px;color:#6b7280}
 .native-mobile-business small{font-size:11px}
-.native-contact-kicker{font-size:40px;font-weight:700;margin-bottom:24px;color:white}
 .ai-native-page .cta-grid{display:block;max-width:800px;margin:auto}
 .ai-native-page .cta-head{text-align:center;margin-bottom:48px}
 .ai-native-page .cta-head h2{font-size:40px}
@@ -373,7 +372,6 @@
  .native-content .srow:hover .sr-t{color:inherit}
  .native-content .srow:hover .sr-d{color:#6b7280}
  .native-content .srow:hover::after{color:#6b7280}
- .native-contact-kicker{font-size:26px}
 }
 
 .native-cases{background:#f9fafb}.native-cases .section-head h3{margin-top:20px}.ai-native-page .case-card,.ai-native-page .case-thumb,.ai-native-page .case-tag{border-radius:0!important}
