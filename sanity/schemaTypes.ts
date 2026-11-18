@@ -21,7 +21,7 @@ const richText = defineType({
 });
 const blogCategory = defineType({ name: 'blogCategory', title: '블로그 카테고리', type: 'document', fields: [defineField({ name: 'title', title: '이름', type: 'string', validation: rule => rule.required() }), defineField({ name: 'order', title: '표시 순서', type: 'number', initialValue: 0, validation: rule => rule.required().integer().min(0) })], orderings: [{ title: '표시 순서', name: 'order', by: [{ field: 'order', direction: 'asc' }] }] });
 const person = defineType({
-  name: 'person', title: '작성자·검토자', type: 'document', fields: [
+  name: 'person', title: '작성자', type: 'document', fields: [
     defineField({ name: 'name', title: '이름', type: 'string', validation: rule => rule.required() }),
     defineField({ name: 'role', title: '직함', type: 'string', description: '예: 프론트엔드 리드, PM' }),
     defineField({ name: 'image', title: '프로필 사진', type: 'image', options: { hotspot: true }, fields: imageFields }),
@@ -44,7 +44,7 @@ const blogPost = defineType({
     defineField({ name: 'previousSlugs', title: '이전 주소', type: 'array', of: [{ type: 'string' }], group: 'summary', options: { layout: 'tags' }, description: '주소를 바꾼 적이 있다면 예전 주소(영문 부분만)를 남겨두세요. 예전 주소로 들어온 방문자와 검색엔진을 새 주소로 301 이동시킵니다.', validation: rule => rule.custom((value, context) => { const current = (context.document?.slug as { current?: string } | undefined)?.current; const list = Array.isArray(value) ? value as string[] : []; if (list.some(item => !/^[a-z0-9][a-z0-9-]*$/i.test(item))) return '영문, 숫자, 하이픈(-)만 입력하세요.'; return list.includes(current ?? '') ? '현재 주소는 넣을 수 없습니다.' : true; }) }),
     defineField({ name: 'contentUpdatedAt', title: '내용 수정일', type: 'datetime', group: 'summary', description: '본문 내용을 실제로 고쳤을 때만 바꾸세요. 오타 수정은 바꾸지 않아도 됩니다. 비우면 게시일로 표시됩니다.', validation: rule => rule.custom((value, context) => { const published = context.document?.publishedAt as string | undefined; return value && published && value < published ? '내용 수정일은 게시일보다 빠를 수 없습니다.' : true; }) }),
     defineField({ name: 'author', title: '작성자', type: 'reference', to: [{ type: 'person' }], group: 'credits', description: '글을 실제로 쓴 사람입니다. 글 상단과 검색엔진용 정보에 표시됩니다.', validation: rule => rule.required() }),
-    defineField({ name: 'reviewer', title: '검토자 (선택)', type: 'reference', to: [{ type: 'person' }], group: 'credits', description: '내용을 검토한 사람이 따로 있으면 선택하세요.', validation: rule => rule.custom((value, context) => value?._ref && value._ref === (context.document?.author as { _ref?: string } | undefined)?._ref ? '작성자와 같은 사람입니다.' : true) }),
+    defineField({ name: 'reviewer', title: '검토자', type: 'reference', to: [{ type: 'person' }], hidden: true }),
     defineField({ name: 'sources', title: '출처', type: 'array', group: 'credits', description: '본문에서 인용하거나 참고한 자료입니다. 글 하단에 목록으로 표시됩니다.', of: [defineArrayMember({ type: 'object', name: 'source', fields: [
       defineField({ name: 'title', title: '출처명', type: 'string', validation: rule => rule.required() }),
       defineField({ name: 'url', title: 'URL', type: 'url', validation: rule => rule.required().uri({ scheme: ['http', 'https'] }) }),
@@ -53,6 +53,13 @@ const blogPost = defineType({
     defineField({ name: 'relatedPosts', title: '관련 글', type: 'array', group: 'related', of: [{ type: 'reference', to: [{ type: 'blogPost' }] }], validation: rule => rule.unique().max(3) }),
     defineField({ name: 'relatedServices', title: '관련 서비스', type: 'array', group: 'related', of: [{ type: 'string' }], options: { list: SERVICES.map(service => ({ title: service.title, value: service.slug })) }, validation: rule => rule.unique().max(3) }),
     defineField({ name: 'relatedProjects', title: '관련 포트폴리오', type: 'array', group: 'related', description: '공개 상태인 프로젝트만 사이트에 표시됩니다.', of: [{ type: 'reference', to: [{ type: 'project' }] }], validation: rule => rule.unique().max(3) }),
+    defineField({ name: 'relatedNews', title: '관련 언론 보도', type: 'array', group: 'related', of: [{ type: 'reference', to: [{ type: 'newsArticle' }] }], validation: rule => rule.unique().max(3) }),
+    defineField({ name: 'consultation', title: '상담 CTA', type: 'object', group: 'related', fields: [
+      defineField({ name: 'enabled', title: '상담 CTA 표시', type: 'boolean', initialValue: false }),
+      defineField({ name: 'title', title: '제목', type: 'string', validation: rule => rule.max(80) }),
+      defineField({ name: 'description', title: '설명', type: 'text', rows: 2, validation: rule => rule.max(200) }),
+      defineField({ name: 'label', title: '버튼 문구', type: 'string', validation: rule => rule.max(24) }),
+    ] }),
     defineField({ name: 'seoTitle', title: 'SEO 제목 (선택)', type: 'string', group: 'seo', description: '검색 결과와 브라우저 탭에 쓰입니다. 비우면 "글 제목 | 웰던프로덕트"를 씁니다.', validation: rule => rule.max(60).warning('60자를 넘으면 검색 결과에서 잘릴 수 있습니다.') }),
     defineField({ name: 'seoDescription', title: '메타 설명 (선택)', type: 'text', rows: 3, group: 'seo', description: '글 내용을 정확히 요약하세요. 검색어를 나열하지 마세요. 비우면 "검색 결과 요약"을 씁니다.', validation: rule => rule.max(160).warning('160자 안쪽을 권장합니다.') }),
     defineField({ name: 'ogImage', title: '공유 이미지 (선택)', type: 'image', group: 'seo', fields: imageFields, description: '카카오톡·슬랙 등에 링크를 공유할 때 보이는 이미지입니다. 1200×630 권장. 비우면 상단 배경 이미지를 씁니다.' }),

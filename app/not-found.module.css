@@ -17,7 +17,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(8px, 3vw, 28px);
+  gap: clamp(2px, 1.4vw, 12px);
   color: #0048ff;
   font-size: clamp(68px, 22vw, 238px);
   font-weight: 800;
@@ -26,7 +26,7 @@
 
 .graphic {
   flex: 0 1 auto;
-  width: clamp(90px, 34vw, 236px);
+  width: clamp(90px, 34vw, 226px);
   min-width: 0;
   height: auto;
 }

@@ -8,7 +8,7 @@ import { getPost, getPosts } from '@/lib/content';
 import { displayDate } from '@/lib/blog';
 import { sanityImageUrl, sanitySrcSet } from '@/lib/sanity-image';
 import PostNavigation from '@/components/editorial/PostNavigation';
-import { PostCredits, PostRelated, PostSources, PostTags, postTags } from '@/components/editorial/PostExtras';
+import { PostConsultation, PostCredits, PostRelated, PostSources, PostTags, postTags } from '@/components/editorial/PostExtras';
 import type { Post } from '@/lib/content-types';
 
 type Props = { params: Promise<{ slug: string }> };
@@ -45,14 +45,24 @@ export default async function BlogDetail({ params }: Props) {
   ]}} /><article>
     <header className="blog-hero" data-dark-hero>{post.cover?.url && <img className="blog-hero-background" src={sanityImageUrl(post.cover.url, 1600)} srcSet={sanitySrcSet(post.cover.url, [768, 1200, 1600, 2400])} sizes="100vw" alt="" fetchPriority="high" decoding="async" />}
       <div className="editorial-container blog-hero-text"><h1>{titleText(post.title)}</h1>
-        <div className="blog-hero-meta"><span>{post.category}</span>{post.author?.name && <span>{post.author.name}</span>}<span>게시 <time dateTime={post.publishedAt}>{displayDate(post.publishedAt)}</time></span>{updated && <span>수정 <time dateTime={updated}>{displayDate(updated)}</time></span>}</div>
+        <div className="post-byline">
+          {post.category && <span>{post.category}</span>}
+          {post.author?.name && <span>{post.author.name}</span>}
+        </div>
+        <div className="post-dates">
+          <span>최초 게시 <time dateTime={post.publishedAt}>{displayDate(post.publishedAt)}</time></span>
+          {updated && <span>수정 <time dateTime={updated}>{displayDate(updated)}</time></span>}
+        </div>
       </div>
     </header>
     <div className="editorial-container blog-body rich-content"><ContentBody blocks={post.body} /></div>
-    <PostTags post={post} />
-    <PostCredits post={post} />
-    <PostSources post={post} />
-    <PostRelated post={post} />
+    <div className="editorial-container post-extras">
+      <PostTags post={post} />
+      <PostSources post={post} />
+      <PostCredits post={post} />
+      <PostConsultation post={post} />
+      <PostRelated post={post} />
+    </div>
     <PostNavigation previous={previous} next={next} />
   </article></main></>;
 }

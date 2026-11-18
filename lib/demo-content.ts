@@ -3,10 +3,37 @@ import type { ContentBlock, Post, Project } from './content-types';
 export const categories = ['AI', 'FE-Dev', 'BE-Dev', 'PM', 'PD'];
 const textBlock = (key: string, text: string, style = 'normal'): ContentBlock => ({ _key: key, _type: 'block', style, children: [{ _key: `${key}-span`, _type: 'span', text }] });
 const lorem = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
+const blogDetailPreview: Partial<Post> = {
+  title: '반복 업무를 자동화할 때 먼저 정해야 할 것',
+  contentUpdatedAt: '2026-11-03T00:00:00Z',
+  author: { name: '웰던프로덕트 편집팀', role: '콘텐츠', bio: '기업의 업무를 개선하는 설계와 개발 과정을 소개합니다.' },
+  body: [
+    textBlock('intro', '자동화를 적용하기 전에 반복되는 작업과 담당자가 확인해야 할 시점을 구분합니다.'),
+    textBlock('steps', '처리 기준과 예외를 나눠 정리합니다', 'h2'),
+    {
+      _key: 'guide-table', _type: 'contentTable', hasHeaderRow: true,
+      caption: '업무 흐름을 확인하는 예시',
+      table: { rows: [
+        { _key: 'head', cells: ['단계', '입력 자료', '처리 방법', '확인 기준', '담당자'] },
+        { _key: 'collect', cells: ['접수', '주문 자료', '주문 항목을 정리합니다.', '필수 항목의 누락 여부', '업무 담당자'] },
+        { _key: 'review', cells: ['검토', '정리된 주문', '시스템의 품목과 대조합니다.', '단가와 품목 불일치 여부', '운영 담당자'] },
+      ] },
+    },
+    {
+      _key: 'guide-code', _type: 'code', language: 'javascript', filename: 'orders.js',
+      code: 'const reviewed = orders.filter(order => order.approved && order.items.every(item => item.productId));\nconsole.log(reviewed.length);',
+    },
+  ],
+  sources: [{ _key: 'guide-source', title: 'AX 업무 자동화 소개', url: 'https://www.welldoneproduct.com/services/ax-automation' }],
+  relatedPosts: [{ title: '블로그 글 예시', slug: 'design-preview-2' }],
+  consultation: { enabled: true, description: '반복되는 업무를 알려주시면 자동화할 범위부터 함께 살펴봅니다.' },
+};
+
 export const demoPosts: Post[] = Array.from({ length: 12 }, (_, i) => ({
   _id: `demo-post-${i + 1}`, slug: `design-preview-${i + 1}`, title: '제목영역입니다. 최대 두줄까지 작성할 수 있습니다.', category: categories[i % categories.length], publishedAt: `2026-10-${String(30 - i).padStart(2, '0')}T00:00:00Z`,
   cover: { url: '/editorial/blog-imgUnsplashOqtafYt5KTw1.png', alt: '코드가 표시된 화면' },
   body: [textBlock('heading-1', 'What is Lorem Ipsum?', 'h2'), textBlock('paragraph-1', lorem), { _key: 'image', _type: 'contentImage', image: { url: '/editorial/blog-imgFrame1410117987.png', alt: '함께 연구하는 사람들' } }, textBlock('heading-2', 'What is Lorem Ipsum?', 'h2'), textBlock('paragraph-2', lorem), textBlock('heading-3', 'Why do we use it?', 'h2'), textBlock('paragraph-3', lorem)],
+  ...(i === 0 ? blogDetailPreview : {}),
 }));
 const projectAssets = [
   ['youmes', 'YOUMES', '엔터테인먼트', 'youmes-thumbnail.png', 'fantiks.svg', 180, 'rgba(0,0,0,.5)'],
