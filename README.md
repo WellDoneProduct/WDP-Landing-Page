@@ -43,7 +43,7 @@ Vercel 계정 이관 후 개발 프로젝트에 `.env.example`의 변수를 설�
 | 개발 | `develop` | `wdp-landing-dev` | `development` |
 | 운영 | `main` | `wdp-landing` | `production` |
 
-작업 브랜치를 `develop`에 머지하고 푸시하면 Vercel이 개발 사이트를 자동 배포합니다. 개발에서 커밋과 동작을 확인한 뒤, 운영 배포가 승인되면 `develop`을 `main`에 머지하고 푸시합니다. 운영 배포에서도 Vercel의 Git 커밋 SHA를 확인합니다. 자동화 작업은 [AGENTS.md](AGENTS.md)를 따릅니다.
+작업 브랜치에서 `develop`으로 PR을 열고 필수 검사를 통과한 뒤 머지하면 Vercel이 개발 사이트를 자동 배포합니다. 개발에서 커밋과 동작을 확인한 뒤, 운영 배포가 승인되면 `develop`에서 `main`으로 PR을 열고 필수 검사를 통과한 뒤 머지합니다. 운영 배포에서도 Vercel의 Git 커밋 SHA를 확인합니다. 자동화 작업은 [AGENTS.md](AGENTS.md)를 따릅니다.
 
 - 개발 사이트: https://wdp-landing-dev.vercel.app
 - 운영 사이트: https://www.welldoneproduct.com
