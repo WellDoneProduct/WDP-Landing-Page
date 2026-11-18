@@ -50,10 +50,18 @@ export const PostSources = ({ post }: { post: Post }) => {
   if (!sources.length) return null;
   return <section className="post-sources" aria-labelledby="post-sources-title">
     <h2 id="post-sources-title">출처</h2>
-    <ol>{sources.map(source => <li key={source._key ?? source.url}>
-      <a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a>
-      {source.checkedAt && <span className="post-source-date"> · {displayDate(source.checkedAt)} 확인</span>}
-    </li>)}</ol>
+    <ul>
+      {sources.map(source => (
+        <li key={source._key ?? source.url}>
+          <a href={source.url} target="_blank" rel="noopener noreferrer">
+            <span>{source.title}</span>
+            <span aria-hidden="true">↗</span>
+            <span className="sr-only"> (새 탭)</span>
+          </a>
+          {source.checkedAt && <time dateTime={source.checkedAt}>{displayDate(source.checkedAt)} 확인</time>}
+        </li>
+      ))}
+    </ul>
   </section>;
 };
 
