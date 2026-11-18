@@ -18,8 +18,14 @@ const projectFields = `_id, "slug": slug.current, title, category, service, "des
 const published = '!(_id in path("drafts.**"))';
 const postVisibility = isIndexable ? ' && isTest != true && !(_id match "blog-*-test-*")' : '';
 // Detail-only fields stay out of getPosts so the listing payload (sent to the client filter) stays small.
-// Related posts/projects reuse the public filters, so drafts, test posts and locked projects never link out.
-const postDetailFields = `tags, author->${person}, reviewer->${person}, sources[]{_key, title, url, checkedAt}, relatedServices, seoTitle, seoDescription, ogImage${image}, "relatedPosts": *[_type == "blogPost" && _id in ^.relatedPosts[]._ref && ${published}${postVisibility} && defined(slug.current) && publishedAt <= now()]{"slug": slug.current, title}, "relatedProjects": *[_type == "project" && _id in ^.relatedProjects[]._ref && ${published} && status == "public" && defined(slug.current)]{"slug": slug.current, title}`;
+// Related content reuses the public filters, so drafts, test posts and locked projects never link out.
+const postDetailFields = `
+  tags, author->${person}, sources[]{_key, title, url, checkedAt}, relatedServices,
+  consultation{enabled, title, description, label}, seoTitle, seoDescription, ogImage${image},
+  "relatedPosts": *[_type == "blogPost" && _id in ^.relatedPosts[]._ref && ${published}${postVisibility} && defined(slug.current) && publishedAt <= now()]{"slug": slug.current, title},
+  "relatedProjects": *[_type == "project" && _id in ^.relatedProjects[]._ref && ${published} && status == "public" && defined(slug.current)]{"slug": slug.current, title},
+  "relatedNews": *[_type == "newsArticle" && _id in ^.relatedNews[]._ref && ${published} && defined(url) && publishedAt <= now()]{title, url}
+`;
 // Pages are prerendered at build and rebuilt by the Sanity → Vercel Deploy Hook on publish.
 // no-store keeps Sanity results out of the Data Cache, which persists across deployments and would
 // otherwise feed a stale response into the next build. Routes stay static via `dynamic = 'force-static'`.
@@ -27,7 +33,10 @@ const options = { cache: 'no-store' as const };
 // A configured CMS failure must surface as an error, never as sample content.
 export const getPosts = cache(async (): Promise<Post[]> => client ? client.fetch(`*[_type == "blogPost" && ${published}${postVisibility} && defined(slug.current) && publishedAt <= now()] | order(publishedAt desc, _id asc) {${postFields}, "body": []}`, {}, options) : isDesignPreview ? demoPosts : []);
 export const getPost = cache(async (slug: string): Promise<Post | undefined> => {
-  if (!client) return isDesignPreview ? demoPosts.find(post => post.slug === slug) : undefined;
+  if (!client) {
+    const preview = isDesignPreview ? demoPosts.find(post => post.slug === slug) : undefined;
+    return preview ? { ...preview, body: await withHighlightedCode(preview.body) } : undefined;
+  }
   const post: Post | null = await client.fetch(`*[_type == "blogPost" && ${published}${postVisibility} && slug.current == $slug && publishedAt <= now()][0]{${postFields}, ${postDetailFields}, ${body}}`, { slug }, options);
   return post ? { ...post, body: await withHighlightedCode(post.body) } : undefined;
 });

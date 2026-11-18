@@ -169,57 +169,6 @@ wdp-header{display:block;height:64px}wdp-top{display:contents}
  body .native-content .gc-cap{padding-top:16px}
 }
 
-html:has(.home-contact-dialog[open]){overflow:hidden!important}
-.home-contact-dialog{box-sizing:border-box;width:min(720px,calc(100vw - 32px));max-height:calc(100dvh - 48px);margin:auto;padding:0;border:0;background:#0b101b;color:#fff;overflow:auto;overscroll-behavior:contain;box-shadow:0 24px 80px #0005;opacity:0;transform:translateY(24px);transition:opacity .24s ease,transform .24s ease}
-.home-contact-dialog.is-visible{opacity:1;transform:translateY(0)}
-.home-contact-dialog::backdrop{background:rgba(3,7,18,0);backdrop-filter:blur(0);transition:background .24s ease,backdrop-filter .24s ease}
-.home-contact-dialog.is-visible::backdrop{background:rgba(3,7,18,.55);backdrop-filter:blur(6px)}
-.home-contact-top{position:sticky;top:0;z-index:2;display:flex;align-items:flex-start;gap:20px;padding:28px 32px 20px;background:#0b101b}
-.home-contact-top h2{font-size:26px;font-weight:600;line-height:1.35;margin:0;outline:none}
-.home-contact-top p{font-size:14px;color:#aeb7c6;margin:10px 0 0}
-.home-contact-close{flex:none;margin-left:auto;width:40px;height:40px;border:0;background:#202a3b;color:white;font-size:28px;line-height:1;cursor:pointer}
-.home-contact-close:focus-visible{outline:2px solid #589dfe;outline-offset:3px}
-.home-contact-body{padding:8px 32px 32px}
-.home-contact-dialog .cta-form{margin:0!important}
-@media(max-width:767px){.home-contact-dialog{width:calc(100vw - 24px);max-height:calc(100dvh - 24px)}.home-contact-top{padding:20px 20px 16px;gap:12px}.home-contact-top h2{font-size:22px}.home-contact-body{padding:4px 20px 24px}}
-@media(prefers-reduced-motion:reduce){.home-contact-dialog,.home-contact-dialog::backdrop{transition:none}}
-.home-contact-dialog .form-label,.home-contact-dialog .form-note,.home-contact-dialog #agree-wrap{color:#cbd5e1}
-.home-contact-dialog .form-input,.home-contact-dialog .form-textarea{background:#182131;color:#fff;border:0;box-shadow:none}
-.home-contact-dialog input::placeholder,.home-contact-dialog textarea::placeholder{color:#94a3b8}
-.home-contact-dialog :is(input,textarea):focus-visible{outline:2px solid #82a8ff;outline-offset:2px}
-.home-contact-dialog #agree-wrap a{color:#82a8ff}
-
-@media(max-width:767px){
- .home-contact-dialog{height:64vh;height:64dvh;max-height:64vh;max-height:64dvh}
-}
-
-/* Fixed header/footer, with only the input area scrolling. */
-.home-contact-dialog[open]{display:flex;flex-direction:column;overflow:hidden;height:min(860px,calc(100dvh - 48px))}
-.home-contact-top{position:relative;flex:none}
-.home-contact-body{flex:1;min-height:0;padding:0;overflow:hidden}
-.home-contact-dialog .cta-form{display:flex;flex-direction:column;height:100%;min-height:0;gap:0!important}
-.home-contact-fields{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:8px 32px 24px}
-.home-contact-footer{flex:none;padding:16px 32px 24px;background:#0b101b}
-.home-contact-footer .form-agree{margin-top:0}
-.home-contact-footer .form-submit{margin-top:16px}
-.home-contact-footer .form-note{margin-top:10px}
-html.wdp-has-cursor .home-contact-dialog,html.wdp-has-cursor .home-contact-dialog *{cursor:auto!important}
-html.wdp-has-cursor .home-contact-dialog :is(button,a,input[type=checkbox]){cursor:pointer!important}
-html.wdp-has-cursor .home-contact-dialog :is(input:not([type=checkbox]),textarea){cursor:text!important}
-html:has(.home-contact-dialog[open]) .wdp-cursor{display:none!important}
-@media(max-width:767px){
- .home-contact-dialog[open]{height:64vh;height:64dvh}
- .home-contact-fields{padding:4px 20px 20px}
- .home-contact-footer{padding:12px 20px 16px}
- .home-contact-footer .form-submit{margin-top:12px}
-}
-
-.home-contact-dialog #agree{width:22px;height:22px;min-width:22px;flex:0 0 22px;accent-color:#0048ff}
-.home-contact-dialog .form-agree{min-height:44px;align-items:center;gap:10px}
-@media(max-width:767px){
- .home-contact-dialog[open]{height:80vh;height:80dvh;max-height:80vh;max-height:80dvh}
-}
-
 /* Keep the portfolio information layer blurred on touch devices, including Safari. */
 @media(max-width:768px),(hover:none){
  body .project-card .project-overlay{opacity:1;background:rgba(0,0,0,.32);-webkit-backdrop-filter:blur(12px)!important;backdrop-filter:blur(12px)!important}

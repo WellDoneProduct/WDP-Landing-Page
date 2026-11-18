@@ -19,7 +19,7 @@ n8n 등에서 Sanity API로 글을 만들거나 고칠 때 맞춰야 하는 데�
 
 ## 문서 타입
 
-### `person` (작성자·검토자)
+### `person` (작성자)
 
 | 필드 | 타입 | 필수 | 설명 |
 |---|---|---|---|
@@ -52,11 +52,12 @@ n8n 등에서 Sanity API로 글을 만들거나 고칠 때 맞춰야 하는 데�
 | `excerpt` | text (180자) | | 목록·검색 요약 |
 | `body` | `richText` (아래) | ✓ | 본문 |
 | `author` | reference → `person` | ✓ | 작성자 |
-| `reviewer` | reference → `person` | | 검토자 (작성자와 달라야 함) |
 | `sources` | `{ title, url, checkedAt }[]` | | 출처. `checkedAt`은 `YYYY-MM-DD` |
 | `relatedPosts` | reference → `blogPost` [] (최대 3) | | 관련 글 |
 | `relatedServices` | string[] (최대 3) | | `web-app`, `ai-system`, `ax-automation`, `ai-monitoring`, `enterprise-system`, `modernization` |
 | `relatedProjects` | reference → `project` [] (최대 3) | | 공개 상태 프로젝트만 표시 |
+| `relatedNews` | reference → `newsArticle` [] (최대 3) | | 공개된 언론 보도 링크 |
+| `consultation` | `{ enabled, title, description, label }` | | 상담 CTA. `enabled`를 켜면 홈 문의 폼으로 연결 |
 | `seoTitle` | string (60자 권장) | | 비우면 `제목 | 웰던프로덕트` |
 | `seoDescription` | text (160자 권장) | | 비우면 `excerpt` |
 | `ogImage` | image (+`alt`) | | 공유 이미지 1200×630. 비우면 `cover` |
