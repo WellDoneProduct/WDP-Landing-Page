@@ -1,0 +1,10 @@
+welldoneproduct-html
+icon
+.env*
+node_modules
+.next
+
+.claude
+.agents
+.codex
+*.tsbuildinfo

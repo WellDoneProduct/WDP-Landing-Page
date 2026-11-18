@@ -1,0 +1,98 @@
+--- a/public/Architect.html
++++ b/public/Architect.html
+@@ -6,18 +6,18 @@
+     <title>웰던프로덕트 | AI-Native, 처음부터 다르게 일하는 외주개발사</title>
+     <meta
+       name="description"
+-      content="AI와 함께 처음부터 다르게 일합니다. AI-Native 외주개발사 웰던프로덕트."
++      content="AI-Native 외주개발사 웰던프로덕트. 업무 자동화 시스템과 웹·앱 서비스의 기획, 디자인, 개발을 통해 반복 업무를 줄이고 비즈니스의 성장을 돕습니다."
+     />
+     <meta property="og:type" content="website" />
+-    <meta property="og:url" content="https://welldoneproduct.com/Architect.html" />
++    <meta property="og:url" content="https://www.welldoneproduct.com/" />
+     <meta property="og:title" content="웰던프로덕트 | AI-Native 외주개발사" />
+     <meta
+       property="og:description"
+-      content="AI와 함께 처음부터 다르게 일합니다."
++      content="업무 자동화 시스템부터 웹·앱 서비스 기획, 디자인, 개발까지. AI와 함께 처음부터 다르게 일하는 웰던프로덕트를 만나보세요."
+     />
+     <meta
+       property="og:image"
+-      content="https://welldoneproduct.com/og-image.png"
++      content="https://www.welldoneproduct.com/og-image.png"
+     />
+     <meta property="og:image:width" content="1800" />
+     <meta property="og:image:height" content="945" />
+@@ -26,11 +26,11 @@
+     <meta name="twitter:title" content="웰던프로덕트 | AI-Native 외주개발사" />
+     <meta
+       name="twitter:description"
+-      content="AI와 함께 처음부터 다르게 일합니다."
++      content="업무 자동화 시스템부터 웹·앱 서비스 기획, 디자인, 개발까지. AI와 함께 처음부터 다르게 일하는 웰던프로덕트를 만나보세요."
+     />
+     <meta
+       name="twitter:image"
+-      content="https://welldoneproduct.com/og-image.png"
++      content="https://www.welldoneproduct.com/og-image.png"
+     />
+ 
+     <!-- Favicon -->
+@@ -2519,7 +2519,7 @@
+         }
+       }
+     </style>
+-  </head>
++  <link rel="canonical" href="https://www.welldoneproduct.com/" /><meta property="og:site_name" content="웰던프로덕트" /><meta property="og:locale" content="ko_KR" /><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://www.welldoneproduct.com/#organization", "name": "웰던프로덕트", "legalName": "주식회사 웰던프로덕트", "url": "https://www.welldoneproduct.com", "logo": "https://www.welldoneproduct.com/Logo-primary.svg", "email": "garry@welldoneproduct.com", "address": {"@type": "PostalAddress", "streetAddress": "선유로49길 23, 7층 708호", "addressLocality": "영등포구", "addressRegion": "서울특별시", "addressCountry": "KR"}}</script></head>
+ 
+   <body>
+     <!-- =====================================================
+--- a/app/route.ts
++++ b/app/route.ts
+@@ -4,11 +4,13 @@
+ 
+ export const dynamic = 'force-static';
+ 
+-const html = fs.readFileSync(
++const source = fs.readFileSync(
+   path.join(process.cwd(), 'public/Architect.html'),
+   'utf-8',
+ );
+ 
++const indexable = process.env.WDP_ENVIRONMENT === 'production' && process.env.VERCEL_ENV === 'production';
++const html = source.replace('</head>', `<meta name="robots" content="${indexable ? 'index,follow' : 'noindex,nofollow'}" /></head>`);
+ export const GET = () =>
+   new NextResponse(html, {
+     headers: {
+--- /dev/null
++++ b/app/robots.ts
+@@ -0,0 +1,6 @@
++import type { MetadataRoute } from 'next';
++export default function robots(): MetadataRoute.Robots {
++  return process.env.WDP_ENVIRONMENT === 'production' && process.env.VERCEL_ENV === 'production'
++    ? {rules: {userAgent: '*', allow: '/', disallow: '/api/'}, sitemap: 'https://www.welldoneproduct.com/sitemap.xml'}
++    : {rules: {userAgent: '*', disallow: '/'}};
++}
+--- /dev/null
++++ b/app/sitemap.ts
+@@ -0,0 +1,6 @@
++import type { MetadataRoute } from 'next';
++export default function sitemap(): MetadataRoute.Sitemap {
++  return process.env.WDP_ENVIRONMENT === 'production' && process.env.VERCEL_ENV === 'production'
++    ? [{url: 'https://www.welldoneproduct.com/', priority: 1}]
++    : [];
++}
+--- a/next.config.ts
++++ b/next.config.ts
+@@ -1,5 +1,5 @@
+ import type { NextConfig } from "next";
+-
+-const nextConfig: NextConfig = {};
+-
++const nextConfig: NextConfig = {
++  async redirects() { return [{source: '/Architect.html', destination: '/', permanent: true}]; },
++};
+ export default nextConfig;
+--- /dev/null
++++ b/vercel.json
+@@ -0,0 +1 @@
++{"framework": "nextjs", "buildCommand": "next build --webpack"}

@@ -1,0 +1,191 @@
+/* AX sections share native-content type, width, hero and section spacing. */
+.ax-automation-page .ax-section .wrap{row-gap:56px}
+.ax-automation-page .ax-section .sh{margin:0}
+.ax-automation-page .ax-section .lead{max-width:850px;margin-top:20px}
+.ax-automation-page #ax-work{background:linear-gradient(#fff0,#f7f8f9 180px);padding-top:56px}
+.ax-automation-page .ax-work-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.ax-work-photo{aspect-ratio:384/249;position:relative;overflow:hidden}
+.ax-work-photo img{width:100%;height:100%;object-fit:cover}
+.ax-photo-2 img{position:absolute;width:131.31%;height:135%;max-width:none;left:-29.68%;top:-10.6%;transform:scaleX(-1)}
+.ax-work-copy{padding:20px 0}
+.ax-work-copy .p{margin-top:12px;color:#6b7280}
+.ax-automation-page #ax-examples .sh{text-align:center}
+.ax-automation-page #ax-examples .lead{margin-inline:auto}
+/* Figma 1206:10256: matching four-step rows across all business examples. */
+.ax-example-picker{display:flex;gap:20px;justify-content:center;margin-bottom:80px}
+.ax-example-picker button{padding:10px;min-height:44px;border:0;border-radius:8px;background:#f7f8f9;color:#7d8389;font:inherit;font-weight:600;font-size:18px;cursor:pointer;transition:background .25s,color .25s}
+.ax-example-picker button[aria-pressed=true]{background:#007aff;color:#fff}
+.ax-example-panel[hidden]{display:none}
+.ax-compare-heading{display:grid;grid-template-columns:1fr 1fr;gap:98px;margin-bottom:40px}
+.ax-compare-heading h3{font-size:20px;font-weight:600;line-height:1.4;letter-spacing:-.02em;color:#2b2f33;margin:0}
+.ax-compare-heading span{display:inline-block;margin-left:12px;color:#7d8389}
+.ax-compare-heading h3+ h3 span{color:#3395ff}
+.ax-paired-flow{list-style:none;padding:0;margin:0;display:grid;gap:28px}
+.ax-paired-row{display:grid;grid-template-columns:minmax(0,1fr) 98px minmax(0,1fr);align-items:stretch}
+.ax-paired-card{position:relative;padding:20px 28px;background:#f7f8f9;min-width:0}
+.ax-paired-card h4{font-size:22px;line-height:1.3;font-weight:600;letter-spacing:-.04em;color:#44494e;margin:0 0 12px}
+.ax-paired-card p{font-size:16px;line-height:1.5;color:#7d8389;margin:0}
+.ax-paired-after{background:#eef6ff}
+.ax-paired-after h4{color:#007aff}
+.ax-paired-after p{color:#3395ff}
+.ax-step-number{position:absolute;left:0;top:-15px;width:31px;height:39px}
+.ax-step-number img{display:block;max-width:none}
+.ax-step-number>span{position:absolute;top:5px;left:0;width:30.383px;text-align:center;font-size:14px;font-weight:600;line-height:18px;color:#60666c}
+.ax-paired-arrow{display:grid;place-items:center}
+.ax-paired-arrow img{display:block;max-width:none;transform:rotate(-90deg)}
+.ax-small{color:#6b7280;font-size:14px;line-height:1.75}
+.ax-small{color:#6b7280;font-size:14px;line-height:1.75}
+.ax-example-note{max-width:920px;margin:32px auto 20px}
+.ax-small{margin:32px 0 0;text-align:center}
+.ax-topic-button{display:flex;align-items:center;justify-content:center;gap:20px;width:fit-content;margin:24px auto 0;padding:16px 28px;background:#0048ff;color:#fff;text-decoration:none;font-weight:600}
+.ax-automation-page .ax-case-section{background:#111827;color:#fff}
+.ax-automation-page .ax-case-section .h2{color:#fff}
+.ax-automation-page .ax-case-section .lead{color:#b6bdc9}
+.ax-case{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.ax-case-copy h3{font-size:32px;line-height:1.4;margin:20px 0}
+.ax-case-copy p,.ax-case-copy li{font-size:18px;line-height:1.75;color:#b6bdc9}
+.ax-case-copy ul{padding-left:22px;margin-block:24px}
+.ax-case-copy li+li{margin-top:12px}
+.ax-case-copy .ax-label{color:#8fbaff;font-size:14px}
+.ax-case-diagram{margin:0;background:#fff;color:#111827;padding:32px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.ax-case-diagram figcaption{font-size:20px;font-weight:600;margin-bottom:12px}
+.ax-inputs,.ax-case-output{display:flex;gap:12px;justify-content:center;width:100%}
+.ax-inputs span,.ax-case-output strong{padding:12px 20px;background:#eef6ff;color:#0066d6;border-radius:8px}
+.ax-case-step{background:#eef6ff;padding:16px;text-align:center;width:100%;border-radius:8px}
+.ax-case-step small,.ax-case-step strong{display:block}
+.ax-case-step small{color:#6b7280;margin-bottom:8px}
+.ax-case-check{font-size:16px;line-height:1.75;text-align:center}
+.ax-case-diagram .ax-small{margin:0;font-size:12px}
+.ax-fit{display:grid;grid-template-columns:687fr 486fr;gap:24px;align-items:stretch}
+.ax-fit-visual{position:relative;width:100%;aspect-ratio:3/2;align-self:start;overflow:hidden;background:#f7f8f9}
+.ax-fit-image{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity 1.022s cubic-bezier(.22,1,.36,1)}
+.ax-fit-image.is-active{opacity:1}
+.ax-fit-image-0{transform:scaleX(-1)}
+.ax-fit-options{display:flex;flex-direction:column}
+.ax-fit-option{display:flex;flex-direction:column;border-bottom:1px solid #9ca3af;flex:0 0 auto;transition:flex-grow 1.022s cubic-bezier(.22,1,.36,1)}
+.ax-fit-option:last-child{border-bottom:0}
+.ax-fit-option.is-active{flex-grow:1}
+.ax-fit-option h3{margin:0}
+.ax-fit-option button{display:flex;align-items:center;gap:20px;justify-content:space-between;width:100%;text-align:left;padding:20px;border:0;background:none;color:#111827;font:inherit;font-size:22px;font-weight:700;line-height:1.4;cursor:pointer}
+.ax-fit-panel{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows 1.022s cubic-bezier(.22,1,.36,1),opacity .4s}
+.ax-fit-panel>div{overflow:hidden}
+.ax-fit-panel p{margin:0;padding:0 20px 20px;color:#6b7280;font-size:18px;line-height:1.75}
+.ax-fit-option.is-active .ax-fit-panel{grid-template-rows:1fr;opacity:1}
+.ax-automation-page :is(button,a):focus-visible{outline:2px solid #007aff;outline-offset:4px}
+.ax-automation-page .ax-section :is(h2,h3,h4,p){word-break:keep-all;overflow-wrap:anywhere;text-wrap:pretty}
+@media(max-width:1023px){.ax-fit{grid-template-columns:1fr}.ax-case{gap:32px}}
+@media(max-width:768px){
+ .ax-automation-page #ax-work{padding-top:72px}
+ .ax-automation-page .ax-section .wrap{row-gap:36px}
+ .ax-automation-page .ax-work-grid,.ax-case{grid-template-columns:1fr;gap:32px}
+ .ax-example-picker{gap:10px;margin-bottom:36px}
+ .ax-example-picker button{font-size:16px;padding:12px 16px}
+ .ax-case-copy h3{font-size:26px}
+ .ax-case-copy p,.ax-case-copy li{font-size:16px}
+ .ax-case-diagram{padding:24px 20px}
+ .ax-fit-option button{font-size:20px;padding:20px 8px}
+ .ax-fit-panel p{font-size:16px;padding:0 8px 20px}
+}
+@media(prefers-reduced-motion:reduce){.ax-automation-page *, .ax-automation-page *::before{transition:none!important}}
+.ax-automation-page #ax-examples,.ax-automation-page #ax-fit{background:#fff}
+@media(min-width:769px){.ax-automation-page #ax-examples .h2 br{display:none}}
+@media(max-width:1023px){.ax-compare-heading{gap:64px}.ax-paired-row{grid-template-columns:minmax(0,1fr) 64px minmax(0,1fr)}.ax-compare-heading h3{font-size:18px}.ax-paired-card{padding:22px 20px}.ax-paired-card h4{font-size:20px}}
+@media(max-width:768px){
+ .ax-example-picker{margin-bottom:40px;gap:12px}
+ .ax-compare-heading{gap:24px;margin-bottom:32px}
+ .ax-compare-heading h3{font-size:15px;line-height:1.5}
+ .ax-compare-heading span{display:block;margin:6px 0 0;font-size:13px}
+ .ax-paired-row{grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr)}
+ .ax-paired-flow{gap:28px}
+ .ax-paired-card{padding:24px 12px 20px}
+ .ax-paired-card h4{font-size:16px;line-height:1.5;margin-bottom:10px}
+ .ax-paired-card p{font-size:13px;line-height:1.65}
+ .ax-paired-arrow img{transform:rotate(-90deg) scale(.35)}
+}
+/* This Figma tab treatment intentionally uses rounded corners. */
+.ax-automation-page .ax-example-picker button{border-radius:8px!important}
+.ax-step-number-after>span{color:#fff}
+
+.ax-automation-page #band.ax-consult-section{background:#f7f8f9}
+.ax-consult-section .lead{margin-top:20px;color:#6b7280}
+.ax-consult-section .ax-topic-button{margin:0;min-height:56px;padding:16px 32px}
+.ax-automation-page #band.ax-consult-section .ax-topic-button{color:#fff}
+
+.ax-fit-option button .ax-fit-arrow{position:relative;display:grid;place-items:center;width:28px;height:30px;flex:0 0 28px;transform:none}
+.ax-fit-arrow img{position:absolute;display:block;max-width:none;transition:none}
+.ax-fit-arrow-open{transform:rotate(-90deg);opacity:0}
+.ax-fit-arrow-closed{transform:rotate(90deg);opacity:1}
+.ax-fit-option.is-active .ax-fit-arrow-open{opacity:1}
+.ax-fit-option.is-active .ax-fit-arrow-closed{opacity:0}
+/* Match the shared consultation band's left-to-right fill, lift and press. */
+.ax-automation-page :is(.btn-hero,.ax-topic-button,.form-submit){position:relative;isolation:isolate;overflow:hidden;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s ease,color .45s cubic-bezier(.65,0,.35,1)}
+.ax-automation-page :is(.btn-hero,.ax-topic-button,.form-submit)::before{content:"";position:absolute;inset:0;z-index:-1;background:#fff;transform:scaleX(0);transform-origin:0 50%;transition:transform .45s cubic-bezier(.65,0,.35,1);pointer-events:none}
+@media(hover:hover){
+ .ax-automation-page :is(.btn-hero,.ax-topic-button,.form-submit):not(:disabled):hover{color:#111827;transform:translateY(-2px);box-shadow:inset 0 0 0 1px #fff,0 10px 28px -8px #11182726}
+ .ax-automation-page :is(.btn-hero,.ax-topic-button,.form-submit):not(:disabled):hover::before{transform:scaleX(1)}
+ .ax-automation-page #band.ax-consult-section .ax-topic-button:hover{color:#111827}
+}
+.ax-automation-page :is(.btn-hero,.ax-topic-button,.form-submit):not(:disabled):focus-visible{color:#111827;transform:translateY(-2px);box-shadow:inset 0 0 0 1px #fff,0 10px 28px -8px #11182726}
+.ax-automation-page :is(.btn-hero,.ax-topic-button,.form-submit):not(:disabled):focus-visible::before{transform:scaleX(1)}
+.ax-automation-page #band.ax-consult-section .ax-topic-button:focus-visible{color:#111827}
+.ax-automation-page :is(.btn-hero,.ax-topic-button,.form-submit):not(:disabled):active{transform:translateY(0) scale(.98)}
+@media(prefers-reduced-motion:reduce){.ax-automation-page :is(.btn-hero,.ax-topic-button,.form-submit),.ax-automation-page :is(.btn-hero,.ax-topic-button,.form-submit)::before{transition:none}}
+/* Blue CTAs fill with navy while retaining white labels. */
+.ax-automation-page :is(.btn-hero-primary,.ax-topic-button,.form-submit)::before{background:#111827}
+@media(hover:hover){
+ .ax-automation-page :is(.btn-hero-primary,.ax-topic-button,.form-submit):not(:disabled):hover,
+ .ax-automation-page #band.ax-consult-section .ax-topic-button:hover{color:#fff;box-shadow:0 10px 28px -8px #11182740}
+}
+.ax-automation-page :is(.btn-hero-primary,.ax-topic-button,.form-submit):not(:disabled):focus-visible,
+.ax-automation-page #band.ax-consult-section .ax-topic-button:focus-visible{color:#fff;box-shadow:0 10px 28px -8px #11182740}
+
+/* Case copy: separate context, input, processing and deliverables. */
+.ax-case-heading .ax-label{font-size:14px;line-height:1.5;color:#8fbaff;margin:0 0 16px}
+.ax-case-copy .ax-case-heading h3{font-size:28px;line-height:1.4;letter-spacing:-.03em;margin:0 0 16px;color:#fff}
+.ax-case-copy .ax-case-intro{font-size:16px;line-height:1.75;color:#b6bdc9;margin:0}
+.ax-case-source{display:flex;align-items:baseline;gap:20px;margin-top:28px}
+.ax-case-meta-label{flex-shrink:0;font-size:13px;font-weight:500;line-height:1.6;color:#a2adbd}
+.ax-case-copy .ax-case-source p{font-size:15px;line-height:1.6;color:#d7deea;margin:0}
+.ax-case-copy .ax-case-actions{list-style:none;margin:40px 0 0;padding:4px 24px;background:#1a2536}
+.ax-case-copy .ax-case-actions li{display:flex;align-items:baseline;gap:16px;margin:0;padding:18px 0}
+.ax-case-actions li+li{border-top:1px solid #ffffff0f}
+.ax-case-index{font-size:12px;line-height:1.6;color:#8fbaff;font-weight:500}
+.ax-case-actions h4{font-size:17px;font-weight:600;line-height:1.5;margin:0;color:#f4f6fa}
+.ax-case-copy .ax-case-actions p{font-size:15px;line-height:1.65;color:#b6bdc9;margin:8px 0 0}
+.ax-case-deliverables{display:flex;align-items:center;gap:20px;margin-top:24px}
+.ax-case-deliverables>div{display:flex;gap:8px;flex-wrap:wrap}
+.ax-case-deliverables>div>span{display:inline-block;padding:7px 12px;background:#263954;color:#dbeafe;font-size:14px;font-weight:500;line-height:1.5}
+@media(max-width:768px){.ax-case-copy .ax-case-heading h3{font-size:26px}.ax-case-copy .ax-case-intro br{display:none}.ax-case-copy .ax-case-actions{padding:4px 20px}.ax-case-source{gap:16px}}
+
+.ax-case-meta{display:grid;gap:2px;margin-top:12px}
+.ax-case-copy .ax-case-meta p{font-size:13px;font-weight:400;line-height:1.45;color:#a2adbd;margin:0}
+
+@media(max-width:768px){.ax-case-copy .ax-case-actions{margin-top:32px}}
+
+/* Figma trade prototype: a single scalable stage preserves all graphic proportions. */
+.ax-case-diagram.ax-trade-motion{display:block;position:relative;padding:0;background:#2e3441;border-radius:20px!important;overflow:hidden;aspect-ratio:588/673}
+.ax-trade-motion svg{display:block;width:100%;height:auto;font-family:inherit}
+.ax-trade-motion [data-trade-layer]{transform-origin:0 0}
+.ax-motion-toggle{position:absolute;right:12px;top:12px;display:grid;place-items:center;width:44px;height:44px;border:0;background:#11182799;color:#fff;font-size:18px;cursor:pointer;border-radius:50%!important}
+.ax-mobile-phase,.ax-swipe-controls{display:none}
+@media(max-width:768px){
+ .ax-example-panel .ax-compare-heading{display:none}
+ .ax-paired-flow{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;padding:0 0 12px;scrollbar-width:none}
+ .ax-paired-flow::-webkit-scrollbar{display:none}
+ .ax-paired-row{flex:0 0 calc(100% - 24px);min-width:0;display:grid;grid-template-columns:1fr;grid-template-rows:1fr 1fr;gap:20px;scroll-snap-align:start;scroll-snap-stop:always;padding:0;background:transparent}
+ .ax-paired-card{padding:24px 20px;min-width:0}
+ .ax-paired-after{background:#eaf3ff}
+ .ax-mobile-phase{display:block;font-size:12px;font-weight:600;line-height:1.5;margin:0 32px 12px 0;color:#2b2f33}
+ .ax-mobile-phase>span{margin-left:8px;color:#7d8389}
+ .ax-paired-after .ax-mobile-phase>span{color:#3395ff}
+ .ax-paired-card h4{font-size:18px;line-height:1.45;margin:0 0 10px}
+ .ax-paired-card p{font-size:15px;line-height:1.6}
+ .ax-step-number{left:auto;right:0;top:0}
+ .ax-paired-arrow{display:none}
+ .ax-swipe-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 20px}
+ .ax-swipe-hint{font-size:12px;color:#6b7280;margin:0}
+ .ax-swipe-pagination{display:flex;align-items:center;gap:8px;flex-shrink:0}
+ .ax-swipe-pagination button{width:44px;height:44px;border:0;background:#f3f4f6;color:#111827;font-size:20px;cursor:pointer}
+ .ax-swipe-pagination button:disabled{opacity:.3;cursor:default}
+ .ax-swipe-pagination output{font-size:13px;color:#60666c;min-width:36px;text-align:center;font-variant-numeric:tabular-nums}
+}
