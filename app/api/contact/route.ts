@@ -68,9 +68,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: '서버 설정 오류입니다. 관리자에게 문의해 주세요.' }, { status: 500 });
   }
 
-  const { name, phone, email, position, company, description, duration, budget, marketing } = data;
+  const { name, phone, email, position, company, description, duration, budget } = data;
+  const marketing = data.marketing === true;
   const payload = JSON.stringify({
     name, phone, email, position, company, description, duration, budget, marketing,
+    marketingConsentedAt: marketing ? new Date().toISOString() : null,
   });
 
   try {
@@ -115,7 +117,7 @@ export async function POST(req: NextRequest) {
               { type: 'mrkdwn', text: `*직함*\n${position || '-'}` },
               { type: 'mrkdwn', text: `*이메일*\n${email || '-'}` },
               { type: 'mrkdwn', text: `*연락처*\n${phone}` },
-              { type: 'mrkdwn', text: `*뉴스레터 수신*\n${marketing ? '✅ 동의' : '미동의'}` },
+              { type: 'mrkdwn', text: `*광고성 정보 수신 및 마케팅 활용*\n${marketing ? '✅ 동의' : '미동의'}` },
               { type: 'mrkdwn', text: `*희망 기간*\n${duration || '-'}` },
               { type: 'mrkdwn', text: `*희망 견적*\n${budget || '-'}` },
             ],

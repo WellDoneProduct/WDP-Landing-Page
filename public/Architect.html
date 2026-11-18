@@ -2054,141 +2054,6 @@
         border-color: white;
       }
 
-      .cta-form {
-        background: white;
-        border-radius: var(--radius-lg);
-        padding: 40px 44px;
-        color: var(--text);
-        width: 100%;
-        max-width: 720px;
-      }
-      .form-group {
-        margin-bottom: 16px;
-      }
-      .form-label {
-        display: block;
-        font-size: 13px;
-        font-weight: 500;
-        margin-bottom: 6px;
-        color: var(--text);
-      }
-      .form-input {
-        width: 100%;
-        padding: 12px 14px;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        font-size: 15px;
-        transition:
-          border-color 200ms,
-          box-shadow 200ms;
-        background: white;
-        color: var(--text);
-      }
-      .form-input:focus {
-        outline: none;
-        border-color: var(--primary);
-        box-shadow: 0 0 0 3px rgba(0, 80, 255, 0.1);
-      }
-      .form-input.is-error {
-        border-color: #ef4444;
-        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
-      }
-      .form-field-error {
-        display: none;
-        margin-top: 5px;
-        font-size: 12px;
-        color: #ef4444;
-        font-weight: 500;
-      }
-      .form-field-error.visible {
-        display: block;
-      }
-      .form-agree.is-error span {
-        color: #ef4444;
-      }
-      .form-textarea {
-        min-height: 90px;
-        resize: vertical;
-        line-height: 1.5;
-      }
-      .form-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-      }
-      .form-label .optional {
-        font-size: 11px;
-        color: var(--text-muted);
-        font-weight: 400;
-        margin-left: 6px;
-      }
-      .form-label .required {
-        color: var(--primary);
-        margin-left: 3px;
-      }
-      @media (max-width: 600px) {
-        .form-row {
-          grid-template-columns: 1fr;
-          gap: 0;
-        }
-      }
-      .form-agree {
-        display: flex;
-        align-items: flex-start;
-        gap: 8px;
-        margin: 16px 0 20px;
-        font-size: 12px;
-        color: var(--text-muted);
-        cursor: pointer;
-      }
-      .form-agree input {
-        appearance: none;
-        -webkit-appearance: none;
-        margin: 1px 0 0;
-        width: 18px;
-        height: 18px;
-        flex-shrink: 0;
-        cursor: pointer;
-        background: url("/checkbox/inactive.svg") no-repeat center / contain;
-        transition: background-image 120ms ease;
-      }
-      .form-agree input:checked {
-        background-image: url("/checkbox/active.svg");
-      }
-      .form-agree input:focus-visible {
-        outline: 2px solid var(--primary);
-        outline-offset: 2px;
-        border-radius: 5px;
-      }
-      .form-agree-link {
-        color: var(--primary);
-        text-decoration: underline;
-        text-underline-offset: 2px;
-        transition: opacity 200ms;
-      }
-      .form-agree-link:hover {
-        opacity: 0.7;
-      }
-      .form-submit {
-        width: 100%;
-        padding: 14px;
-        background: var(--primary);
-        color: white;
-        border-radius: 10px;
-        font-weight: 600;
-        font-size: 16px;
-        transition: background 200ms;
-      }
-      .form-submit:hover {
-        background: var(--primary-dark);
-      }
-      .form-note {
-        font-size: 12px;
-        color: var(--text-muted);
-        text-align: center;
-        margin-top: 12px;
-      }
-
       @media (max-width: 900px) {
         .cta-grid {
           grid-template-columns: 1fr;
@@ -2330,147 +2195,6 @@
       /* =============================================================
        개인정보 수집·이용 동의 모달
        ============================================================= */
-      .privacy-modal {
-        position: fixed;
-        inset: 0;
-        z-index: 1000;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        padding: 24px;
-      }
-      .privacy-modal.is-open {
-        display: flex;
-      }
-      .privacy-modal-overlay {
-        position: absolute;
-        inset: 0;
-        background: rgba(15, 23, 42, 0.55);
-        backdrop-filter: blur(2px);
-      }
-      .privacy-modal-dialog {
-        position: relative;
-        width: 100%;
-        max-width: 640px;
-        max-height: calc(100vh - 48px);
-        overflow-y: auto;
-        background: #fff;
-        border-radius: 16px;
-        box-shadow: 0 24px 64px -16px rgba(0, 0, 0, 0.35);
-        color: #1f2937;
-        animation: privacy-pop 0.22s cubic-bezier(0.22, 1, 0.36, 1);
-      }
-      @keyframes privacy-pop {
-        from {
-          opacity: 0;
-          transform: translateY(12px) scale(0.985);
-        }
-        to {
-          opacity: 1;
-          transform: none;
-        }
-      }
-      .privacy-modal-header {
-        position: sticky;
-        top: 0;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-        padding: 24px 28px 20px;
-        background: #fff;
-        border-bottom: 1px solid #eef0f3;
-        border-radius: 16px 16px 0 0;
-      }
-      .privacy-modal-header h3 {
-        font-size: 20px;
-        font-weight: 700;
-        color: #111827;
-        letter-spacing: -0.01em;
-      }
-      .privacy-modal-close {
-        flex: none;
-        width: 32px;
-        height: 32px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background: #f3f4f6;
-        border: 0;
-        border-radius: 8px;
-        cursor: pointer;
-        color: #6b7280;
-        transition: background 200ms;
-      }
-      .privacy-modal-close:hover {
-        background: #e5e7eb;
-      }
-      .privacy-modal-body {
-        padding: 24px 28px 28px;
-        font-size: 14px;
-        line-height: 1.7;
-        color: #4b5563;
-      }
-      .privacy-modal-body > p {
-        margin: 0 0 20px;
-      }
-      .privacy-modal-body h4 {
-        font-size: 15px;
-        font-weight: 700;
-        color: #111827;
-        margin: 20px 0 8px;
-      }
-      .privacy-modal-body ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-      }
-      .privacy-modal-body ul li {
-        position: relative;
-        padding-left: 14px;
-      }
-      .privacy-modal-body ul li::before {
-        content: "·";
-        position: absolute;
-        left: 2px;
-        color: #9ca3af;
-      }
-      .privacy-modal-body .pv-key {
-        font-weight: 600;
-        color: inherit;
-      }
-      .privacy-modal-body .pv-emph {
-        font-weight: 600;
-        color: inherit;
-      }
-      .privacy-modal-note {
-        margin-top: 24px;
-        padding: 16px 18px;
-        background: #f7f8fa;
-        border-radius: 10px;
-        font-size: 13px;
-        color: #6b7280;
-        line-height: 1.6;
-      }
-      .privacy-modal-note a {
-        color: var(--primary);
-        text-decoration: underline;
-      }
-      @media (max-width: 540px) {
-        .privacy-modal-header {
-          padding: 20px 20px 16px;
-        }
-        .privacy-modal-header h3 {
-          font-size: 18px;
-        }
-        .privacy-modal-body {
-          padding: 20px 20px 24px;
-        }
-      }
-
       @media (max-width: 900px) {
         .footer-grid {
           grid-template-columns: 1fr 1fr;
@@ -2498,7 +2222,8 @@
       }
     </style>
   <link rel="stylesheet" href="/site-chrome.css" />
-<script>try{if(sessionStorage.getItem("wdp:splash:seen")==="1")document.documentElement.classList.add("splash-seen")}catch{}</script><style>.splash-seen .splash{display:none!important}</style></head>
+<script>try{if(sessionStorage.getItem("wdp:splash:seen")==="1")document.documentElement.classList.add("splash-seen")}catch{}</script><style>.splash-seen .splash{display:none!important}</style><link rel="stylesheet" href="/contact-form.css" />
+</head>
 
   <body>
     <!-- =====================================================
@@ -3733,18 +3458,15 @@
                 />
               </div>
             </div>
-            <label class="form-agree" id="agree-wrap">
-              <input type="checkbox" id="agree" required />
-              <span
-                ><a
-                  href="#"
-                  class="form-agree-link"
-                  data-privacy-open
-                  >개인정보 수집·이용</a
-                >에 동의합니다. <strong>(필수)</strong></span
-              >
-            </label>
+            <div class="consent-row">
+              <label class="form-agree" id="agree-wrap"><input type="checkbox" id="agree" required aria-describedby="err-agree" /><span>개인정보 수집·이용에 동의합니다. <strong>(필수)</strong></span></label>
+              <button class="form-agree-link" type="button" data-consent-dialog="privacyModal" aria-haspopup="dialog" aria-label="개인정보 수집·이용 동의 내용 보기">내용 보기</button>
+            </div>
             <span class="form-field-error" id="err-agree">개인정보 수집·이용에 동의해주세요.</span>
+            <div class="consent-row">
+              <label class="form-agree"><input type="checkbox" id="marketing" name="marketing" /><span>광고성 정보 수신 및 마케팅 활용 동의 <strong>[선택]</strong></span></label>
+              <button class="form-agree-link" type="button" data-consent-dialog="marketingModal" aria-haspopup="dialog" aria-label="마케팅 동의 내용 보기">내용 보기</button>
+            </div>
             <button type="submit" class="form-submit" id="submitBtn">
               상담 신청하기
             </button>
@@ -3823,23 +3545,13 @@
       </div>
     </footer>
 
-    <!-- 개인정보 수집·이용 동의 모달 -->
-    <div
-      class="privacy-modal"
-      id="privacyModal"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="privacyModalTitle"
-      hidden
-    >
-      <div class="privacy-modal-overlay" data-privacy-close></div>
-      <div class="privacy-modal-dialog">
+    <dialog class="privacy-modal-dialog" id="privacyModal" aria-labelledby="privacyModalTitle">
         <div class="privacy-modal-header">
           <h3 id="privacyModalTitle">개인정보 수집·이용 동의</h3>
           <button
             type="button"
             class="privacy-modal-close"
-            data-privacy-close
+            data-consent-close
             aria-label="닫기"
           >
             <svg
@@ -3908,44 +3620,44 @@
             >으로 연락 주시기 바랍니다.
           </div>
         </div>
-      </div>
-    </div>
-
-    <script>
-      // 개인정보 수집·이용 동의 모달
-      (function () {
-        var modal = document.getElementById("privacyModal");
-        if (!modal) return;
-        var lastFocused = null;
-        function open() {
-          lastFocused = document.activeElement;
-          modal.hidden = false;
-          modal.classList.add("is-open");
-          document.documentElement.style.overflow = "hidden";
-          var closeBtn = modal.querySelector(".privacy-modal-close");
-          if (closeBtn) closeBtn.focus();
-        }
-        function close() {
-          modal.classList.remove("is-open");
-          modal.hidden = true;
-          document.documentElement.style.overflow = "";
-          if (lastFocused && lastFocused.focus) lastFocused.focus();
-        }
-        document.querySelectorAll("[data-privacy-open]").forEach(function (b) {
-          b.addEventListener("click", function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            open();
-          });
-        });
-        modal.querySelectorAll("[data-privacy-close]").forEach(function (b) {
-          b.addEventListener("click", close);
-        });
-        document.addEventListener("keydown", function (e) {
-          if (e.key === "Escape" && modal.classList.contains("is-open")) close();
-        });
-      })();
-    </script>
+    </dialog>
+    <dialog class="privacy-modal-dialog" id="marketingModal" aria-labelledby="marketingModalTitle">
+        <div class="privacy-modal-header">
+          <h3 id="marketingModalTitle">광고성 정보 수신 및 마케팅 활용 동의 [선택]</h3>
+          <button
+            type="button"
+            class="privacy-modal-close"
+            data-consent-close
+            aria-label="닫기"
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M6 6l12 12M18 6L6 18"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="privacy-modal-body">
+            <p><strong>주식회사 웰던프로덕트</strong>는 귀하에게 유익한 IT 인사이트와 서비스 혜택을 제공하기 위해 아래와 같이 개인정보를 수집·이용하고 광고성 정보를 전송합니다.</p>
+            <ul>
+              <li><strong>전송자:</strong> 주식회사 웰던프로덕트</li>
+              <li><strong>수집·이용 목적:</strong> IT 산업 트렌드 뉴스레터 발송, 신규 포트폴리오 및 서비스 안내, 웨비나·오프라인 이벤트 초청, 외주 개발 프로모션 혜택 제공</li>
+              <li><strong>수집·이용 항목:</strong> 담당자명, 회사명(소속), 이메일 주소</li>
+              <li><strong>전송 매체:</strong> 이메일</li>
+              <li><strong>보유 및 이용 기간:</strong> <strong>동의일로부터 2년</strong> 또는 수신 동의 철회 시까지</li>
+              <li><strong>동의 거부 및 철회 안내:</strong> 본 동의는 선택 사항이므로 거부하실 수 있으며, 거부하시더라도 프로젝트 문의·상담 등 기본 서비스 이용에는 어떠한 불이익도 없습니다. 동의 후에도 이메일 하단의 [수신거부] 버튼 또는 문의처를 통해 언제든지 철회할 수 있습니다.</li>
+            </ul>
+        </div>
+    </dialog>
 
     <script>
       // 새로고침 시 항상 맨 위에서 시작 (브라우저 스크롤 복원 끔)
@@ -3965,112 +3677,7 @@
 
     </script>
 
-    <!-- 상담 신청 폼 → /api/contact (Google Sheets + Slack) -->
-    <script>
-      (function () {
-        const form = document.getElementById("contactForm");
-        if (!form) return;
-        const btn = document.getElementById("submitBtn");
-        const note = document.getElementById("formNote");
-        const val = (id) => (document.getElementById(id)?.value || "").trim();
-
-        /* 휴대폰 자동 하이픈: 010-4101-1630 형태 */
-        const formatPhone = (v) => {
-          const d = v.replace(/\D/g, "").slice(0, 11);
-          if (d.length < 4) return d;
-          if (d.length < 8) return d.slice(0, 3) + "-" + d.slice(3);
-          if (d.length < 11)
-            return d.slice(0, 3) + "-" + d.slice(3, 6) + "-" + d.slice(6);
-          return d.slice(0, 3) + "-" + d.slice(3, 7) + "-" + d.slice(7);
-        };
-        const phoneEl = document.getElementById("phone");
-        if (phoneEl) {
-          phoneEl.addEventListener("input", (e) => {
-            e.target.value = formatPhone(e.target.value);
-          });
-        }
-
-        /* validation 헬퍼 */
-        const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        function setError(fieldId, show) {
-          const input = document.getElementById(fieldId);
-          const err = document.getElementById("err-" + fieldId);
-          if (input) input.classList.toggle("is-error", show);
-          if (err) err.classList.toggle("visible", show);
-        }
-        function clearErrors() {
-          ["company","name","position","email","phone","agree"].forEach(id => setError(id, false));
-        }
-        /* 입력 시 실시간 에러 제거 */
-        ["company","name","position","email","phone"].forEach(id => {
-          const el = document.getElementById(id);
-          if (el) el.addEventListener("input", () => setError(id, false));
-        });
-        const agreeEl = document.getElementById("agree");
-        if (agreeEl) agreeEl.addEventListener("change", () => setError("agree", false));
-
-        form.addEventListener("submit", async (e) => {
-          e.preventDefault();
-          clearErrors();
-
-          let hasError = false;
-          if (!val("company"))  { setError("company", true);  hasError = true; }
-          if (!val("name"))     { setError("name", true);     hasError = true; }
-          if (!val("position")) { setError("position", true); hasError = true; }
-          if (!val("email") || !emailRe.test(val("email"))) { setError("email", true); hasError = true; }
-          if (!val("phone"))    { setError("phone", true);    hasError = true; }
-          if (!document.getElementById("agree")?.checked) { setError("agree", true); hasError = true; }
-          if (hasError) return;
-
-          const payload = {
-            company: val("company"),
-            name: val("name"),
-            position: val("position"),
-            email: val("email"),
-            phone: val("phone").replace(/\D/g, ""),
-            description: val("project"),
-            duration: val("duration"),
-            budget: val("budget"),
-          };
-
-          const original = btn.textContent;
-          btn.disabled = true;
-          btn.textContent = "전송 중...";
-
-          try {
-            const res = await fetch("/api/contact", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(payload),
-            });
-            const data = await res.json().catch(() => ({}));
-
-            if (!res.ok) {
-              alert(
-                data.error ||
-                  "전송에 실패했습니다. 잠시 후 다시 시도해 주세요.",
-              );
-              return;
-            }
-
-            form.reset();
-            if (note)
-              note.textContent =
-                "✅ 상담 신청이 접수되었습니다. 영업일 1일 내 담당자가 연락드립니다.";
-            alert(
-              "상담 신청이 접수되었습니다. 영업일 1일 내 담당자가 연락드립니다.",
-            );
-          } catch (err) {
-            alert(
-              "네트워크 오류로 전송하지 못했습니다. 잠시 후 다시 시도해 주세요.",
-            );
-          } finally {
-            btn.disabled = false;
-            btn.textContent = original;
-          }
-        });
-      })();
-    </script>
+    <script src="/contact-form.js" defer></script>
 
     <!-- 스크롤 등장(reveal) + 카드 stagger + 타임라인 채우기 -->
     <script>
