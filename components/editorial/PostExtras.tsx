@@ -16,6 +16,15 @@ const PersonLine = ({ label, person }: { label: string; person?: Person }) => {
   </div>;
 };
 
+// Tags are labels only: there are no tag listing pages, so thin tag archives never get indexed.
+export const postTags = (post: Post) => [...new Set((post?.tags ?? []).filter(tag => typeof tag === 'string').map(tag => tag.trim()).filter(Boolean))];
+
+export const PostTags = ({ post }: { post: Post }) => {
+  const tags = postTags(post);
+  if (!tags.length) return null;
+  return <section className="editorial-container post-tags-section" aria-label="태그"><ul className="post-tags">{tags.map(tag => <li key={tag}>#{tag}</li>)}</ul></section>;
+};
+
 export const PostCredits = ({ post }: { post: Post }) => {
   if (!post?.author?.name && !post?.reviewer?.name) return null;
   return <section className="editorial-container post-credits" aria-label="작성 정보">

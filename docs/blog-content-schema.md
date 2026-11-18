@@ -44,6 +44,7 @@ n8n 등에서 Sanity API로 글을 만들거나 고칠 때 맞춰야 하는 데�
 | `slug` | slug `{ current }` | ✓ | `/blog/{slug}` 주소. 영문·숫자·하이픈 |
 | `previousSlugs` | string[] | | 예전 slug. 각각 새 주소로 301 이동 |
 | `category` | reference → `blogCategory` | ✓ | |
+| `tags` | string[] (최대 10, 각 30자) | | 주제어. 글 하단 표시, JSON-LD `keywords`. 태그별 목록 페이지는 없음 |
 | `publishedAt` | datetime | ✓ | 최초 게시일 |
 | `contentUpdatedAt` | datetime | | 실제 내용 수정일. 비우면 게시일. 사이트맵 `lastmod`, `dateModified`에 사용 |
 | `thumbnail` | image (+`alt` 필수) | ✓ | 목록 썸네일 |
