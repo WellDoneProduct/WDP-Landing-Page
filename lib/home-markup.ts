@@ -2,14 +2,14 @@ import 'server-only';
 import fs from 'node:fs';
 import path from 'node:path';
 
-// The home page (public/Architect.html) is the single source of truth for the site header and
+// The home page (public/ai-native.html) is the single source of truth for the site header and
 // footer. Editorial pages read them from it at build time, so a nav or footer change is made once.
-const homeHtml = fs.readFileSync(path.join(process.cwd(), 'public/Architect.html'), 'utf8');
+const homeHtml = fs.readFileSync(path.join(process.cwd(), 'public/ai-native.html'), 'utf8');
 
 // Fail the build loudly instead of shipping pages with a silently empty header or footer.
 const extract = (pattern: RegExp, name: string) => {
   const markup = homeHtml.match(pattern)?.[0];
-  if (!markup) throw new Error(`${name} markup not found in public/Architect.html`);
+  if (!markup) throw new Error(`${name} markup not found in public/ai-native.html`);
   return markup;
 };
 

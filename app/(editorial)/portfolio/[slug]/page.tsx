@@ -1,3 +1,4 @@
+import { SiteHeader } from '@/components/editorial/SiteChrome';
 import { pageMetadata } from '@/lib/seo';
 import { notFound } from 'next/navigation';
 import { getProject, getProjects } from '@/lib/content';
@@ -11,5 +12,5 @@ export default async function PortfolioDetail({ params }: Props) {
   const project = await getProject((await params).slug); if (!project) notFound();
   const projects = await getProjects();
   const related = projects.filter(p => p._id !== project._id && (!project.related?.length || project.related.includes(p._id)));
-  return <ProjectDetail project={project} related={related} />;
+  return <><SiteHeader theme="hero" /><ProjectDetail project={project} related={related} /></>;
 }

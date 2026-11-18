@@ -1,6 +1,7 @@
 import { PortableText, type PortableTextComponents } from '@portabletext/react';
 import { sanityImageUrl, sanitySrcSet } from '@/lib/sanity-image';
 import type { ContentBlock } from '@/lib/content-types';
+import { titleText } from '@/lib/title-text';
 
 const components: PortableTextComponents = {
   types: {
@@ -12,4 +13,17 @@ const components: PortableTextComponents = {
     return typeof href === 'string' && /^(https?:\/\/|mailto:|\/|#)/i.test(href) && !href.startsWith('//') ? <a href={href}>{children}</a> : <>{children}</>;
   } },
 };
-export default function ContentBody({ blocks }: { blocks: ContentBlock[] }) { return <PortableText value={blocks} components={components} />; }
+export default function ContentBody({ blocks }: { blocks: ContentBlock[] }) {
+  const displayBlocks = blocks.map(block => {
+    if (block._type !== 'block' || !/^h[1-6]$/.test(block.style ?? '')) return block;
+    const text = block.children.map(child => child.text).join('');
+    const end = titleText(text.trimEnd()).length;
+    let offset = 0;
+    return { ...block, children: block.children.map(child => {
+      const remaining = Math.max(0, end - offset);
+      offset += child.text.length;
+      return { ...child, text: child.text.slice(0, remaining) };
+    }) };
+  });
+  return <PortableText value={displayBlocks} components={components} />;
+}

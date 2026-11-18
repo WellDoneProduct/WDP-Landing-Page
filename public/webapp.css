@@ -1,0 +1,111 @@
+/* ===== web·app service page ===== */
+.eyebrow{display:block;font-size:var(--lead);line-height:1.4;font-weight:700;color:var(--blue2);letter-spacing:-.01em;margin-bottom:calc(20 * var(--px))}
+/* 01 — what to build */
+#scope .wrap{align-items:start}
+#scope .sh{grid-column:1/span 5;position:sticky;top:calc(140 * var(--px))}
+.irows{grid-column:7/-1;border-top:0}
+.irow{position:relative;display:block;height:calc(320 * var(--px));overflow:hidden;text-decoration:none;color:var(--t1-l);border-bottom:1px solid var(--line-l);isolation:isolate}
+.ir-bg{position:absolute;inset:0;z-index:-1;background:var(--navy);transform:scaleX(0);transform-origin:0 50%;transition:transform var(--d-row) var(--e-row)}
+.ir-in{position:absolute;inset:0;padding:0 calc(48 * var(--px));display:flex;flex-direction:column;justify-content:center}
+.ir-n{color:var(--blue);transition:color var(--d-row) var(--e-row)}
+.ir-t{margin-top:calc(8 * var(--px));transition:color var(--d-row) var(--e-row)}
+.ir-d{max-height:0;opacity:0;overflow:hidden;color:var(--t2-d);transition:max-height var(--d-row) var(--e-row),opacity var(--d-row) var(--e-row),margin var(--d-row) var(--e-row)}
+.irow:hover .ir-bg,.irow:focus-visible .ir-bg{transform:scaleX(1)}
+.irow:hover .ir-n,.irow:focus-visible .ir-n{color:var(--blue2)}
+.irow:hover .ir-t,.irow:focus-visible .ir-t{color:#fff}
+.irow:hover .ir-d,.irow:focus-visible .ir-d{max-height:calc(120 * var(--px));opacity:1;margin-top:calc(16 * var(--px))}
+/* 03 — AI 전환 cards */
+#layers .sh.center .kick{margin-left:auto;margin-right:auto}
+.layers{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:var(--gap);border:1px solid #111827}
+.lcard{display:flex;flex-direction:column}
+.lcard+.lcard{border-left:1px solid #111827}
+.lc-g{position:relative;aspect-ratio:16/10;overflow:hidden;background:#111827;border-bottom:1px solid #111827}
+.lc-g svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.lc-g .bg{fill:#0a2440}
+.lc-g .dots{opacity:1}
+.lc-g .mv{animation:lcmv 5s cubic-bezier(.65,0,.35,1) infinite}
+.lcard:nth-child(2) .mv,.lcard:nth-child(2) .fadein{animation-delay:.6s}.lcard:nth-child(3) .mv,.lcard:nth-child(3) .fadein{animation-delay:1.2s}
+@keyframes lcmv{0%,12%{transform:none}40%,72%{transform:translate(calc(var(--dx) * 1px),calc(var(--dy) * 1px))}100%{transform:none}}
+@keyframes lcfade{0%,25%{opacity:0}45%,70%{opacity:1}88%,100%{opacity:0}}
+.lc-g .fadein{opacity:0;animation:lcfade 5s ease infinite}
+.lc-t{position:relative;padding:calc(36 * var(--px)) calc(40 * var(--px)) calc(44 * var(--px))}
+.lc-n{display:block;font-size:var(--p);font-weight:700;color:var(--ink)}
+.lc-t .h3{margin-top:calc(12 * var(--px))}
+.lc-t .p{margin-top:calc(16 * var(--px));color:var(--t2-l)}
+@media (max-width:1023px){.layers{grid-template-columns:1fr}.lcard{display:grid;grid-template-columns:1fr 1fr;align-items:stretch}.lcard+.lcard{border-left:0;border-top:1px solid #111827}.lc-g{border-bottom:0;border-right:1px solid #111827;aspect-ratio:auto;min-height:220px}.lc-t{padding:28px}}
+@media (max-width:767px){.lcard{display:block}.lc-g{border-right:0;border-bottom:1px solid #111827;aspect-ratio:16/10;min-height:0}.lc-t{padding:24px 20px}}
+@media (prefers-reduced-motion:reduce){.lc-g .fadein{opacity:1}}
+
+.webapp-page #scope{background:linear-gradient(180deg,#fff0,#fff 160px);padding-top:24px}.webapp-page .layers{gap:24px;border:0}.webapp-page .lcard+.lcard{border:0}.webapp-page .lc-g{border:0}.webapp-page .lc-t{padding:32px 24px}.webapp-page #band{padding:96px 0;text-align:center}.webapp-page #band .ctas{margin-top:32px}:is(.webapp-page,.modernization-page) #faq .sr-d{max-height:none;opacity:1;transform:none}:is(.webapp-page,.modernization-page) #faq .sr-f{position:relative}:is(.webapp-page,.modernization-page) #faq .srow{height:auto;min-height:180px;padding:32px 0}.webapp-page .irow{min-height:240px}.webapp-page .ir-in{padding:24px}.webapp-page .ir-d{font-size:17px}@media(max-width:1023px){#scope .sh,.irows{grid-column:1/-1}#scope .sh{position:static}.webapp-page .layers{grid-template-columns:1fr}}@media(hover:none){.webapp-page .ir-d{max-height:none;opacity:1;margin-top:16px;color:var(--t2-l)}.webapp-page .irow{height:auto;min-height:280px}}
+:is(.webapp-page,.modernization-page) #faq .srow::after{content:none}
+:is(.webapp-page,.modernization-page) #faq .sr-d{color:var(--t2-l)}
+:is(.webapp-page,.modernization-page) #faq .srow:hover .sr-d{color:var(--t2-d)}
+.webapp-page #band .sh{grid-column:1/-1}
+.webapp-page .lc-t .tags{margin-top:20px;font-size:14px;color:var(--t2-l)}
+.webapp-page #band .ctas{justify-content:center}
+.webapp-page #band .btn{min-height:56px;padding:16px 32px;font-size:18px}
+@media(prefers-reduced-motion:reduce){.webapp-page .lc-g .mv,.webapp-page .lc-g .fadein{animation:none}.webapp-page .lc-g .fadein{opacity:1}}
+/* Service capabilities use the same dark portrait-card treatment as the process. */
+.webapp-page #layers{background:#111827;color:#fff}
+.webapp-page #layers .lead{color:#b8bec9}
+.webapp-page #layers .layers{grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.webapp-page #layers .lcard{position:relative;display:block;isolation:isolate;aspect-ratio:380/440;min-height:440px;background:#0b101b;overflow:hidden;border:0}
+.webapp-page #layers .lc-g{position:absolute;inset:0 0 auto;aspect-ratio:16/10;min-height:0;background:#0b101b;border:0}
+.webapp-page #layers .lc-g .bg{fill:#0b101b}
+.webapp-page #layers .lc-g .dots{opacity:0}
+.webapp-page #layers .lc-dim{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(7,11,22,.35),rgba(7,11,22,.92) 70%);opacity:0;transition:opacity .45s ease}
+.webapp-page #layers .lc-t{position:absolute;inset:auto 0 0;z-index:2;padding:48px 24px 24px;background:linear-gradient(180deg,#0b101b00,#0b101bf2 55%)}
+.webapp-page #layers .lc-t .h3{margin:0;color:#fff}
+.webapp-page #layers .lc-t :is(.p,.tags){max-height:0;opacity:0;overflow:hidden;transform:translateY(8px);margin-top:0;color:#c7cdd8;transition:max-height .45s ease,opacity .45s ease,transform .45s ease,margin .45s ease}
+.webapp-page #layers .lcard:is(:hover,:focus-visible) .lc-dim{opacity:1}
+.webapp-page #layers .lcard:is(:hover,:focus-visible) .lc-t :is(.p,.tags){max-height:220px;opacity:1;transform:none;margin-top:12px}
+.webapp-page #layers .lcard:focus-visible{outline:2px solid #0048ff;outline-offset:4px}
+@media(min-width:769px) and (max-width:1023px){.webapp-page #layers .layers{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:768px){.webapp-page #layers .layers{grid-template-columns:1fr;gap:20px}.webapp-page #layers .lcard{aspect-ratio:353/440}}
+@media(hover:none){.webapp-page #layers .lc-dim{opacity:1}.webapp-page #layers .lc-t :is(.p,.tags){max-height:none;opacity:1;transform:none;margin-top:12px}}
+@media(prefers-reduced-motion:reduce){.webapp-page #layers :is(.lc-dim,.p,.tags){transition:none}}
+/* Align the consultation band and FAQ with the shared home section grid. */
+.webapp-page #band .sh{display:flex;flex-direction:column;align-items:center;text-align:center;width:100%}
+.webapp-page #band .lead{max-width:760px;margin-left:auto;margin-right:auto;text-align:center}
+.webapp-page #band .ctas{width:100%;justify-content:center}
+:is(.webapp-page,.modernization-page) #faq .srow{min-height:136px;height:auto;padding:36px var(--M)}
+:is(.webapp-page,.modernization-page) #faq .sr-f{position:relative;inset:auto;width:100%;padding:0;min-height:64px}
+:is(.webapp-page,.modernization-page) #faq .sr-t{margin:0}
+:is(.webapp-page,.modernization-page) #faq .sr-s{width:100%;max-width:960px}
+:is(.webapp-page,.modernization-page) #faq .sr-d{margin-top:12px;line-height:1.7}
+:is(.webapp-page,.modernization-page) #faq .srow:is(:hover,:focus-visible) .sr-s{max-height:240px}
+:is(.webapp-page,.modernization-page) #faq .srow:is(:hover,:focus-visible) .sr-d{color:#cbd5e1}
+@media(max-width:768px){
+ :is(.webapp-page,.modernization-page) #faq .srow{min-height:0;padding:28px var(--M)}
+ :is(.webapp-page,.modernization-page) #faq .sr-f{min-height:0}
+ :is(.webapp-page,.modernization-page) #faq .sr-s{max-height:none;opacity:1}
+ :is(.webapp-page,.modernization-page) #faq .srow:is(:hover,:focus-visible) .sr-s{max-height:none}
+ :is(.webapp-page,.modernization-page) #faq .srow:is(:hover,:focus-visible) .sr-d{color:var(--t2-l)}
+ .webapp-page #band{padding:72px 0}
+}
+@media(max-width:768px){:is(.webapp-page,.modernization-page) #faq .sr-s{transition:none;opacity:1;max-height:none}}
+
+/* Shared interaction timing for scope and FAQ rows. */
+.webapp-page :is(#scope,#faq){--d-row:.45s}
+
+/* Numbered lists share internal dividers only across service pages. */
+.irows>.irow:last-child{border-bottom:0}
+
+/* Align numbered-list copy to the grid; inset it only on interaction. */
+:is(.webapp-page,.monitor-page,.modernization-page) .irow .ir-in{padding:24px 48px 24px 0;transform:translateX(0);transition:transform var(--d-row) var(--e-row)}
+@media(hover:hover){:is(.webapp-page,.monitor-page,.modernization-page) .irow:hover .ir-in{transform:translateX(24px)}}
+:is(.webapp-page,.monitor-page,.modernization-page) .irow:focus-visible .ir-in{transform:translateX(24px)}
+@media(prefers-reduced-motion:reduce){:is(.webapp-page,.monitor-page,.modernization-page) .irow .ir-in{transition:none}}
+
+/* Compact rows expand by the description's natural height. */
+:is(.webapp-page,.monitor-page,.modernization-page) .irows{margin-top:24px}
+:is(.webapp-page,.monitor-page,.modernization-page) .irows>.irow{height:auto;min-height:0}
+:is(.webapp-page,.monitor-page,.modernization-page) .irow .ir-in{position:relative;inset:auto;justify-content:flex-start}
+:is(.webapp-page,.monitor-page,.modernization-page) .irow .ir-d{display:grid;grid-template-rows:0fr;max-height:none;margin:0;opacity:0;transition:grid-template-rows var(--d-row) var(--e-row),opacity var(--d-row) var(--e-row),margin var(--d-row) var(--e-row)}
+.ir-description-content{display:block;min-height:0;overflow:hidden}
+@media(hover:hover){:is(.webapp-page,.monitor-page,.modernization-page) .irow:hover .ir-d{grid-template-rows:1fr;opacity:1;margin-top:16px}}
+:is(.webapp-page,.monitor-page,.modernization-page) .irow:focus-visible .ir-d{grid-template-rows:1fr;opacity:1;margin-top:16px}
+@media(max-width:1023px){:is(.webapp-page,.monitor-page,.modernization-page) .irows{margin-top:40px}}
+@media(hover:none){:is(.webapp-page,.monitor-page,.modernization-page) .irow .ir-d{grid-template-rows:1fr;opacity:1;margin-top:16px;color:var(--t2-l)}}
+@media(prefers-reduced-motion:reduce){:is(.webapp-page,.monitor-page,.modernization-page) .irow .ir-d{transition:none}}
+@media(max-width:768px){.webapp-page #layers .lcard{width:100%;min-width:0;aspect-ratio:auto}}
