@@ -42,8 +42,8 @@ const project = defineType({
     defineField({ name: 'period', title: '제작 기간', type: 'string', group: 'details', description: '예: 2026.01 ~ 2026.06 / 2026.01 ~ 진행중' }),
     defineField({ name: 'scope', title: '제작 범위', type: 'string', group: 'details' }),
     defineField({ name: 'client', title: '클라이언트', type: 'string', group: 'details' }),
-    defineField({ name: 'overview', title: 'Overview', type: 'text', rows: 6, group: 'body', validation: rule => rule.custom((value, context) => context.document?.status === 'public' && !value ? '공개하려면 Overview를 입력해주세요.' : true) }),
-    defineField({ name: 'body', title: '상세 본문·이미지', type: 'richText', group: 'body', validation: rule => rule.custom((value, context) => context.document?.status === 'public' && (!Array.isArray(value) || value.length === 0) ? '공개하려면 상세 콘텐츠를 입력해주세요.' : true) }),
+    defineField({ name: 'overview', title: '프로젝트 개요 (Overview)', type: 'text', rows: 6, group: 'body', validation: rule => rule.custom((value, context) => context.document?.status === 'public' && !value ? '공개하려면 Overview를 입력해주세요.' : true) }),
+    defineField({ name: 'body', title: '상세 본문·이미지', type: 'richText', group: 'body', description: '텍스트, 전체 너비 이미지, 이미지 3장 갤러리를 원하는 순서로 추가하세요. 상단의 상세 미리보기에서 현재 작성 내용을 확인할 수 있습니다.', validation: rule => rule.custom((value, context) => context.document?.status === 'public' && (!Array.isArray(value) || value.length === 0) ? '공개하려면 상세 콘텐츠를 입력해주세요.' : true) }),
     defineField({ name: 'related', title: '다른 프로젝트 둘러보기', type: 'array', of: [{ type: 'reference', to: [{ type: 'project' }] }], group: 'body', description: '비우면 나머지 프로젝트를 표시 순서대로 보여줍니다.' }),
   ], orderings: [{ title: '표시 순서', name: 'order', by: [{ field: 'order', direction: 'asc' }] }], preview: { select: { title: 'title', status: 'status', media: 'thumbnail' }, prepare: ({ title, status, media }) => ({ title, subtitle: status === 'public' ? '공개' : '준비 중 · 상세 비공개', media }) },
 });

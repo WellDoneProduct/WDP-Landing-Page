@@ -326,20 +326,26 @@
 .native-content .cc-p,.native-content .mcase{background:#e8edf3}
 .native-content .cc-d,.native-content .cc-h{object-fit:contain;padding:32px;transform:none}
 .native-content .cc-h{background:#dce7f5}
-.native-content .srow{cursor:default}
+.native-content .srow{cursor:pointer;text-decoration:none;color:inherit;display:block}
 .native-content .sr-m{font-size:14px}
-.native-content .srow::after{content:'준비 중';position:absolute;right:var(--M);top:18px;font-size:13px;color:#6b7280}
+.native-content .srow::after{content:none;position:absolute;right:var(--M);top:18px;font-size:13px;color:#6b7280}
 .native-content .srow:hover::after{color:white}
 .ai-native-page :is(a,button,input,textarea,select,.acard,.gcard,.privacy-modal-dialog){border-radius:0!important}
 .native-business{position:relative;font-size:15px;font-weight:600}
 .native-business summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px}
 .native-business summary::after{content:'⌄'}
-.native-business-panel{position:absolute;top:calc(100% + 20px);left:50%;transform:translateX(-50%);width:330px;background:#111827;color:white;border:1px solid #374151;box-shadow:0 12px 32px #0003}
-.native-business-panel a,.native-business-panel span{display:flex!important;justify-content:space-between;gap:12px;padding:16px 18px!important;border-bottom:1px solid #ffffff20;font-size:14px}
+.native-business-panel{position:absolute;top:calc(100% + 20px);left:50%;transform:translateX(-50%);width:330px;background:rgba(17,24,39,.68);color:white;border:0;backdrop-filter:blur(24px) saturate(140%);-webkit-backdrop-filter:blur(24px) saturate(140%);box-shadow:0 12px 32px #0003}
+.native-business-panel a,.native-business-panel span{display:flex!important;justify-content:space-between;gap:12px;padding:16px 18px!important;border:0;font-size:14px}
 .native-business-panel a{color:#7ca1ff!important}
 .native-business-panel small{white-space:nowrap;color:#9ca3af;font-size:11px}
 .native-business-panel span{cursor:not-allowed;color:#b8bec9}
-.native-mobile-business{display:grid;gap:16px;padding:16px 0;border-bottom:1px solid #ddd}
+.native-mobile-business{display:block;padding:0;border:0}
+.native-mobile-business>summary{display:flex;align-items:center;justify-content:space-between;min-height:48px;padding:14px 0;font-size:16px;font-weight:600;list-style:none;cursor:pointer}
+.native-mobile-business>summary::-webkit-details-marker{display:none}
+.native-mobile-business[open]>summary .business-chevron{transform:rotate(180deg)}
+.native-mobile-business-links{display:flex;flex-direction:column;padding:0 0 16px 16px;gap:4px}
+.wdp-mobile-menu .native-mobile-business-links a{padding:12px 0;font-size:14px}
+.native-mobile-business-links>span{padding:12px 0}
 .native-mobile-business span{display:flex;justify-content:space-between;font-size:14px;color:#6b7280}
 .native-mobile-business small{font-size:11px}
 .native-contact-kicker{font-size:40px;font-weight:700;margin-bottom:24px;color:white}
@@ -373,7 +379,7 @@
 .native-cases{background:#f9fafb}.native-cases .section-head h3{margin-top:20px}.ai-native-page .case-card,.ai-native-page .case-thumb,.ai-native-page .case-tag{border-radius:0!important}
 
 /* Same card styles as the development portfolio. */
-.native-cases .portfolio-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0}.native-cases .project-card{position:relative;display:block;aspect-ratio:16/9;overflow:hidden;color:white;isolation:isolate}.native-cases .project-card.is-locked{cursor:default}.native-cases .project-art,.native-cases .project-bg,.native-cases .project-tint{position:absolute;inset:0;width:100%;height:100%}.native-cases .project-bg{object-fit:cover}.native-cases .first-project .project-art{border-radius:16px;overflow:hidden}.native-cases .project-logo{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);height:auto;width:auto;max-height:32%;object-fit:contain;opacity:.85}.native-cases .project-overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:32px;opacity:0;background:#0005;backdrop-filter:blur(12px);transition:opacity .25s}.native-cases .project-card:hover .project-overlay,.native-cases .project-card:focus-visible .project-overlay{opacity:1}.native-cases .project-overlay-title{display:flex;gap:8px;align-items:center;justify-content:space-between}.native-cases .project-overlay-title h2{font-size:24px;line-height:36px;font-weight:600}.native-cases .project-overlay p{font-size:18px;font-weight:600;line-height:27px;opacity:.5;margin-top:8px}.native-cases .project-overlay>span{font-size:14px;color:#cdd5df}.native-cases .project-card:focus-visible{outline:3px solid #4588ff;outline-offset:-3px}.native-cases .project-card:focus-visible .project-overlay{outline:3px solid #4588ff;outline-offset:-3px}@media(max-width:767px){.native-cases .portfolio-grid{grid-template-columns:1fr}}@media(max-width:767px){.native-cases .project-overlay{padding:24px}}@media(max-width:767px){.native-cases .project-overlay-title h2{font-size:20px;line-height:28px}}@media(max-width:767px){.native-cases .project-overlay p{font-size:16px}}@media(hover:none){.native-cases .project-card.is-locked .project-overlay{opacity:1;background:linear-gradient(#0005,transparent 55%,#0005);backdrop-filter:none}}@media(hover:none){.native-cases .project-card.is-locked .project-overlay p{opacity:.9}}@media(prefers-reduced-motion:reduce){.native-cases .project-overlay{transition:none}}
+.native-cases .portfolio-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}.native-cases .project-card{position:relative;display:block;aspect-ratio:16/9;overflow:hidden;color:white;isolation:isolate}.native-cases .project-card.is-locked{cursor:default}.native-cases .project-art,.native-cases .project-bg,.native-cases .project-tint{position:absolute;inset:0;width:100%;height:100%}.native-cases .project-bg{object-fit:cover}.native-cases .first-project .project-art{border-radius:16px;overflow:hidden}.native-cases .project-logo{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);height:auto;width:auto;max-height:32%;object-fit:contain;opacity:.85}.native-cases .project-overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:32px;opacity:0;background:#0005;backdrop-filter:blur(12px);transition:opacity .25s}.native-cases .project-card:hover .project-overlay,.native-cases .project-card:focus-visible .project-overlay{opacity:1}.native-cases .project-overlay-title{display:flex;gap:8px;align-items:center;justify-content:space-between}.native-cases .project-overlay-title h2{font-size:24px;line-height:36px;font-weight:600}.native-cases .project-overlay p{font-size:18px;font-weight:600;line-height:27px;opacity:.5;margin-top:8px}.native-cases .project-overlay>span{font-size:14px;color:#cdd5df}.native-cases .project-card:focus-visible{outline:3px solid #4588ff;outline-offset:-3px}.native-cases .project-card:focus-visible .project-overlay{outline:3px solid #4588ff;outline-offset:-3px}@media(max-width:767px){.native-cases .portfolio-grid{grid-template-columns:1fr}}@media(max-width:767px){.native-cases .project-overlay{padding:24px}}@media(max-width:767px){.native-cases .project-overlay-title h2{font-size:20px;line-height:28px}}@media(max-width:767px){.native-cases .project-overlay p{font-size:16px}}@media(hover:none){.native-cases .project-card.is-locked .project-overlay{opacity:1;background:linear-gradient(#0005,transparent 55%,#0005);backdrop-filter:none}}@media(hover:none){.native-cases .project-card.is-locked .project-overlay p{opacity:.9}}@media(prefers-reduced-motion:reduce){.native-cases .project-overlay{transition:none}}
 .native-cases .project-art{border-radius:0}.native-cases .project-overlay h2{color:white}.native-cases .project-overlay p{margin:8px 0 0}.native-cases .portfolio-grid{margin-top:64px}
 .ai-native-page .hero-h1{word-break:keep-all;overflow-wrap:normal}
 @media(max-width:768px){.ai-native-page .hero-h1-brand{display:inline-block;text-wrap:balance}}
@@ -392,7 +398,7 @@
 
 /* Latest motion symbols, borderless cards and input surfaces. */
 .native-content #welldone .kick{display:block}
-.native-content #welldone{padding-top:24px}
+.native-content #welldone{padding-top:56px}
 .native-cases .kick,.cta-head .kick{display:block;width:140px;height:auto;margin:0 auto 20px;overflow:visible}
 .native-cases .kick .kp,.cta-head .kick .kp{transform-box:view-box;transform-origin:0 0}
 .ai-native-page .native-business summary::after{content:none}
@@ -400,7 +406,7 @@
 .native-content .gcard::after{content:none}
 .ai-native-page .cta-section .form-input{border:0;box-shadow:none}
 .ai-native-page .cta-section .form-input:focus-visible{outline:2px solid #82a8ff;outline-offset:2px}
-@media(max-width:768px){.native-cases .kick,.cta-head .kick{width:104px}.native-content #welldone{padding-top:20px}}
+@media(max-width:768px){.native-cases .kick,.cta-head .kick{width:104px}.native-content #welldone{padding-top:40px}}
 /* Assurance numbers sit behind copy, replacing the decorative prisms. */
 .native-content .acard{position:relative;isolation:isolate;overflow:hidden;min-height:250px;justify-content:flex-end;padding:72px 32px 36px}
 .native-content .acard .qc-pf{display:none}
@@ -412,10 +418,10 @@
 .ai-native-page .hero-glow-wrap::after{content:'';position:absolute;z-index:5;inset:auto 0 0;height:180px;background:linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,.35) 42%,rgba(255,255,255,.85) 78%,#fff);pointer-events:none}
 @media(max-width:768px){.ai-native-page .hero-glow-wrap::after{height:120px}}
 /* The hero glow continues beneath the manifesto; the section itself fades to white. */
-.ai-native-page .hero-glow-wrap{background:#fff}
+.ai-native-page .hero-glow-wrap{background:#000}
 .ai-native-page .hero-glow-wrap::after{display:none}
 .ai-native-page .hero-glow-wrap > .native-content{position:relative}
-.ai-native-page .native-content #welldone{background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%)}
+.ai-native-page .native-content #welldone{background:linear-gradient(180deg,rgba(255,255,255,0) 0px,#fff clamp(140px,20vw,360px))}
 /* Larger process tiles and portrait assurance cards. */
 .native-content .gcards{grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
 .native-content .gcard{aspect-ratio:380/440}
@@ -424,5 +430,67 @@
 .native-content .assurance-number{top:24px;left:24px;font-size:200px}
 @media(min-width:769px) and (max-width:1023px){.native-content .gcards{grid-template-columns:repeat(2,minmax(0,1fr))}.native-content .acards{grid-template-columns:repeat(3,minmax(0,1fr))}.native-content .acard{min-height:360px;aspect-ratio:auto;padding:28px 20px}.native-content .assurance-number{font-size:140px;left:16px}}
 @media(max-width:768px){.native-content .gcards{grid-template-columns:1fr;gap:20px}.native-content .gcard{aspect-ratio:353/400}.native-content .gc-cap{padding:48px 24px 24px}.native-content .acard{aspect-ratio:4/5;padding:32px 24px}.native-content .assurance-number{font-size:190px;left:20px}}
-/* Faster service-row response, keeping the original easing and coordinated layers. */
-.native-content #services{--d-row:.45s}
+/* Give the home service links time to distinguish a hover from a pass over the row. */
+.native-content #services{
+  --d-row:720ms;
+  --e-row:cubic-bezier(.4,0,.2,1);
+}
+@media(min-width:769px) and (hover:hover){
+  /* Reserve space for all three text levels without shifting the adjacent links. */
+  .native-content #services .srow{height:184px}
+  .native-content #services :is(.sr-t,.sr-d){word-break:keep-all;overflow-wrap:anywhere}
+  .native-content #services .sr-n{margin-top:14px;font-size:14px;line-height:1.5}
+  .native-content #services .sr-d{max-width:760px;margin-top:4px;font-size:16px;line-height:1.6}
+}
+@media(min-width:769px) and (max-width:1023px) and (hover:hover){
+  .native-content #services .srow{height:208px}
+}
+@media(min-width:769px) and (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .native-content #services .srow:hover:not(:focus-visible) :is(.sr-c,.sr-t,.sr-s,.sr-b,.sr-a){
+    transition-delay:180ms;
+  }
+}
+/* Dark consultation background with slightly lighter inputs. */
+.ai-native-page .cta-section{background:#0b101b}
+.ai-native-page .cta-section .form-input{background:#182131}
+
+/* Shared assurance cards: fixed artwork scale, extended background, asymmetric text spacing. */
+.native-content .acard,.native-content .acard:hover{padding:0;box-shadow:none;transform:none;transition:none}
+.native-content .assurance-art{position:absolute;top:0;left:0;width:100%;height:55%;background:#0a2440;z-index:0;pointer-events:none}
+.native-content .assurance-art :is(svg,img){display:block;width:100%;height:90.9091%;object-fit:contain;overflow:visible}
+.native-content .assurance-caption{position:absolute;bottom:0;left:0;right:0;height:45%;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-start;z-index:2;padding:24px 32px 40px}
+.native-content .assurance-index{display:block;color:var(--blue);font-size:13px;font-weight:600;margin-bottom:8px}
+.native-content .acard .ac-t{color:var(--t1-l);transition:none}
+.native-content .acard .ac-d{max-height:none;opacity:1;overflow:visible;margin-top:12px;transform:none;color:var(--t2-l);transition:none}
+@media(max-width:1023px){.native-content .assurance-caption{padding:20px 24px 32px}}
+/* Anchor the shared glow to the hero edge, independent of CTA wrapping and viewport height. */
+.ai-native-page .hero-inner,.ai-native-page .hero-ctas{position:static}
+.ai-native-page .hero-ctas::before,.ai-native-page .hero-ctas::after,.ai-native-page .hero-ctas .planet-light{top:calc(100% - clamp(220px,21.875vw,700px))}
+
+@media(max-width:768px){.native-cases .portfolio-grid{gap:20px}}
+/* Match the portfolio kicker's visual width to the five-character heading. */
+.native-cases .section-head{display:grid;justify-items:center}
+.native-cases .section-head .kick{width:200px;margin-left:auto;margin-right:auto;overflow:visible}
+@media(max-width:768px){.native-cases .section-head .kick{width:130px}}
+
+.site-header:has(.native-business[open]){backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+
+/* Mobile: reserve the glow's 220px rise plus 100px of clear space below CTAs. */
+@media(max-width:768px){
+ .ai-native-page .hero{padding-bottom:320px}
+}
+
+@media(max-width:768px),(hover:none){
+.native-content .pcard.mobile-motion-active .mv{transform:translate(calc(var(--dx) * 1px),calc(var(--dy) * 1px))}
+.native-content .pcard.mobile-motion-active .tofill{fill:#3a6bff}
+.native-content .pcard.mobile-motion-active .fadein,.native-content .pcard.mobile-motion-active .ring1{opacity:1}
+.native-content .pcard.mobile-motion-active .ring0{opacity:0}
+}
+
+/* Bring every mobile introduction into the glow without moving the CTA/glow gap. */
+@media(max-width:768px){
+ .ai-native-page .hero-glow-wrap > .native-content{margin-top:-120px}
+ .ai-native-page .native-content #welldone{padding-top:24px}
+}
+
+@media(max-width:768px){.ai-system-page .native-content #ai-approach{padding-top:24px}}

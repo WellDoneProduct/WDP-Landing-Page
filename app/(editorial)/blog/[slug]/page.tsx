@@ -1,3 +1,4 @@
+import { titleText } from '@/lib/title-text';
 import JsonLd from '@/components/editorial/JsonLd';
 import { pageMetadata, absoluteUrl, SITE_URL } from '@/lib/seo';
 import { notFound } from 'next/navigation';
@@ -23,5 +24,5 @@ export default async function BlogDetail({ params }: Props) {
   return <><SiteHeader theme="hero" /><main><JsonLd data={{'@context': 'https://schema.org', '@graph': [
     {'@type': 'BlogPosting', headline: post.title, datePublished: post.publishedAt, dateModified: post._updatedAt || post.publishedAt, description: post.excerpt, image: post.cover?.url || post.thumbnail?.url, mainEntityOfPage: absoluteUrl(`/blog/${post.slug}`), author: {'@type': 'Organization', name: '웰던프로덕트', url: SITE_URL}, publisher: {'@id': `${SITE_URL}/#organization`}},
     {'@type': 'BreadcrumbList', itemListElement: [{name: '홈', item: absoluteUrl('/')}, {name: '블로그', item: absoluteUrl('/blog')}, {name: post.title, item: absoluteUrl(`/blog/${post.slug}`)}].map((item, index) => ({'@type': 'ListItem', position: index + 1, ...item}))}
-  ]}} /><article><header className="blog-hero" data-dark-hero>{post.cover && <img className="blog-hero-background" src={post.cover.url} alt="" />}<div className="editorial-container blog-hero-text"><h1>{post.title}</h1><div><span>{post.category}</span><time dateTime={post.publishedAt}>{post.publishedAt.slice(0, 10).replaceAll('-', '.')}</time></div></div></header><div className="editorial-container blog-body rich-content"><ContentBody blocks={post.body} /></div><PostNavigation previous={previous} next={next} /></article></main></>;
+  ]}} /><article><header className="blog-hero" data-dark-hero>{post.cover && <img className="blog-hero-background" src={post.cover.url} alt="" />}<div className="editorial-container blog-hero-text"><h1>{titleText(post.title)}</h1><div><span>{post.category}</span><time dateTime={post.publishedAt}>{post.publishedAt.slice(0, 10).replaceAll('-', '.')}</time></div></div></header><div className="editorial-container blog-body rich-content"><ContentBody blocks={post.body} /></div><PostNavigation previous={previous} next={next} /></article></main></>;
 }

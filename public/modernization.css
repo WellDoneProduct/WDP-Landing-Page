@@ -1,0 +1,175 @@
+/* Modernization uses the shared type scale, hero, buttons and navigation. */
+.modernization-page .modern-section .wrap{display:block;width:calc(100% - var(--M)*2);max-width:1152px;margin:auto;padding:0}
+.modernization-page .modern-section{word-break:keep-all}
+.modernization-page .modern-section .section-head{display:block;text-align:left;margin:0 0 64px}
+.modernization-page .modern-section .section-head p{font-size:18px;line-height:1.65;color:#6b7280;margin-top:24px;max-width:780px}
+.modernization-page .modern-section p{font-size:16px;line-height:1.7;color:#6b7280}
+.modernization-page .modern-section .h3{font-size:22px}
+.modernization-page #problem{background:linear-gradient(#fff0,#fff 180px)}
+.modernization-page .problem-list,.modernization-page .ai-benefits,.modernization-page .scope-strip,.modern-check-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.modernization-page :is(.problem-list,.ai-benefits)>article,.modernization-page .scope-item,.modern-check-grid article{background:#fff;padding:32px}
+.modernization-page .problem-list>article{background:#f3f5f8}
+.modernization-page :is(.problem-list,.ai-benefits)>article>span,.modernization-page .scope-item small,.modern-check-grid article>span{display:block;color:#589dfe;font-size:14px;margin-bottom:24px}
+.modernization-page :is(.problem-list,.ai-benefits,.scope-strip,.modern-check-grid) h3{margin-bottom:16px}
+.modernization-page .closing-line{margin-top:40px;font-size:20px!important;color:#111827!important}
+.modernization-page #ai-value{background:#111827;color:#fff}
+.modernization-page #ai-value .section-head p{color:#b6bdcb}
+.modernization-page .ai-benefits>article{background:#0b101b}
+.modernization-page .ai-benefits p,.modernization-page #ai-value .ai-value-note{color:#aeb7c7}
+.modernization-page .ai-value-note,.modern-note{margin-top:32px;font-size:14px!important}
+.modernization-page .consult-nudge{display:flex;justify-content:space-between;align-items:center;gap:32px;margin-top:64px;padding:40px;background:#182336}
+.modernization-page .consult-nudge h3{font-size:28px;line-height:1.35;margin:0 0 16px}
+.modernization-page .consult-nudge .btn-hero{flex-shrink:0;color:#fff}
+.modernization-page .consult-nudge p{color:#b6bdcb}
+.modernization-page #modern-scope{background:#fff}
+.modern-techboard{background:#f5f6f8;border:0;padding:48px;color:#111827;margin:0 0 32px}
+.modern-tech-row{display:flex;justify-content:center;gap:44px}
+.modern-tech{width:160px;min-width:0;text-align:center;position:relative}
+.modern-logo{height:148px;display:flex;justify-content:center;align-items:center;background:#fff;border-radius:12px;box-shadow:0 6px 18px rgba(17,24,39,.07);margin-bottom:16px}
+.modern-tech-row.old .modern-logo{background:#eaedf1;box-shadow:none}
+.modern-tech-row.old .modern-logo img{filter:grayscale(1);opacity:.65}
+.modern-tech-row.old .modern-tech strong{color:#737b88}
+.modern-logo img{display:block;width:calc(100px * var(--logo-scale,1));height:calc(100px * var(--logo-scale,1));object-fit:contain;flex-shrink:0}
+/* Optical sizing accounts for transparent margins and each mark's visual density. */
+.modern-logo-net{--logo-scale:1.35}
+.modern-logo-sql{--logo-scale:.9}
+.modern-logo-java{--logo-scale:1.12}
+.modern-tech strong{font-size:16px;line-height:1.4;display:block}
+.modern-tech:not(:last-child):after{content:'';position:absolute;width:30px;height:2px;right:-37px;top:74px;background:repeating-linear-gradient(90deg,#24577f 0 5px,transparent 5px 9px)}
+.modern-tech-arrow{text-align:center;font-size:44px;line-height:1;color:#3194ff;margin:28px 0}
+.modernization-page .scope-item{background:#f3f5f8}
+.modernization-page .scope-item strong{color:#0048ff}
+.modernization-page #modern-checks{background:#eff2f6}
+.modernization-page .modern-preserve{text-align:center;background:#fff;color:#111827}
+.modernization-page .modern-preserve .kick{width:100px;height:40px;display:block;margin:0 auto 28px}
+.modernization-page .modern-preserve .kick path{stroke:#111827}
+.modernization-page .modern-preserve .lead{color:#6b7280;margin:24px 0 36px;font-size:18px}
+.modernization-page #method{background:#fff}
+.modernization-page .steps{display:grid;gap:16px}
+.modernization-page .steps>article{display:grid;grid-template-columns:60px 1fr;gap:24px;padding:32px;background:#f3f5f8}
+.modernization-page .steps>article>span{font-size:36px;font-weight:700;color:#589dfe}
+.modernization-page .steps h3{margin:0 0 16px}
+.modernization-page details{border:0}
+.modernization-page .step-more{margin-top:16px}
+.modernization-page .step-more summary,.modernization-page .collaboration-details summary{cursor:pointer;color:#0048ff;font-size:15px}
+.modernization-page details p{margin-top:16px}
+.modernization-page .collaboration{padding:40px;background:#eff2f6;margin-top:32px}
+.modernization-page .collaboration>p{margin:20px 0}
+.modernization-page .collaboration dl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:24px}
+.modernization-page .collaboration dt{font-weight:700;margin-bottom:12px}
+.modernization-page .collaboration dd{margin:0;font-size:15px;line-height:1.7;color:#6b7280}
+.modernization-page .collaboration small{display:block;margin-top:24px;color:#6b7280}
+.modernization-page #reference{background:#111827;color:#fff}
+.modernization-page .case{display:grid;grid-template-columns:1fr 2fr;gap:40px;padding:40px;background:#0b101b}
+.modernization-page .case-name>span{color:#7da4ff;font-size:14px;display:block;margin-bottom:20px}
+.modernization-page .case p{color:#b6bdcb;margin-top:24px}
+.modernization-page .case-conversion{display:flex;align-items:center;gap:32px}
+.modernization-page .case-conversion small{display:block;color:#7da4ff;margin-bottom:12px}
+.modernization-page .case-conversion strong{font-size:20px}
+
+.modernization-page .faq-list{display:grid;gap:12px}
+.modernization-page .faq-list details{padding:24px 28px;background:#fff}
+.modernization-page .faq-list summary{cursor:pointer;display:flex;justify-content:space-between;gap:24px;font-size:20px;font-weight:600;list-style:none}
+.modernization-page .faq-list summary::-webkit-details-marker{display:none}
+.modernization-page .faq-list summary span{color:#0048ff;transition:transform .3s ease}
+.modernization-page .faq-list details[open] summary span{transform:rotate(45deg)}
+@media(max-width:1023px){.modernization-page :is(.problem-list,.ai-benefits,.scope-strip,.modern-check-grid){grid-template-columns:1fr}.modernization-page .case{grid-template-columns:1fr}.modernization-page .consult-nudge{align-items:flex-start;flex-direction:column}.modernization-page .collaboration dl{grid-template-columns:1fr}}
+@media(max-width:767px){.modernization-page .modern-section .section-head{margin-bottom:40px}.modernization-page .modern-section .section-head p{font-size:16px}.modernization-page .modern-section .h3{font-size:20px}.modernization-page :is(.problem-list,.ai-benefits)>article,.modernization-page .scope-item,.modern-check-grid article{padding:24px}.modern-techboard{padding:28px 12px}.modern-tech-row{gap:16px}.modern-tech{width:96px}.modern-logo{height:90px}.modern-logo img{width:calc(68px * var(--logo-scale,1));height:calc(68px * var(--logo-scale,1))}.modern-tech strong{font-size:12px}.modern-tech:not(:last-child):after{width:12px;right:-14px;top:45px}.modern-tech-arrow{font-size:32px;margin:24px 0}.modernization-page .steps>article{grid-template-columns:1fr;gap:12px;padding:24px}.modernization-page :is(.collaboration,.case,.consult-nudge){padding:24px}.modernization-page .case-conversion{gap:16px}.modernization-page .case-conversion strong{font-size:16px}.modernization-page .faq-list details{padding:24px 20px}.modernization-page .faq-list summary{font-size:18px}.modernization-page .modern-preserve .lead{font-size:16px}}
+
+.modernization-page .modern-check-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.modernization-page #band{text-align:center}.modernization-page #band .sh{grid-column:1/-1}.modernization-page #band .lead{margin:24px auto 32px}.modernization-page #band .ctas{justify-content:center}
+.modernization-page #layers .lc{border:0;box-shadow:none;background:#f3f5f8}
+@media(max-width:767px){.modernization-page .modern-check-grid{grid-template-columns:1fr}}
+
+.modernization-page .layers{gap:24px;border:0}.modernization-page .lcard{background:#f3f5f8;border:0}.modernization-page .lcard+.lcard{border:0}.modernization-page .lc-g{border:0}.modernization-page .lc-t{padding:32px 24px}
+.modernization-page #scope{background:linear-gradient(#fff0,#fff 160px);padding-top:24px}.modernization-page .irow{min-height:240px}.modernization-page .ir-in{padding:24px}.modernization-page .ir-d{font-size:17px}
+.modernization-page #stmt .wrap>.c-9{grid-column:1/-1;text-align:center;margin:0}
+.modernization-page #stmt .st-pf{display:block;width:200px;height:88px;max-width:100%;margin:0 auto 28px}.modernization-page #stmt .stmt-bg{display:none}
+
+@media(max-width:1023px){.modernization-page #scope .sh,.modernization-page .irows{grid-column:1/-1}.modernization-page #scope .sh{position:static}}
+@media(hover:none){.modernization-page .ir-d{max-height:none;opacity:1;margin-top:16px;color:var(--t2-l)}.modernization-page .irow{height:auto;min-height:280px}}
+
+.modernization-page #process :is(.guides,.pgrid,.pglow){display:none}.modernization-page #process .gcard{background:#0b101b}.modernization-page #process .gc-art svg{height:65%;overflow:visible}
+
+/* One prism unfolds into four distinct tilts while the statement is hovered. */
+.modernization-page #stmt .statement-bar{transform-box:view-box;transform-origin:19px 30px;transform:translate(81px,14px) rotate(0deg);opacity:0;transition:transform .65s ease-in-out,opacity .35s ease-in-out}
+.modernization-page #stmt .statement-bar-1{opacity:1}
+@media(hover:hover){
+.modernization-page #stmt:hover .statement-bar{opacity:1}
+.modernization-page #stmt:hover .statement-bar-1{transform:translate(8px,14px) rotate(-12deg)}
+.modernization-page #stmt:hover .statement-bar-2{transform:translate(57px,14px) rotate(9deg)}
+.modernization-page #stmt:hover .statement-bar-3{transform:translate(106px,14px) rotate(-7deg)}
+.modernization-page #stmt:hover .statement-bar-4{transform:translate(155px,14px) rotate(14deg)}
+}
+@media(prefers-reduced-motion:reduce){.modernization-page #stmt .statement-bar{transition:none}}
+/* Review cards: oversized quiet numerals layered behind the heading. */
+.modernization-page .modern-check-grid article{position:relative;isolation:isolate;min-height:200px;padding:86px 36px 38px;overflow:hidden}
+.modernization-page .modern-check-grid article>span{position:absolute;z-index:-1;top:8px;left:12px;margin:0;color:#0048ff;opacity:.08;font-size:108px;font-weight:600;line-height:1;letter-spacing:-.065em;pointer-events:none;user-select:none}
+.modernization-page .modern-check-grid article .h3{margin:0 0 22px;font-size:24px;line-height:1.3;color:#111827}
+.modernization-page .modern-check-grid article p{margin:0;color:#808080}
+@media(max-width:767px){.modernization-page .modern-check-grid article{min-height:200px;padding:80px 28px 36px}.modernization-page .modern-check-grid article>span{font-size:100px;left:10px;top:8px}.modernization-page .modern-check-grid article .h3{font-size:22px;margin-bottom:20px}}
+
+/* Conversion cards follow the visual before/after reference. */
+.modernization-page #modern-scope .scope-strip{gap:24px}
+.modernization-page #modern-scope .scope-item{width:100%;min-width:0;box-sizing:border-box;aspect-ratio:1.78;min-height:228px;padding:32px 20px 36px;text-align:center;background:#f5f6f8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px}
+.modernization-page #modern-scope .scope-item h3{margin:0;flex-shrink:0}
+.modernization-page .scope-conversion{display:flex;align-items:center;justify-content:center;gap:12px;height:84px;font-size:23px;font-weight:600;letter-spacing:-.045em}
+.modernization-page .scope-conversion span{display:flex;align-items:center;justify-content:center;min-width:82px;height:56px;padding:0 12px;border-radius:9px;box-shadow:0 6px 18px rgba(17,24,39,.07)}
+.modernization-page .scope-before{background:#fff;color:#9a9a9a}.modernization-page .scope-after{background:#3194ff;color:#fff}
+.modernization-page .scope-change-arrow{flex-shrink:0;color:#080808}
+.modernization-page .scope-orbit{position:relative;width:100px;height:84px;display:grid;place-items:center;color:#fff;font-size:15px;font-weight:600;line-height:1.25;letter-spacing:-.03em}
+.modernization-page .scope-orbit>span{width:60px;height:60px;border-radius:50%;background:#3194ff;display:flex;align-items:center;justify-content:center}
+.modernization-page .scope-orbit i{position:absolute;left:calc(50% - 4px);top:calc(50% - 4px);width:8px;height:8px;border-radius:50%;background:#3194ff;transform:rotate(calc(var(--dot)*45deg)) translateY(-42px)}
+.modernization-page #modern-scope .scope-item p{margin:0;font-size:14px;line-height:1.65;color:#808080}
+.modernization-page #modern-scope .modern-note{text-align:center;margin-top:20px}
+@media(max-width:1023px){.modernization-page #modern-scope .scope-item{aspect-ratio:auto;min-height:228px}}
+
+.modernization-page .modern-tech:not(:last-child)::after{content:none}
+.modernization-page .modern-tech .modern-tech-description{margin:6px 0 0;font-size:14px;line-height:1.5;font-weight:400;color:#808080}
+@media(max-width:767px){.modernization-page .modern-tech .modern-tech-description{font-size:12px}}
+
+.modernization-page .modern-techboard .modern-tech-group-title{margin:0 0 24px;text-align:center;font-size:16px;line-height:1.5;font-weight:500;color:#808080}
+
+/* Transition label above the centered arrow. */
+.modern-tech-arrow{position:relative;padding-top:0;color:#000;line-height:0}
+.modern-transition-dots{display:flex;flex-direction:column;align-items:center;gap:5px}
+.modern-transition-dots i{display:block;width:4px;height:4px;border-radius:50%;background:#000;opacity:.12}
+.modern-transition-dots i:nth-child(2){opacity:.4}
+.modern-transition-dots i:nth-child(3){opacity:.8}
+.modernization-page .modern-tech-arrow-label{position:absolute;left:0;right:0;top:0;font-size:13px;line-height:1.5;font-weight:400;color:#3194ff;text-align:center;white-space:normal;word-break:keep-all}
+@media(max-width:767px){.modernization-page .modern-tech-arrow-label{font-size:12px}}
+
+.modernization-page #faq{--d-row:.45s}
+
+.modernization-page .modern-techboard-title{margin:0 0 40px;text-align:center;font-size:20px;font-weight:600;line-height:1.5;letter-spacing:-.025em;color:#111827;word-break:keep-all}
+@media(max-width:767px){.modernization-page .modern-techboard-title{font-size:18px;margin-bottom:32px}}
+
+.modernization-page .modern-preserve .modern-consult-cta{background:linear-gradient(120deg,#0048ff,#3b82f6);color:#fff;border:0;border-radius:0;font-weight:600;text-decoration:none;transition:transform 200ms ease,box-shadow 200ms ease,filter 200ms ease}
+.modern-consult-cta:focus-visible{outline:3px solid #4c8bff;outline-offset:5px}
+@media(prefers-reduced-motion:reduce){.modernization-page .modern-preserve .modern-consult-cta{transition:none}}
+
+/* Three independent, restrained loops: convert, compare, retain. */
+.modernization-page #layers .modern-input-blocks{animation:modern-feed 5s ease-in-out infinite}
+.modernization-page #layers .modern-output-block{animation:modern-result 5s ease-in-out infinite}
+.modernization-page #layers .modern-convert-arrow{animation:modern-verify 5s ease-in-out infinite}
+.modernization-page #layers .modern-verify-mark{animation:modern-check-appear 5s ease-in-out infinite}
+.modernization-page #layers .modern-check-stroke{stroke-dasharray:1;animation:modern-check-draw 5s ease-in-out infinite}
+.modernization-page #layers .lc-n{color:#6b7280}
+@keyframes modern-check-appear{0%,15%,100%{opacity:0}28%,82%{opacity:1}}
+@keyframes modern-check-draw{0%,28%,100%{stroke-dashoffset:1}48%,82%{stroke-dashoffset:0}}
+.modernization-page #layers .modern-retained-asset{animation:modern-settle 5s ease-in-out infinite}
+@keyframes modern-feed{0%,15%,85%,100%{transform:translate(0,0)}40%,65%{transform:translate(8px,4.62px)}}
+@keyframes modern-result{0%,15%,85%,100%{transform:translate(0,0)}40%,65%{transform:translate(12px,6.93px)}}
+@keyframes modern-verify{0%,15%,100%{opacity:.25}40%,80%{opacity:1}}
+@keyframes modern-settle{0%,15%,100%{transform:translateY(-8px)}40%,80%{transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.modernization-page #layers :is(.modern-input-blocks,.modern-output-block,.modern-convert-arrow,.modern-verify-mark,.modern-retained-asset){animation:none}}
+
+@media(prefers-reduced-motion:reduce){.modernization-page #layers .modern-check-stroke{animation:none;stroke-dashoffset:0}}
+
+@media(max-width:768px),(hover:none){
+.modernization-page #stmt.mobile-motion-active .statement-bar{opacity:1}
+.modernization-page #stmt.mobile-motion-active .statement-bar-1{transform:translate(8px,14px) rotate(-12deg)}
+.modernization-page #stmt.mobile-motion-active .statement-bar-2{transform:translate(57px,14px) rotate(9deg)}
+.modernization-page #stmt.mobile-motion-active .statement-bar-3{transform:translate(106px,14px) rotate(-7deg)}
+.modernization-page #stmt.mobile-motion-active .statement-bar-4{transform:translate(155px,14px) rotate(14deg)}
+}

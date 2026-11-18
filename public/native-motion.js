@@ -10,6 +10,16 @@ function springFn(k, c, T){ var n = 400, arr = [], x = 0, v = 0, dt = T / n / 8;
 var SP = { slow: springFn(80, 20, D.slow), gentle: springFn(100, 15, D.gentle) };
 function tween(dur, ease, fn, done){ if(reduce){fn(1);if(done)done();return;} var st = null; function f(ts){ if (st === null) st = ts; var p = Math.min(1, (ts - st) / (dur * 1000)); fn(ease(p)); if (p < 1) requestAnimationFrame(f); else if (done) done(); } requestAnimationFrame(f); }
 
+/* Mobile graphic loops run only while visible, without synthetic clicks. */
+function mobileLoop(el, render, interval){
+  if (!el) return;
+  var mobile=matchMedia('(max-width:768px), (hover:none)'), reduced=matchMedia('(prefers-reduced-motion:reduce)'), visible=false, timer, state=false;
+  function stop(){clearInterval(timer);timer=null;}
+  function sync(){stop();if(!mobile.matches||reduced.matches||!visible||document.hidden)return;state=true;render(state);timer=setInterval(function(){state=!state;render(state);},interval||2600);}
+  new IntersectionObserver(function(entries){visible=entries[0].isIntersecting;sync();},{threshold:.15}).observe(el);
+  document.addEventListener('visibilitychange',sync);mobile.addEventListener('change',sync);reduced.addEventListener('change',sync);window.addEventListener('pagehide',stop);window.addEventListener('pageshow',sync);
+}
+document.querySelectorAll('.pcard, #stmt:has(.statement-bar)').forEach(function(el){mobileLoop(el,function(active){el.classList.toggle('mobile-motion-active',active);});});
 /* ---------- kicker loops: Figma AFTER_TIMEOUT chains ---------- */
 function chain(steps){ if (reduce) return; var i = 0; function next(){ var s = steps[i]; setTimeout(function(){ s.go(); i = (i + 1) % steps.length; setTimeout(next, s.dur * 1000); }, s.wait * 1000); } next(); }
 function set(el, tr, props){ el.style.transition = tr; for (var k in props) el.style[k] = props[k]; }
@@ -32,9 +42,13 @@ function set(el, tr, props){ el.style.transition = tr; for (var k in props) el.s
   function pose(S){ p.forEach(function(g, i){ set(g, 'transform ' + D.slow + 's ' + E.slow, { transform: S[i] }); }); }
   chain([ { wait: .8, dur: D.slow, go: function(){ pose(S1); } }, { wait: .001, dur: D.slow, go: function(){ pose(S0); } } ]); });
 // K4 case: slanted <-> crossing (SLOW)
-(function(){ var svg = document.getElementById('k4'); if (!svg) return; var p = [].slice.call(svg.querySelectorAll('.kp')); var S0 = ["matrix(1,0,0,1,181.556,0.425)", "matrix(1,0,0,1,65.855,0.425)", "matrix(1,0,0,-1,0.3,64.575)", "matrix(1,0,0,-1,116,64.575)"], S1 = ["matrix(1,0,0,1,111,0.425)", "matrix(1,0,0,1,37,0.425)", "matrix(1,0,0,-1,0.3,64.575)", "matrix(1,0,0,-1,74,64.575)"];
+document.querySelectorAll('svg[id^="k4"]').forEach(function(svg){ if (!svg) return; var p = [].slice.call(svg.querySelectorAll('.kp')); var S0 = ["matrix(1,0,0,1,181.556,0.425)", "matrix(1,0,0,1,65.855,0.425)", "matrix(1,0,0,-1,0.3,64.575)", "matrix(1,0,0,-1,116,64.575)"], S1 = ["matrix(1,0,0,1,111,0.425)", "matrix(1,0,0,1,37,0.425)", "matrix(1,0,0,-1,0.3,64.575)", "matrix(1,0,0,-1,74,64.575)"];
+  // The assembled W spans x=0.3..166.56; center it in the portfolio viewBox (-10..247).
+  if (svg.closest('.native-cases')) {
+    S1 = ["matrix(1,0,0,1,146.07,0.425)", "matrix(1,0,0,1,72.07,0.425)", "matrix(1,0,0,-1,35.37,64.575)", "matrix(1,0,0,-1,109.07,64.575)"];
+  }
   function pose(S){ p.forEach(function(g, i){ set(g, 'transform ' + D.slow + 's ' + E.slow, { transform: S[i] }); }); }
-  chain([ { wait: .001, dur: D.slow, go: function(){ pose(S1); } }, { wait: .3, dur: D.slow, go: function(){ pose(S0); } } ]); })();
+  chain([ { wait: .001, dur: D.slow, go: function(){ pose(S1); } }, { wait: .3, dur: D.slow, go: function(){ pose(S0); } } ]); });
 /* ---------- MOUSE_ENTER (one-way, Figma) ---------- */
 function oneWay(el, fn){ if (!el) return; var done = false; var go = function(){ if (done) return; done = true; fn(); }; el.addEventListener('mouseenter', go);
   if (!canHover && 'IntersectionObserver' in window){ var io = new IntersectionObserver(function(es){ es.forEach(function(x){ if (x.isIntersecting){ go(); io.disconnect(); } }); }, { threshold: .35 }); io.observe(el); } }
@@ -53,6 +67,7 @@ oneWay(document.getElementById('band'), function(){ document.getElementById('ban
   function run(to){ ms.forEach(function(m){ var from = m._v, id = (m._id || 0) + 1; m._id = id;
     tween(D.slow, SP.slow, function(e){ if (m._id !== id) return; var v = from + (to - from) * e; m._v = v; var i = 0;
       m.setAttribute('d', m._t.replace(/-?\d+(\.\d+)?/g, function(){ var a = m._a[i], b = m._b[i]; i++; return (a + (b - a) * v).toFixed(2); })); }); }); }
+  mobileLoop(card,function(active){run(active?1:0);});
   card.addEventListener('mouseenter', function(){ run(1); }); card.addEventListener('mouseleave', function(){ run(0); });
   card.addEventListener('focus', function(){ run(1); }); card.addEventListener('blur', function(){ run(0); });
 });

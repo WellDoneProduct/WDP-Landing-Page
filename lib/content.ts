@@ -20,7 +20,12 @@ const options = { next: { revalidate: 30 } };
 export const getPosts = cache(async (): Promise<Post[]> => client ? client.fetch(`*[_type == "blogPost" && ${published}${postVisibility} && defined(slug.current) && publishedAt <= now()] | order(publishedAt desc, _id asc) {${postFields}, "body": []}`, {}, options) : isDesignPreview ? demoPosts : []);
 export const getPost = cache(async (slug: string): Promise<Post | undefined> => client ? client.fetch(`*[_type == "blogPost" && ${published}${postVisibility} && slug.current == $slug && publishedAt <= now()][0]{${postFields}, ${body}}`, { slug }, options) : isDesignPreview ? demoPosts.find(post => post.slug === slug) : undefined);
 export const getCategories = cache(async (): Promise<string[]> => client ? client.fetch(`*[_type == "blogCategory" && ${published}] | order(order asc, title asc).title`, {}, options) : categories);
-export const getProjects = cache(async (): Promise<Project[]> => client ? client.fetch(`*[_type == "project" && ${published} && defined(slug.current)] | order(order asc, _id asc) {${projectFields}, "body": []}`, {}, options) : starterProjects);
+export const getProjects = cache(async (): Promise<Project[]> => {
+  if (!client) return starterProjects;
+  const projects: Project[] = await client.fetch(`*[_type == "project" && ${published} && defined(slug.current)] | order(order asc, _id asc) {${projectFields}, "body": []}`, {}, options);
+  // Keep the existing portfolio cards until production portfolio content is published.
+  return projects.length || process.env.NEXT_PUBLIC_SANITY_DATASET !== 'production' ? projects : starterProjects;
+});
 export const getProject = cache(async (slug: string): Promise<Project | undefined> => client ? client.fetch(`*[_type == "project" && ${published} && slug.current == $slug && status == "public"][0]{${projectFields}, ${body}}`, { slug }, options) : undefined);
 
 export const getNews = cache(async (): Promise<NewsItem[]> => client ? client.fetch(`*[_type == "newsArticle" && ${published} && defined(url) && publishedAt <= now()] | order(publishedAt desc, _id asc) {_id, title, publishedAt, url, thumbnail${image}}`, {}, options) : []);
