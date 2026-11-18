@@ -8,7 +8,7 @@ import type { ContentBlock, ContentImage, Project } from '@/lib/content-types';
 
 type DraftImage = { asset?: { _ref?: string }; alt?: string };
 type DraftBlock =
-  | Extract<ContentBlock, { _type: 'block' }>
+  | Exclude<ContentBlock, { _type: 'contentImage' | 'imageGallery' }>
   | { _key: string; _type: 'contentImage'; image?: DraftImage; caption?: string }
   | { _key: string; _type: 'imageGallery'; images?: DraftImage[]; caption?: string };
 type ProjectDraft = Partial<Omit<Project, 'body' | 'heroImage' | 'heroMobileImage' | 'thumbnail' | 'logo' | 'related' | 'slug'>> & {

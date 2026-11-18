@@ -1,6 +1,7 @@
 import { SiteTop } from '@/components/editorial/SiteChrome';
 import SiteFooter from '@/components/editorial/SiteFooter';
 import './editorial.css';
+import './post-detail.css';
 
 // Every editorial page is prerendered at build time. Content updates ship through the
 // Sanity → Vercel Deploy Hook rebuild, so no request ever reaches Sanity at runtime.
