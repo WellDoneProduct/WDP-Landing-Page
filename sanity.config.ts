@@ -1,6 +1,7 @@
 'use client';
 import { defineConfig } from 'sanity';
 import { structureTool } from 'sanity/structure';
+import { table } from '@sanity/table';
 import { schemaTypes } from './sanity/schemaTypes';
 import ProjectPreview from './sanity/ProjectPreview';
 
@@ -20,5 +21,5 @@ export default defineConfig({
     S.divider(),
     S.listItem().id('projects').title('포트폴리오').child(S.documentTypeList('project').title('프로젝트').defaultOrdering([{ field: 'order', direction: 'asc' }])),
     S.listItem().id('news').title('언론 보도').child(S.documentTypeList('newsArticle').title('언론 보도').defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])),
-  ]) })], schema: { types: schemaTypes },
+  ]) }), table()], schema: { types: schemaTypes },
 });

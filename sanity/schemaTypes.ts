@@ -5,6 +5,11 @@ const richText = defineType({
   name: 'richText', title: '본문', type: 'array', of: [
     defineArrayMember({ type: 'block', styles: [{ title: '본문', value: 'normal' }, { title: '제목', value: 'h2' }, { title: '소제목', value: 'h3' }, { title: '인용', value: 'blockquote' }], lists: [{ title: '글머리 기호', value: 'bullet' }, { title: '번호 목록', value: 'number' }], marks: { decorators: [{ title: '굵게', value: 'strong' }, { title: '기울임', value: 'em' }, { title: '코드', value: 'code' }], annotations: [{ name: 'link', title: '링크', type: 'object', fields: [{ name: 'href', title: 'URL', type: 'url', validation: rule => rule.required().uri({ scheme: ['http', 'https', 'mailto'], allowRelative: true }) }] }] } }),
     defineArrayMember({ name: 'contentImage', title: '본문 이미지', type: 'object', fields: [defineField({ name: 'image', title: '이미지', type: 'image', options: { hotspot: true }, fields: imageFields, validation: rule => rule.required() }), defineField({ name: 'caption', title: '이미지 설명', type: 'string' })], preview: { select: { title: 'image.alt', media: 'image' } } }),
+    defineArrayMember({ name: 'contentTable', title: '표', type: 'object', fields: [
+      defineField({ name: 'table', title: '표', type: 'table', description: '칸을 추가·삭제하며 입력합니다. 셀에는 텍스트만 들어갑니다.', validation: rule => rule.required() }),
+      defineField({ name: 'hasHeaderRow', title: '첫 줄을 제목 행으로 사용', type: 'boolean', initialValue: true }),
+      defineField({ name: 'caption', title: '표 설명', type: 'string', description: '표 아래에 표시됩니다. 무엇을 비교하는 표인지 한 줄로 적어주세요.' }),
+    ], preview: { select: { rows: 'table.rows', caption: 'caption' }, prepare: ({ rows, caption }) => ({ title: caption || '표', subtitle: `${Array.isArray(rows) ? rows.length : 0}행` }) } }),
     defineArrayMember({ name: 'imageGallery', title: '이미지 갤러리 (큰 이미지 + 작은 이미지 2개)', type: 'object', fields: [defineField({ name: 'images', title: '이미지', type: 'array', of: [{ type: 'image', options: { hotspot: true }, fields: imageFields }], validation: rule => rule.required().length(3) }), defineField({ name: 'caption', title: '갤러리 설명', type: 'string' })], preview: { select: { media: 'images.0' }, prepare: ({ media }) => ({ title: '이미지 갤러리', media }) } }),
   ],
 });
