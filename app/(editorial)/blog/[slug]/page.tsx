@@ -8,7 +8,7 @@ import { getPost, getPosts } from '@/lib/content';
 import { displayDate } from '@/lib/blog';
 import { sanityImageUrl, sanitySrcSet } from '@/lib/sanity-image';
 import PostNavigation from '@/components/editorial/PostNavigation';
-import { PostCredits, PostRelated, PostSources } from '@/components/editorial/PostExtras';
+import { PostCredits, PostRelated, PostSources, PostTags, postTags } from '@/components/editorial/PostExtras';
 import type { Post } from '@/lib/content-types';
 
 type Props = { params: Promise<{ slug: string }> };
@@ -40,7 +40,7 @@ export default async function BlogDetail({ params }: Props) {
     : {'@type': 'Organization', name: '웰던프로덕트', url: SITE_URL};
   const citations = (post.sources ?? []).filter(source => source?.title && source?.url).map(source => ({'@type': 'CreativeWork', name: source.title, url: source.url}));
   return <><SiteHeader theme="hero" /><main><JsonLd data={{'@context': 'https://schema.org', '@graph': [
-    {'@type': 'BlogPosting', headline: titleText(post.title), datePublished: post.publishedAt, dateModified: modifiedAt(post), description: describe(post), image: shareImage(post), mainEntityOfPage: url, author, publisher: {'@id': `${SITE_URL}/#organization`}, citation: citations.length ? citations : undefined},
+    {'@type': 'BlogPosting', headline: titleText(post.title), datePublished: post.publishedAt, dateModified: modifiedAt(post), description: describe(post), image: shareImage(post), mainEntityOfPage: url, author, publisher: {'@id': `${SITE_URL}/#organization`}, citation: citations.length ? citations : undefined, keywords: postTags(post).length ? postTags(post).join(', ') : undefined},
     {'@type': 'BreadcrumbList', itemListElement: [{name: '홈', item: absoluteUrl('/')}, {name: '블로그', item: absoluteUrl('/blog')}, {name: titleText(post.title), item: url}].map((item, index) => ({'@type': 'ListItem', position: index + 1, ...item}))}
   ]}} /><article>
     <header className="blog-hero" data-dark-hero>{post.cover?.url && <img className="blog-hero-background" src={sanityImageUrl(post.cover.url, 1600)} srcSet={sanitySrcSet(post.cover.url, [768, 1200, 1600, 2400])} sizes="100vw" alt="" fetchPriority="high" decoding="async" />}
@@ -49,6 +49,7 @@ export default async function BlogDetail({ params }: Props) {
       </div>
     </header>
     <div className="editorial-container blog-body rich-content"><ContentBody blocks={post.body} /></div>
+    <PostTags post={post} />
     <PostCredits post={post} />
     <PostSources post={post} />
     <PostRelated post={post} />

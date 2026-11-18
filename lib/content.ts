@@ -19,7 +19,7 @@ const published = '!(_id in path("drafts.**"))';
 const postVisibility = isIndexable ? ' && isTest != true && !(_id match "blog-*-test-*")' : '';
 // Detail-only fields stay out of getPosts so the listing payload (sent to the client filter) stays small.
 // Related posts/projects reuse the public filters, so drafts, test posts and locked projects never link out.
-const postDetailFields = `author->${person}, reviewer->${person}, sources[]{_key, title, url, checkedAt}, relatedServices, seoTitle, seoDescription, ogImage${image}, "relatedPosts": *[_type == "blogPost" && _id in ^.relatedPosts[]._ref && ${published}${postVisibility} && defined(slug.current) && publishedAt <= now()]{"slug": slug.current, title}, "relatedProjects": *[_type == "project" && _id in ^.relatedProjects[]._ref && ${published} && status == "public" && defined(slug.current)]{"slug": slug.current, title}`;
+const postDetailFields = `tags, author->${person}, reviewer->${person}, sources[]{_key, title, url, checkedAt}, relatedServices, seoTitle, seoDescription, ogImage${image}, "relatedPosts": *[_type == "blogPost" && _id in ^.relatedPosts[]._ref && ${published}${postVisibility} && defined(slug.current) && publishedAt <= now()]{"slug": slug.current, title}, "relatedProjects": *[_type == "project" && _id in ^.relatedProjects[]._ref && ${published} && status == "public" && defined(slug.current)]{"slug": slug.current, title}`;
 // Pages are prerendered at build and rebuilt by the Sanity → Vercel Deploy Hook on publish.
 // no-store keeps Sanity results out of the Data Cache, which persists across deployments and would
 // otherwise feed a stale response into the next build. Routes stay static via `dynamic = 'force-static'`.
