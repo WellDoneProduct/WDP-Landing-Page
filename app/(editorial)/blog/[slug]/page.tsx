@@ -54,7 +54,7 @@ export default async function BlogDetail({ params }: Props) {
           <span>최초 게시 <time dateTime={post.publishedAt}>{displayDate(post.publishedAt)}</time></span>
           {updated && <span>수정 <time dateTime={updated}>{displayDate(updated)}</time></span>}
         </div>
-        <BlogEngagement key={post._id} post={post._id} />
+        <BlogEngagement key={post._id} post={post._id} title={titleText(post.title)} href={`/blog/${post.slug}`} />
       </div>
     </header>
     <div className="editorial-container blog-body rich-content" data-analytics-content-body={post._id}><ContentBody blocks={post.body} /></div>
