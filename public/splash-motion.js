@@ -9,7 +9,7 @@
     seen = sessionStorage.getItem(seenKey) === '1';
     sessionStorage.setItem(seenKey, '1');
   } catch { /* Storage restrictions must not prevent the page from opening. */ }
-  if (seen) {
+  if (seen || location.hash === '#cta') {
     splash.classList.add('is-hidden');
     document.querySelector('.hero-h1-cat')?.classList.add('highlight-on');
     return;
