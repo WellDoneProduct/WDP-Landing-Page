@@ -4,7 +4,7 @@ import BlogList from '@/components/editorial/BlogList';
 import { blogUrl, filterPosts, listingTitle, pageCount, POSTS_PER_PAGE } from '@/lib/blog';
 import JsonLd from '@/components/editorial/JsonLd';
 import { getPosts, getCategories } from '@/lib/content';
-import { pageMetadata, absoluteUrl } from '@/lib/seo';
+import { pageMetadata, absoluteUrl, isIndexable } from '@/lib/seo';
 
 // Shared by /blog, /blog/page/[page], /blog/category/[category], /blog/category/[category]/page/[page].
 // All four are statically generated at build time and refreshed by the Sanity → Vercel Deploy Hook.
@@ -30,7 +30,10 @@ const loadListing = async (rawCategory: string, page: number) => {
 
 export const listingMetadata = async (category: string, page: number) => {
   const { active } = await loadListing(category, page);
-  return pageMetadata(listingTitle(active, page), `웰던프로덕트의 ${active === 'All' ? 'AI 개발, 프론트엔드·백엔드 개발, PM과 디자인' : active} 인사이트를 만나보세요. 실제 서비스를 만드는 과정에서 얻은 경험과 업무 자동화 노하우를 공유합니다.`, blogUrl(active, page));
+  const meta = pageMetadata(listingTitle(active, page), `웰던프로덕트의 ${active === 'All' ? 'AI 개발, 프론트엔드·백엔드 개발, PM과 디자인' : active} 인사이트를 만나보세요. 실제 서비스를 만드는 과정에서 얻은 경험과 업무 자동화 노하우를 공유합니다.`, blogUrl(active, page));
+  // Page 2+ of a listing repeats page 1's template with older cards, so keep it out of search results
+  // but let crawlers follow its links to the posts. Page 1 of /blog and of each category stays indexable.
+  return page > 1 ? { ...meta, robots: { index: false, follow: isIndexable } } : meta;
 };
 
 // Params for generateStaticParams: every category, and every page beyond the first.
