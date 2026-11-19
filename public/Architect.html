@@ -2222,7 +2222,7 @@
       }
     </style>
   <link rel="stylesheet" href="/site-chrome.css" />
-<script>try{if(sessionStorage.getItem("wdp:splash:seen")==="1")document.documentElement.classList.add("splash-seen")}catch{}</script><style>.splash-seen .splash{display:none!important}</style><link rel="stylesheet" href="/contact-form.css" />
+<script>try{if(location.hash==="#cta"||sessionStorage.getItem("wdp:splash:seen")==="1")document.documentElement.classList.add("splash-seen")}catch{}</script><style>.splash-seen .splash{display:none!important}</style><link rel="stylesheet" href="/contact-form.css" />
 </head>
 
   <body>
@@ -2279,7 +2279,7 @@
                 />
               </svg>
             </a>
-            <a href="#cta" class="btn-hero btn-hero-primary"
+            <a href="/#cta" class="btn-hero btn-hero-primary"
               >30분 무료 상담받기</a
             >
           </div>
@@ -3660,10 +3660,10 @@
     </dialog>
 
     <script>
-      // 새로고침 시 항상 맨 위에서 시작 (브라우저 스크롤 복원 끔)
-      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+      // A fragment link owns its initial scroll position.
+      if (!location.hash && "scrollRestoration" in history) history.scrollRestoration = "manual";
       window.addEventListener("load", function () {
-        window.scrollTo(0, 0);
+        if (!location.hash) window.scrollTo(0, 0);
       });
 
       // FAQ accordion
