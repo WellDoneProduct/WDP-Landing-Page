@@ -15,10 +15,30 @@
 }
 
 .blog-hero-text .post-dates {
+  align-items: baseline;
   margin-top: 8px;
   color: #e2e8f0;
   font-size: 14px;
 }
+
+.post-date-values {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+}
+
+.post-date-values > span,
+.post-date-values .blog-engagement > span:first-child { white-space: nowrap; }
+
+.post-dates .blog-engagement {
+  display: contents;
+  font: inherit;
+  color: inherit;
+  font-variant-numeric: tabular-nums;
+}
+
+.post-date-values [role="status"] { flex-basis: 100%; }
 
 .blog-body {
   max-width: 737px;
@@ -29,7 +49,7 @@
   padding-bottom: 48px;
 }
 
-.blog-body > :last-child {
+.blog-body [data-analytics-content-body] > :last-child {
   margin-bottom: 0;
 }
 
@@ -288,20 +308,23 @@
 
 .blog-engagement { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; margin-top: 8px; font-size: 14px; color: #e2e8f0; font-variant-numeric: tabular-nums; }
 .blog-engagement button { min-height: 44px; padding: 0 6px; background: transparent; border: 0; color: inherit; font: inherit; cursor: pointer; }
-.blog-engagement { --like-pink: #ff9ac4; }
-.blog-grid .blog-engagement { --like-pink: #bd2568; color: #596273; margin-top: 2px; }
-.blog-engagement .blog-like { display: inline-flex; align-items: center; gap: 5px; color: inherit; }
+.blog-grid .blog-engagement { color: #596273; margin-top: 2px; }
 .blog-view-link { display: inline-flex; align-items: center; min-height: 44px; color: inherit; }
-.like-heart { position: relative; display: inline-grid; place-items: center; }
-.like-heart svg { display: block; }
-.blog-like[aria-pressed="true"] .like-heart, .like-pop::after { color: var(--like-pink); }
-@media (prefers-reduced-motion: no-preference) {
-  .like-pop svg { animation: like-pop .42s ease-out; }
-  .like-pop::after { content: ''; position: absolute; left: 50%; top: 50%; width: 3px; height: 3px;
-    border-radius: 50%; background: transparent; pointer-events: none; opacity: 0;
-    box-shadow: -10px -8px currentColor, 4px -12px currentColor, 12px -2px currentColor, 7px 9px currentColor, -8px 8px currentColor;
-    animation: like-spark .45s ease-out; }
-}
-@keyframes like-pop { 0%, 100% { transform: scale(1); } 30% { transform: scale(1.36) rotate(-9deg); } 65% { transform: scale(.94); } }
-@keyframes like-spark { 0% { transform: scale(.45); opacity: 0; } 25% { opacity: .9; } 100% { transform: scale(1.5); opacity: 0; } }
+.blog-hero-text h1 { overflow-wrap: anywhere; }
+.post-keyword-row { display: flex; align-items: center; gap: 16px; min-height: 44px; }
+.post-keyword-row > section { min-width: 0; }
+.post-share { position: relative; flex: none; margin-inline-start: auto; color: #374151; }
+.post-share .blog-share { display: block; position: relative; border: 0; padding: 0; background: transparent; color: inherit; cursor: pointer; }
+.blog-share::before { content: ''; display: block; width: 32px; height: 32px; background: currentColor; mask: url('/blog-share-network.svg') center / contain no-repeat; }
+.blog-share:hover, .blog-share:focus-visible { color: #111827; }
+.blog-share::after { content: ''; position: absolute; inset: -6px; }
+.blog-share:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+.blog-share-status:not(:empty), .blog-share-url { position: absolute; top: 44px; right: 0; z-index: 1; width: max-content; max-width: min(280px, 80vw); padding: 8px 12px; background: #f3f4f6; color: #374151; font-size: 14px; line-height: 1.5; }
+.blog-share-url { display: grid; gap: 4px; }
+.blog-share-url input { width: 100%; min-width: 0; color: #111827; background: #fff; padding: 6px; }
 .blog-engagement button:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+
+@media (max-width: 767px) {
+  .blog-share::before { width: 24px; height: 24px; }
+  .blog-share::after { inset: -10px; }
+}

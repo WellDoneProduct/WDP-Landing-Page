@@ -2,17 +2,12 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-export type Counts = { views: number; likes: number; liked: boolean };
-type Action = 'view' | 'like' | 'unlike';
+export type Counts = { views: number };
 
 const readerKey = (post: string) => 'wdp:blog-reader:' + post;
 
 export async function readCounts(posts: string[], signal: AbortSignal): Promise<Record<string, Counts>> {
-  const items = posts.map(post => {
-    let reader = null;
-    try { reader = localStorage.getItem(readerKey(post)); } catch {}
-    return { post, reader };
-  });
+  const items = posts.map(post => ({ post }));
   const response = await fetch('/api/blog/engagement', {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ action: 'read', items }), signal,
@@ -21,7 +16,7 @@ export async function readCounts(posts: string[], signal: AbortSignal): Promise<
   return response.json();
 }
 
-async function record(post: string, action: Action, signal?: AbortSignal): Promise<Counts> {
+async function recordView(post: string, signal: AbortSignal): Promise<Counts> {
   const key = readerKey(post);
   const getReader = () => {
     const stored = localStorage.getItem(key);
@@ -33,7 +28,7 @@ async function record(post: string, action: Action, signal?: AbortSignal): Promi
   const reader = navigator.locks ? await navigator.locks.request(key, getReader) : getReader();
   const response = await fetch('/api/blog/engagement', {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ post, reader, action }), signal,
+    body: JSON.stringify({ post, reader, action: 'view' }), signal,
   });
   if (!response.ok) throw new Error('engagement unavailable');
   return response.json();
@@ -49,7 +44,7 @@ export default function BlogEngagement({ post }: { post: string }) {
     function visit() {
       if (document.visibilityState !== 'visible') return;
       document.removeEventListener('visibilitychange', visit);
-      record(post, 'view', controller.signal).then(value => {
+      recordView(post, controller.signal).then(value => {
         if (!controller.signal.aborted) { setCounts(value); setError(false); }
       }).catch(() => { if (!controller.signal.aborted) setError(true); });
     }
@@ -58,40 +53,59 @@ export default function BlogEngagement({ post }: { post: string }) {
     return () => { controller.abort(); document.removeEventListener('visibilitychange', visit); };
   }, [post, attempt]);
 
-  return <EngagementRow post={post} counts={counts} onUpdate={setCounts} failed={error} retry={() => setAttempt(n => n + 1)} />;
+  return <EngagementRow counts={counts} failed={error} retry={() => setAttempt(n => n + 1)} />;
 }
 
-type RowProps = {
-  post: string; counts?: Counts | null; onUpdate: (counts: Counts) => void;
-  failed: boolean; retry: () => void; href?: string;
-};
+type RowProps = { href?: string; counts?: Counts | null; failed: boolean; retry: () => void };
 
-export function EngagementRow({ post, counts, onUpdate, failed, retry, href }: RowProps) {
-  const pending = useRef(false);
-  const [busy, setBusy] = useState(false);
-  const [saveError, setSaveError] = useState(false);
-  const [pulse, setPulse] = useState(0);
-  async function like() {
-    if (!counts || pending.current) return;
-    pending.current = true;
-    setBusy(true);
-    if (!counts.liked) setPulse(n => n + 1);
-    try {
-      onUpdate(await record(post, counts.liked ? 'unlike' : 'like'));
-      setSaveError(false);
-    } catch { setSaveError(true); }
-    finally { pending.current = false; setBusy(false); }
-  }
+export function EngagementRow({ href, counts, failed, retry }: RowProps) {
   const views = '조회수 ' + (counts?.views.toLocaleString('ko-KR') ?? '—');
-  const liked = busy ? !counts?.liked : Boolean(counts?.liked);
   return <div className="blog-engagement">
     {href ? <a className="blog-view-link" href={href}>{views}</a> : <span>{views}</span>}
-    <button className="blog-like" type="button" onClick={like} disabled={!counts || busy} aria-pressed={liked}>
-      <span key={pulse} className={'like-heart' + (pulse ? ' like-pop' : '')} aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="1.8" fill={liked ? 'currentColor' : 'none'}><path d="M12 20.5 3.8 12.6C-1.1 7.6 6.1.2 12 6.2c5.9-6 13.1 1.4 8.2 6.4Z" /></svg>
-      </span> 좋아요 {counts?.likes.toLocaleString('ko-KR') ?? '—'}
-    </button>
-    {failed && <span role="status">집계를 불러올 수 없습니다. <button type="button" onClick={retry}>다시 시도</button></span>}
-    {saveError && <span role="status">좋아요를 저장하지 못했습니다. 다시 눌러 주세요.</span>}
+    {failed && <span role="status">조회수를 불러올 수 없습니다. <button type="button" onClick={retry}>다시 시도</button></span>}
+  </div>;
+}
+
+export function ArticleShare({ href, title }: { href: string; title: string }) {
+  const busy = useRef(false);
+  const [copied, setCopied] = useState(false);
+  const [manualUrl, setManualUrl] = useState('');
+
+  useEffect(() => {
+    if (!copied) return;
+    const timer = window.setTimeout(() => setCopied(false), 2500);
+    return () => window.clearTimeout(timer);
+  }, [copied]);
+
+  async function share() {
+    if (busy.current) return;
+    busy.current = true;
+    setManualUrl('');
+    setCopied(false);
+    const url = new URL(href, window.location.origin).href;
+    try {
+      if (navigator.share) {
+        try {
+          await navigator.share({ title, url });
+          return;
+        } catch (error) {
+          if ((error as { name?: string }).name === 'AbortError') return;
+        }
+      }
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+    } catch {
+      setManualUrl(url);
+    } finally {
+      busy.current = false;
+    }
+  }
+
+  return <div className="post-share">
+    <button className="blog-share" type="button" onClick={share} aria-label={title + ' 공유하기'} title="공유하기" />
+    <span role="status" className="blog-share-status">{copied ? '링크를 복사했습니다.' : ''}</span>
+    {manualUrl && <label className="blog-share-url">링크를 직접 복사해 주세요.
+      <input readOnly value={manualUrl} onFocus={e => e.currentTarget.select()} />
+    </label>}
   </div>;
 }
