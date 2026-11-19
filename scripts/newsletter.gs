@@ -7,7 +7,7 @@ function doPost(event) {
   try {
     const data = JSON.parse(event.postData.contents);
     if (!data || !authorized(data.token)) return result({ ok: false });
-    if (data.kind === 'blogEngagement') {
+    if (data.kind === 'blogEngagement' || data.kind === 'productionBlogEngagement') {
       if (data.action !== 'read') lock.waitLock(15000);
       return result({ ok: true, counts: blogEngagement(data) });
     }
@@ -145,8 +145,9 @@ function blogEngagement(data) {
   if (!Array.isArray(items) || !items.length || items.length > 6 ||
       (!reading && (items.length !== 1 || !['view','like','unlike'].includes(data.action)))) throw Error('action');
   const book = SpreadsheetApp.openById('12lYZtAZ1M5KxCudhfOqPEhxx4rf2DgQXDCoZiD41LsE');
-  const totals = book.getSheetById(0);
-  const readers = book.getSheetById(745201);
+  const production = data.kind === 'productionBlogEngagement';
+  const totals = book.getSheetById(production ? 745202 : 0);
+  const readers = book.getSheetById(production ? 745203 : 745201);
   const rows = totals.getDataRange().getValues();
   const counts = {};
   for (const item of items) {
