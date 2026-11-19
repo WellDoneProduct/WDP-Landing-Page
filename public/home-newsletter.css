@@ -199,12 +199,12 @@
   width: max-content;
   max-width: calc(100% - 32px);
   padding: 12px 16px;
-  border: 1px solid #d4deef;
-  border-inline-start: 3px solid #275dda;
+  border: 1px solid rgb(255 255 255 / 16%);
+  border-inline-start: 0;
   border-radius: 8px;
-  background: #fff;
+  background: #1e293b;
   box-shadow: 0 8px 28px rgb(17 24 39 / 20%);
-  color: #111827;
+  color: #fff;
   pointer-events: none;
   text-align: left;
   word-break: keep-all;
@@ -222,7 +222,7 @@
 
 .newsletter-notice span {
   margin-top: 2px;
-  color: #475569;
+  color: #cbd5e1;
   font-size: 13px;
   line-height: 19px;
 }
