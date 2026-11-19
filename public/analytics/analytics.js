@@ -111,6 +111,8 @@ export function createAnalytics({ brand, getConsent, getPage, ignoredReferrers =
     // Default denied is queued before the container; analytics consent alone never grants ads consent.
     gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});
     gtag('consent','update',{analytics_storage:'granted'});
+    // The route tracker sends page_view with attribution after GTM is ready.
+    gtag('set', { send_page_view: false });
     w.dataLayer.push({'gtm.start':Date.now(),event:'gtm.js'});
     if (!d.querySelector('script[data-company-gtm]')) { const s=d.createElement('script'); s.async=true; s.src='https://www.googletagmanager.com/gtm.js?id='+cfg.gtm; s.dataset.companyGtm=brand; d.head.appendChild(s); }
     ready = true;
