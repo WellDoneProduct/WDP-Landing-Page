@@ -84,7 +84,27 @@ export function createAnalytics({ brand, getConsent, getPage, ignoredReferrers =
     for (const k of ['source','medium','campaign','content']) { const v=valid(landing.searchParams.get('utm_'+k)); if (v) loc.searchParams.set('utm_'+k,v); }
     return {allowed:true,name,props,user_id:userId,page_location:loc.href,page_title:brand+' | '+p.type,page_referrer:referrer ? referrer.origin+'/' : '',mixpanel_options:{record_sessions_percent:0,track_pageview:false,track_marketing:false,skip_first_touch_marketing:true,save_referrer:false,persistence:'cookie',cookie_domain:cfg.domain,cross_subdomain_cookie:true,cookie_expiration:90,secure_cookie:true,property_blacklist:['$current_url','$referrer','$initial_referrer','$initial_referring_domain','$title','mp_keyword','utm_source','utm_medium','utm_campaign','utm_content','utm_term']}};
   }
-  function push(event, props, userId) { w.dataLayer.push({analytics:null}); w.dataLayer.push({event,analytics:envelope(event,props,userId)}); }
+  const pending = [];
+  let tagsReady = false;
+  const tagTimeout = 10000;
+
+  function emit(message) {
+    w.dataLayer.push({ analytics: null });
+    w.dataLayer.push(message);
+  }
+
+  function flush() {
+    if (tagsReady) return;
+    tagsReady = true;
+    for (const message of pending.splice(0)) if (consent()) emit(message);
+  }
+
+  function push(event, props, userId) {
+    // Capture the event's page and attribution before waiting on the vendor SDKs.
+    const message = { event, analytics: envelope(event, props, userId) };
+    if (tagsReady) emit(message);
+    else pending.push(message);
+  }
   function start() {
     if (!consent()) return false;
     if (ready) return true;
@@ -93,7 +113,17 @@ export function createAnalytics({ brand, getConsent, getPage, ignoredReferrers =
     gtag('consent','update',{analytics_storage:'granted'});
     w.dataLayer.push({'gtm.start':Date.now(),event:'gtm.js'});
     if (!d.querySelector('script[data-company-gtm]')) { const s=d.createElement('script'); s.async=true; s.src='https://www.googletagmanager.com/gtm.js?id='+cfg.gtm; s.dataset.companyGtm=brand; d.head.appendChild(s); }
-    ready=true; push('analytics_ready'); return true;
+    ready = true;
+    // The Mixpanel template resolves its event fields only after its wrapper is loaded.
+    // Wait for the container's init tags to finish before publishing event data.
+    emit({
+      event: 'analytics_ready',
+      analytics: envelope('analytics_ready'),
+      eventCallback: () => queueMicrotask(flush),
+      eventTimeout: tagTimeout,
+    });
+    w.setTimeout(flush, tagTimeout + 1000);
+    return true;
   }
   function track(name, props={}) {
     try {
@@ -144,6 +174,6 @@ export function createAnalytics({ brand, getConsent, getPage, ignoredReferrers =
     attribution: () => { try { return attribution(); } catch { return null; } },
     identify(userId) { try { if (brand!=='ontie'||!valid(userId)||!start()) return false; push('analytics_identify',{},userId); return true; } catch { return false; } },
     reset() { try { if (brand==='ontie'&&ready&&consent()) push('analytics_reset'); } catch {} },
-    revoke() { revoked=true; saveOrigin(null); once.clear(); gtag('consent','update',{analytics_storage:'denied'}); w['ga-disable-'+cfg.ga]=true; try { w.mixpanel?.opt_out_tracking(); d.cookie=cookieKey+'=; Max-Age=0; Path=/; Domain='+cfg.domain+'; SameSite=Lax; Secure'; w.localStorage.removeItem(cookieKey+'_sent'); } catch {} }
+    revoke() { revoked=true; pending.length = 0; saveOrigin(null); once.clear(); gtag('consent','update',{analytics_storage:'denied'}); w['ga-disable-'+cfg.ga]=true; try { w.mixpanel?.opt_out_tracking(); d.cookie=cookieKey+'=; Max-Age=0; Path=/; Domain='+cfg.domain+'; SameSite=Lax; Secure'; w.localStorage.removeItem(cookieKey+'_sent'); } catch {} }
   };
 }

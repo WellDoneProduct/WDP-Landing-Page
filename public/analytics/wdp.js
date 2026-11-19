@@ -39,6 +39,9 @@ const { analytics, showRoute } = installAnalytics({ brand: 'welldoneproduct', do
 window.wdpAnalytics = analytics;
 const refresh = () => requestAnimationFrame(() => showRoute());
 document.addEventListener('wdp:route-committed', refresh);
-window.addEventListener('pageshow', refresh);
-if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => showRoute(), { once: true });
-else showRoute();
+const canShow = () => document.documentElement.dataset.analyticsRouteReady === 'true' ||
+  document.body.classList.contains('ai-native-page');
+window.addEventListener('pageshow', () => { if (canShow()) refresh(); });
+const boot = () => { if (canShow()) showRoute(); };
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once: true });
+else boot();
