@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { findService } from '@/lib/services';
 import { analyticsContext } from '@/lib/analytics-context';
 import { writeLeadData } from '@/lib/lead-store';
-const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL!;
+const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL;
 
 /* ── 서버사이드 입력 검증 ─────────────────────────────────────────── */
 function validate(data: Record<string, unknown>): string | null {
@@ -76,7 +76,9 @@ export async function POST(req: NextRequest) {
   }
 
   /* 환경변수 가드 — 미설정 시 fetch(undefined) 크래시 방지 */
-  if (!SLACK_WEBHOOK_URL) {
+  // Development can verify real Sheets storage without notifying the production sales channel.
+  const developmentDataset = process.env.NEXT_PUBLIC_SANITY_DATASET === 'development' && process.env.WDP_ENVIRONMENT !== 'production';
+  if (!SLACK_WEBHOOK_URL && !developmentDataset) {
     console.error('[contact] missing env: SLACK_WEBHOOK_URL');
     return NextResponse.json({ error: '서버 설정 오류입니다. 관리자에게 문의해 주세요.' }, { status: 500 });
   }
@@ -95,7 +97,7 @@ export async function POST(req: NextRequest) {
     }
 
     /* 2. Slack 알림 */
-    if (receipt.created !== false) await fetch(SLACK_WEBHOOK_URL, {
+    if (receipt.created !== false && SLACK_WEBHOOK_URL) await fetch(SLACK_WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
