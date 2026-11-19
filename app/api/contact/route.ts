@@ -104,10 +104,11 @@ export async function POST(req: NextRequest) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         icon_emoji: ':money_with_wings:',
+        text: '[WDP] 새 상담 신청이 들어왔어요!',
         blocks: [
           {
             type: 'header',
-            text: { type: 'plain_text', text: '📋 새 상담 신청이 들어왔어요!', emoji: true },
+            text: { type: 'plain_text', text: '📋 [WDP] 새 상담 신청이 들어왔어요!', emoji: true },
           },
           {
             type: 'section',
