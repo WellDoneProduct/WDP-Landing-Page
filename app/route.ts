@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { getProjects } from '@/lib/content';
+import { homeNewsletter } from '@/lib/home-newsletter';
 import { homeProjectCards } from '@/lib/home-project-cards';
 import { NextResponse } from 'next/server';
 import { isIndexable, SITE_URL, organization, jsonLd } from '@/lib/seo';
@@ -13,7 +14,9 @@ export const GET = async () => {
     path.join(process.cwd(), 'public/ai-native.html'),
     'utf-8',
   );
-  const html = source.replace('</head>', `<link rel="canonical" href="${SITE_URL}/" /><meta name="robots" content="${isIndexable ? 'index,follow' : 'noindex,nofollow'}" /><script type="application/ld+json">${jsonLd(organization)}</script></head>`);
+  const html = source
+    .replace('<!-- HOME_NEWSLETTER -->', homeNewsletter)
+    .replace('</head>', `<link rel="stylesheet" href="/home-newsletter.css" /><link rel="canonical" href="${SITE_URL}/" /><meta name="robots" content="${isIndexable ? 'index,follow' : 'noindex,nofollow'}" /><script type="application/ld+json">${jsonLd(organization)}</script></head>`);
 
   return new NextResponse(html.replace('<!-- HOME_PROJECT_CARDS -->', homeProjectCards(await getProjects())), {
     headers: {
