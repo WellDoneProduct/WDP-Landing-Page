@@ -55,7 +55,7 @@ export default async function BlogDetail({ params }: Props) {
         </div>
       </div>
     </header>
-    <div className="editorial-container blog-body rich-content"><ContentBody blocks={post.body} /></div>
+    <div className="editorial-container blog-body rich-content" data-analytics-content-body={post._id}><ContentBody blocks={post.body} /></div>
     <div className="editorial-container post-extras">
       <PostTags post={post} />
       <PostSources post={post} />
