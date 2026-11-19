@@ -6,7 +6,8 @@ import { useEffect } from 'react';
 export default function AnalyticsRoute() {
   const pathname = usePathname();
   useEffect(() => {
-    document.dispatchEvent(new Event('wdp:route-committed'));
+    document.documentElement.dataset.analyticsRouteReady = 'true';
+    document.dispatchEvent(new CustomEvent('wdp:route-committed', { detail: pathname }));
   }, [pathname]);
   return null;
 }
