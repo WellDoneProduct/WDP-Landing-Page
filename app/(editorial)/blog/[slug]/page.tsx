@@ -7,7 +7,7 @@ import ContentBody from '@/components/editorial/ContentBody';
 import { getPost, getPosts } from '@/lib/content';
 import { displayDate } from '@/lib/blog';
 import { sanityImageUrl, sanitySrcSet } from '@/lib/sanity-image';
-import BlogEngagement from '@/components/editorial/BlogEngagement';
+import BlogEngagement, { ArticleShare } from '@/components/editorial/BlogEngagement';
 import PostNavigation from '@/components/editorial/PostNavigation';
 import { PostConsultation, PostCredits, PostRelated, PostSources, PostTags, postTags } from '@/components/editorial/PostExtras';
 import type { Post } from '@/lib/content-types';
@@ -45,21 +45,29 @@ export default async function BlogDetail({ params }: Props) {
     {'@type': 'BreadcrumbList', itemListElement: [{name: '홈', item: absoluteUrl('/')}, {name: '블로그', item: absoluteUrl('/blog')}, {name: titleText(post.title), item: url}].map((item, index) => ({'@type': 'ListItem', position: index + 1, ...item}))}
   ]}} /><article>
     <header className="blog-hero" data-dark-hero>{post.cover?.url && <img className="blog-hero-background" src={sanityImageUrl(post.cover.url, 1600)} srcSet={sanitySrcSet(post.cover.url, [768, 1200, 1600, 2400])} sizes="100vw" alt="" fetchPriority="high" decoding="async" />}
-      <div className="editorial-container blog-hero-text"><h1>{titleText(post.title)}</h1>
+      <div className="editorial-container blog-hero-text">
+        <h1>{titleText(post.title)}</h1>
         <div className="post-byline">
           {post.category && <span>{post.category}</span>}
           {post.author?.name && <span>{post.author.name}</span>}
         </div>
         <div className="post-dates">
-          <span>최초 게시 <time dateTime={post.publishedAt}>{displayDate(post.publishedAt)}</time></span>
+          <div className="post-date-values">
+            <span>최초 게시 <time dateTime={post.publishedAt}>{displayDate(post.publishedAt)}</time></span>
+            <BlogEngagement key={post._id} post={post._id} />
+          </div>
           {updated && <span>수정 <time dateTime={updated}>{displayDate(updated)}</time></span>}
         </div>
-        <BlogEngagement key={post._id} post={post._id} title={titleText(post.title)} href={`/blog/${post.slug}`} />
       </div>
     </header>
-    <div className="editorial-container blog-body rich-content" data-analytics-content-body={post._id}><ContentBody blocks={post.body} /></div>
+    <div className="editorial-container blog-body rich-content">
+      <div data-analytics-content-body={post._id}><ContentBody blocks={post.body} /></div>
+    </div>
     <div className="editorial-container post-extras">
-      <PostTags post={post} />
+      <div className="post-keyword-row">
+        <PostTags post={post} />
+        <ArticleShare title={titleText(post.title)} href={`/blog/${post.slug}`} />
+      </div>
       <PostSources post={post} />
       <PostCredits post={post} />
       <PostConsultation post={post} />

@@ -34,7 +34,7 @@ async function recordView(post: string, signal: AbortSignal): Promise<Counts> {
   return response.json();
 }
 
-export default function BlogEngagement({ post, href, title }: { post: string; href: string; title: string }) {
+export default function BlogEngagement({ post }: { post: string }) {
   const [counts, setCounts] = useState<Counts | null>(null);
   const [error, setError] = useState(false);
   const [attempt, setAttempt] = useState(0);
@@ -53,15 +53,20 @@ export default function BlogEngagement({ post, href, title }: { post: string; hr
     return () => { controller.abort(); document.removeEventListener('visibilitychange', visit); };
   }, [post, attempt]);
 
-  return <EngagementRow href={href} title={title} counts={counts} failed={error} retry={() => setAttempt(n => n + 1)} />;
+  return <EngagementRow counts={counts} failed={error} retry={() => setAttempt(n => n + 1)} />;
 }
 
-type RowProps = {
-  href: string; title: string; counts?: Counts | null; linkViews?: boolean;
-  failed: boolean; retry: () => void;
-};
+type RowProps = { href?: string; counts?: Counts | null; failed: boolean; retry: () => void };
 
-export function EngagementRow({ href, title, counts, linkViews, failed, retry }: RowProps) {
+export function EngagementRow({ href, counts, failed, retry }: RowProps) {
+  const views = '조회수 ' + (counts?.views.toLocaleString('ko-KR') ?? '—');
+  return <div className="blog-engagement">
+    {href ? <a className="blog-view-link" href={href}>{views}</a> : <span>{views}</span>}
+    {failed && <span role="status">조회수를 불러올 수 없습니다. <button type="button" onClick={retry}>다시 시도</button></span>}
+  </div>;
+}
+
+export function ArticleShare({ href, title }: { href: string; title: string }) {
   const busy = useRef(false);
   const [copied, setCopied] = useState(false);
   const [manualUrl, setManualUrl] = useState('');
@@ -96,18 +101,11 @@ export function EngagementRow({ href, title, counts, linkViews, failed, retry }:
     }
   }
 
-  const views = '조회수 ' + (counts?.views.toLocaleString('ko-KR') ?? '—');
-  return <div className="blog-engagement">
-    {linkViews ? <a className="blog-view-link" href={href}>{views}</a> : <span>{views}</span>}
-    <button className="blog-share" type="button" onClick={share} aria-label={title + ' 공유하기'}>
-      <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 15V3m-4 4 4-4 4 4M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7" />
-      </svg>공유하기
-    </button>
+  return <div className="post-share">
+    <button className="blog-share" type="button" onClick={share} aria-label={title + ' 공유하기'} title="공유하기" />
     <span role="status" className="blog-share-status">{copied ? '링크를 복사했습니다.' : ''}</span>
     {manualUrl && <label className="blog-share-url">링크를 직접 복사해 주세요.
       <input readOnly value={manualUrl} onFocus={e => e.currentTarget.select()} />
     </label>}
-    {failed && <span role="status">조회수를 불러올 수 없습니다. <button type="button" onClick={retry}>다시 시도</button></span>}
   </div>;
 }
