@@ -11,6 +11,6 @@ export async function POST(request: Request) {
     return Response.json({ ok: false }, { status: 422 });
   }
 
-  const ok = await writeLeadData({ email });
-  return Response.json({ ok }, { status: ok ? 200 : 503 });
+  const receipt = await writeLeadData({ email, requestId: data?.requestId });
+  return Response.json({ ok: !!receipt, analytics_event_id: receipt?.analytics_event_id }, { status: receipt ? 200 : 503 });
 }

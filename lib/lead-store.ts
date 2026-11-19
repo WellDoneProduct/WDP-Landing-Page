@@ -1,8 +1,8 @@
 // The newsletter and contact forms share one authenticated Sheets writer and lock.
-export async function writeLeadData(payload: object, inquiryId?: string): Promise<boolean> {
+export async function writeLeadData(payload: object, inquiryId?: string): Promise<{ created?: boolean; analytics_event_id?: string } | null> {
   const url = process.env.NEWSLETTER_WEBHOOK_URL;
   const token = process.env.NEWSLETTER_WEBHOOK_TOKEN;
-  if (!url || !token) return false;
+  if (!url || !token) return null;
 
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
@@ -15,11 +15,17 @@ export async function writeLeadData(payload: object, inquiryId?: string): Promis
       });
       if (response.ok) {
         const saved = await response.json();
-        if (saved?.ok === true && (!inquiryId || saved.inquiryId === inquiryId)) return true;
+        if (saved?.ok === true && (!inquiryId || saved.inquiryId === inquiryId)) {
+          return {
+            created: typeof saved.created === 'boolean' ? saved.created : undefined,
+            analytics_event_id: typeof saved.analytics_event_id === 'string' && /^[a-f0-9-]{36}$/i.test(saved.analytics_event_id)
+              ? saved.analytics_event_id : undefined,
+          };
+        }
       }
     } catch {
       // The same inquiry ID or newsletter address can be retried after a timeout.
     }
   }
-  return false;
+  return null;
 }

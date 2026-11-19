@@ -10,6 +10,7 @@
   const defaultHint = hint.textContent;
   const toastDuration = 2500;
   let timer;
+  let requestId;
 
   document.body.append(notice);
   notice.popover = 'manual';
@@ -38,6 +39,7 @@
   }
 
   input.addEventListener('input', () => {
+    requestId = undefined;
     input.removeAttribute('aria-invalid');
     hint.textContent = defaultHint;
   });
@@ -61,12 +63,18 @@
     button.textContent = '저장 중…';
     hint.textContent = defaultHint;
     try {
+      requestId ||= window.crypto?.randomUUID?.();
       const response = await fetch(form.action, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: input.value }),
+        body: JSON.stringify({ email: input.value, requestId }),
       });
-      if (!response.ok || (await response.json()).ok !== true) throw new Error('subscription failed');
+      const receipt = await response.json();
+      if (!response.ok || receipt.ok !== true) throw new Error('subscription failed');
+      if (receipt.analytics_event_id) {
+        window.wdpAnalytics?.track('newsletter_signup', { form_id: 'newsletter_home', event_id: receipt.analytics_event_id });
+      }
+      requestId = undefined;
       form.reset();
       notice.replaceChildren(confirmation.content.cloneNode(true));
       document.addEventListener('visibilitychange', presentToast);
