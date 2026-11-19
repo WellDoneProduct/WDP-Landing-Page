@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const APPS_SCRIPT_URL = process.env.APPS_SCRIPT_URL!;
+import { writeLeadData } from '@/lib/lead-store';
 const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL!;
 
 /* ── 서버사이드 입력 검증 ─────────────────────────────────────────── */
@@ -56,6 +56,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: '잘못된 요청입니다.' }, { status: 400 });
   }
 
+  if (!data || typeof data !== 'object' || Array.isArray(data) || data.privacy === false) {
+    return NextResponse.json({ error: '문의 입력값과 필수 동의를 확인해 주세요.' }, { status: 422 });
+  }
+
   /* 서버사이드 검증 */
   const validationError = validate(data);
   if (validationError) {
@@ -63,39 +67,20 @@ export async function POST(req: NextRequest) {
   }
 
   /* 환경변수 가드 — 미설정 시 fetch(undefined) 크래시 방지 */
-  if (!APPS_SCRIPT_URL || !SLACK_WEBHOOK_URL) {
-    console.error('[contact] missing env: APPS_SCRIPT_URL / SLACK_WEBHOOK_URL');
+  if (!SLACK_WEBHOOK_URL) {
+    console.error('[contact] missing env: SLACK_WEBHOOK_URL');
     return NextResponse.json({ error: '서버 설정 오류입니다. 관리자에게 문의해 주세요.' }, { status: 500 });
   }
 
   const { name, phone, email, position, company, description, duration, budget } = data;
   const marketing = data.marketing === true;
-  const payload = JSON.stringify({
-    name, phone, email, position, company, description, duration, budget, marketing,
-    marketingConsentedAt: marketing ? new Date().toISOString() : null,
-  });
+  const inquiryId = typeof data.requestId === 'string' && /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i.test(data.requestId)
+    ? data.requestId : crypto.randomUUID();
+  const inquiry = { id: inquiryId, name, phone, email, position, company, description, duration, budget, marketing, privacy: data.privacy === true };
 
   try {
-    /* 1. Google Sheets */
-    let url = APPS_SCRIPT_URL;
-    for (let i = 0; i < 5; i++) {
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: payload,
-        redirect: 'manual',
-      });
-      const location = res.headers.get('location');
-      if (
-        (res.status === 301 || res.status === 302 ||
-         res.status === 307 || res.status === 308) &&
-        location
-      ) {
-        url = location;
-        continue;
-      }
-      console.log('[contact] Sheets status:', res.status);
-      break;
+    if (!await writeLeadData({ kind: 'wdpInquiry', inquiry }, inquiryId)) {
+      return NextResponse.json({ error: '문의 저장을 확인하지 못했습니다. 잠시 후 다시 신청해 주세요.' }, { status: 503 });
     }
 
     /* 2. Slack 알림 */
