@@ -26,6 +26,7 @@
 
   document.addEventListener('input', ({ target }) => {
     if (!target.form?.matches(formSelector)) return;
+    delete target.form.dataset.inquiryId;
     if (target.id === 'phone') {
       const digits = target.value.replace(/\D/g, '').slice(0, 11);
       target.value = digits.length <= 3 ? digits : digits.length <= 7
@@ -55,7 +56,9 @@
       return;
     }
 
+    form.dataset.inquiryId ||= window.crypto?.randomUUID?.() || '';
     const payload = {
+      requestId: form.dataset.inquiryId, privacy: form.elements.namedItem('agree').checked,
       company: value('company'), name: value('name'), position: value('position'),
       email: value('email'), phone: value('phone').replace(/\D/g, ''),
       description: value('project'), duration: value('duration'), budget: value('budget'),
@@ -74,6 +77,7 @@
         return;
       }
       form.reset();
+      delete form.dataset.inquiryId;
       const message = '상담 신청이 접수되었습니다. 영업일 1일 내 담당자가 연락드립니다.';
       form.querySelector('#formNote').textContent = message;
       alert(message);
