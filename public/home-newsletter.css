@@ -130,20 +130,9 @@
     margin-inline: auto;
   }
 
-  .home-newsletter__field {
-    display: contents;
-  }
-
   .home-newsletter__controls button {
     grid-column: 2;
     grid-row: 1;
-  }
-
-  .home-newsletter__hint {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    justify-content: center;
-    margin: 0;
   }
 }
 
@@ -179,10 +168,6 @@
   .home-newsletter__controls button {
     grid-column: 1;
     grid-row: 2;
-  }
-
-  .home-newsletter__hint {
-    grid-row: 3;
   }
 }
 
