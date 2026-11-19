@@ -102,9 +102,7 @@ export function ArticleShare({ href, title }: { href: string; title: string }) {
   }
 
   return <div className="post-share">
-    <button className="blog-share" type="button" onClick={share} aria-label={title + ' 공유하기'} title="공유하기">
-      <img src="/blog-share-network.svg" alt="" width={32} height={32} />
-    </button>
+    <button className="blog-share" type="button" onClick={share} aria-label={title + ' 공유하기'} title="공유하기" />
     <span role="status" className="blog-share-status">{copied ? '링크를 복사했습니다.' : ''}</span>
     {manualUrl && <label className="blog-share-url">링크를 직접 복사해 주세요.
       <input readOnly value={manualUrl} onFocus={e => e.currentTarget.select()} />

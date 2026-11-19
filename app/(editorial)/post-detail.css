@@ -15,10 +15,30 @@
 }
 
 .blog-hero-text .post-dates {
+  align-items: baseline;
   margin-top: 8px;
   color: #e2e8f0;
   font-size: 14px;
 }
+
+.post-date-values {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+}
+
+.post-date-values > span,
+.post-date-values .blog-engagement > span:first-child { white-space: nowrap; }
+
+.post-dates .blog-engagement {
+  display: contents;
+  font: inherit;
+  color: inherit;
+  font-variant-numeric: tabular-nums;
+}
+
+.post-date-values [role="status"] { flex-basis: 100%; }
 
 .blog-body {
   max-width: 737px;
@@ -29,7 +49,7 @@
   padding-bottom: 48px;
 }
 
-.blog-body > :last-child {
+.blog-body [data-analytics-content-body] > :last-child {
   margin-bottom: 0;
 }
 
@@ -290,22 +310,21 @@
 .blog-engagement button { min-height: 44px; padding: 0 6px; background: transparent; border: 0; color: inherit; font: inherit; cursor: pointer; }
 .blog-grid .blog-engagement { color: #596273; margin-top: 2px; }
 .blog-view-link { display: inline-flex; align-items: center; min-height: 44px; color: inherit; }
-.blog-hero-text > .post-title-row { display: flex; align-items: flex-start; gap: 16px; margin-top: 0; }
-.post-title-row h1 { flex: 1; min-width: 0; overflow-wrap: anywhere; }
-.post-share { flex: 0 0 32px; position: relative; }
+.blog-hero-text h1 { overflow-wrap: anywhere; }
+.post-keyword-row { display: flex; align-items: center; gap: 16px; min-height: 44px; }
+.post-keyword-row > section { min-width: 0; }
+.post-share { position: relative; flex: none; margin-inline-start: auto; color: #374151; }
 .post-share .blog-share { display: block; position: relative; border: 0; padding: 0; background: transparent; color: inherit; cursor: pointer; }
-.blog-share img { display: block; max-width: none; }
+.blog-share::before { content: ''; display: block; width: 32px; height: 32px; background: currentColor; mask: url('/blog-share-network.svg') center / contain no-repeat; }
+.blog-share:hover, .blog-share:focus-visible { color: #111827; }
 .blog-share::after { content: ''; position: absolute; inset: -6px; }
 .blog-share:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
-.blog-share-status:not(:empty), .blog-share-url { position: absolute; top: 44px; right: 0; z-index: 1; width: max-content; max-width: min(280px, 80vw); padding: 8px 12px; background: #111827; color: white; font-size: 14px; line-height: 1.5; }
+.blog-share-status:not(:empty), .blog-share-url { position: absolute; top: 44px; right: 0; z-index: 1; width: max-content; max-width: min(280px, 80vw); padding: 8px 12px; background: #f3f4f6; color: #374151; font-size: 14px; line-height: 1.5; }
 .blog-share-url { display: grid; gap: 4px; }
 .blog-share-url input { width: 100%; min-width: 0; color: #111827; background: #fff; padding: 6px; }
 .blog-engagement button:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
 
 @media (max-width: 767px) {
-  .blog-hero-text > .post-title-row { gap: 12px; }
-  .post-share { flex-basis: 24px; }
-  .post-share .blog-share { width: 24px; height: 24px; }
-  .blog-share img { transform: scale(.75); transform-origin: top left; }
+  .blog-share::before { width: 24px; height: 24px; }
   .blog-share::after { inset: -10px; }
 }
