@@ -110,6 +110,27 @@ logo.addEventListener('blur',()=>{hov=false},{signal});
   cursor.setAttribute('aria-hidden', 'true');
   cursor.innerHTML = '<div class="wdp-cursor-scale"><div class="wdp-cursor-cube">' + '<i class="wdp-cursor-face"></i>'.repeat(6) + '</div></div>';
   document.body.appendChild(cursor);
+  // A document z-index cannot paint over a modal or its backdrop.
+  function syncCursorLayer() {
+    const modal = document.querySelector('dialog:modal');
+    if (modal && fine.matches) {
+      if (typeof cursor.showPopover === 'function') {
+        cursor.setAttribute('popover', 'manual');
+        if (cursor.matches(':popover-open')) cursor.hidePopover();
+        cursor.showPopover();
+      } else {
+        modal.appendChild(cursor);
+      }
+    } else {
+      cursor.removeAttribute('popover');
+      if (cursor.parentNode !== document.body) document.body.appendChild(cursor);
+    }
+  }
+  new MutationObserver(records => {
+    if (records.some(record => record.target.localName === 'dialog')) syncCursorLayer();
+  }).observe(document.body, {subtree:true, attributes:true, attributeFilter:['open']});
+  fine.addEventListener('change', syncCursorLayer);
+  syncCursorLayer();
   const cube = cursor.querySelector('.wdp-cursor-cube');
   const interactive = 'a,button,summary,select,[role="button"],[tabindex="0"],.irow,.srow,.lcard,.pcard,.assurance-card,.roll-card';
   let activeTarget = null;
@@ -120,6 +141,7 @@ logo.addEventListener('blur',()=>{hov=false},{signal});
   };
   document.addEventListener('pointermove', event => {
     if (!fine.matches || event.pointerType !== 'mouse') return hide();
+    if (!cursor.isConnected) syncCursorLayer();
     const target = event.target instanceof Element ? event.target : null;
     if (target?.closest('input,textarea,[contenteditable="true"]')) return hide();
     cursor.style.transform = `translate3d(${event.clientX}px,${event.clientY}px,0)`;
