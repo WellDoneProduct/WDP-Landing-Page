@@ -294,10 +294,18 @@
 .post-title-row h1 { flex: 1; min-width: 0; overflow-wrap: anywhere; }
 .post-share { flex: 0 0 32px; position: relative; }
 .post-share .blog-share { display: block; position: relative; border: 0; padding: 0; background: transparent; color: inherit; cursor: pointer; }
-.blog-share img { display: block; }
+.blog-share img { display: block; max-width: none; }
 .blog-share::after { content: ''; position: absolute; inset: -6px; }
 .blog-share:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
 .blog-share-status:not(:empty), .blog-share-url { position: absolute; top: 44px; right: 0; z-index: 1; width: max-content; max-width: min(280px, 80vw); padding: 8px 12px; background: #111827; color: white; font-size: 14px; line-height: 1.5; }
 .blog-share-url { display: grid; gap: 4px; }
 .blog-share-url input { width: 100%; min-width: 0; color: #111827; background: #fff; padding: 6px; }
 .blog-engagement button:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+
+@media (max-width: 767px) {
+  .blog-hero-text > .post-title-row { gap: 12px; }
+  .post-share { flex-basis: 24px; }
+  .post-share .blog-share { width: 24px; height: 24px; }
+  .blog-share img { transform: scale(.75); transform-origin: top left; }
+  .blog-share::after { inset: -10px; }
+}
