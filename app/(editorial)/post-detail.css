@@ -289,9 +289,15 @@
 .blog-engagement { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; margin-top: 8px; font-size: 14px; color: #e2e8f0; font-variant-numeric: tabular-nums; }
 .blog-engagement button { min-height: 44px; padding: 0 6px; background: transparent; border: 0; color: inherit; font: inherit; cursor: pointer; }
 .blog-grid .blog-engagement { color: #596273; margin-top: 2px; }
-.blog-engagement .blog-share { display: inline-flex; align-items: center; gap: 5px; }
 .blog-view-link { display: inline-flex; align-items: center; min-height: 44px; color: inherit; }
-.blog-share-status:empty { display: none; }
-.blog-share-url { display: grid; gap: 4px; width: 100%; }
+.blog-hero-text > .post-title-row { display: flex; align-items: flex-start; gap: 16px; margin-top: 0; }
+.post-title-row h1 { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.post-share { flex: 0 0 32px; position: relative; }
+.post-share .blog-share { display: block; position: relative; border: 0; padding: 0; background: transparent; color: inherit; cursor: pointer; }
+.blog-share img { display: block; }
+.blog-share::after { content: ''; position: absolute; inset: -6px; }
+.blog-share:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+.blog-share-status:not(:empty), .blog-share-url { position: absolute; top: 44px; right: 0; z-index: 1; width: max-content; max-width: min(280px, 80vw); padding: 8px 12px; background: #111827; color: white; font-size: 14px; line-height: 1.5; }
+.blog-share-url { display: grid; gap: 4px; }
 .blog-share-url input { width: 100%; min-width: 0; color: #111827; background: #fff; padding: 6px; }
 .blog-engagement button:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }

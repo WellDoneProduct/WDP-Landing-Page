@@ -88,7 +88,7 @@ function BlogGrid({ posts }: { posts: Post[] }) {
           <h2>{titleText(post.title)}</h2>
           <div className="blog-card-meta"><span>{post.category}</span><time dateTime={post.publishedAt}>{displayDate(post.publishedAt)}</time></div>
         </HoverPrefetchLink>
-        <EngagementRow title={titleText(post.title)} href={href} linkViews counts={counts[post._id]} failed={failed}
+        <EngagementRow href={href} counts={counts[post._id]} failed={failed}
           retry={() => setAttempt(n => n + 1)} />
       </article>;
     })}
