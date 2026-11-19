@@ -193,7 +193,7 @@
   position: fixed;
   z-index: 2000;
   inset: auto;
-  top: calc(var(--newsletter-viewport-top, 0px) + env(safe-area-inset-top, 0px) + 76px);
+  top: calc(var(--newsletter-viewport-top, 0px) + env(safe-area-inset-top, 0px) + 16px);
   right: max(clamp(16px, 2vw, 24px), env(safe-area-inset-right, 0px));
   margin: 0;
   width: max-content;
