@@ -10,9 +10,28 @@
   const defaultHint = hint.textContent;
   let timer;
 
+  document.body.append(notice);
+  notice.popover = 'manual';
+
+  function positionToast() {
+    notice.style.setProperty('--newsletter-viewport-top', (window.visualViewport?.offsetTop || 0) + 'px');
+  }
+
+  function presentToast() {
+    window.clearTimeout(timer);
+    if (document.hidden || !notice.hasChildNodes()) return;
+    positionToast();
+    notice.showPopover?.();
+    timer = window.setTimeout(dismissToast, 2500);
+  }
+
   function dismissToast() {
     window.clearTimeout(timer);
+    notice.hidePopover?.();
     notice.replaceChildren();
+    document.removeEventListener('visibilitychange', presentToast);
+    window.visualViewport?.removeEventListener('resize', positionToast);
+    window.visualViewport?.removeEventListener('scroll', positionToast);
   }
 
   input.addEventListener('input', () => {
@@ -47,7 +66,10 @@
       if (!response.ok || (await response.json()).ok !== true) throw new Error('subscription failed');
       form.reset();
       notice.replaceChildren(confirmation.content.cloneNode(true));
-      timer = window.setTimeout(dismissToast, 2500);
+      document.addEventListener('visibilitychange', presentToast);
+      window.visualViewport?.addEventListener('resize', positionToast);
+      window.visualViewport?.addEventListener('scroll', positionToast);
+      presentToast();
     } catch {
       hint.textContent = '저장하지 못했어요. 잠시 후 다시 시도해 주세요.';
     } finally {
