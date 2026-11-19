@@ -10,7 +10,9 @@ const readerKey = (post: string, reader: string) =>
   createHash('sha256').update(post + ':' + reader).digest('hex');
 
 async function requestCounts(action: BlogAction | 'read', items: object[]): Promise<Record<string, Counts>> {
-  const result = await callSheetsWriter({ kind: 'blogEngagement', action, items });
+  const production = process.env.NEXT_PUBLIC_SANITY_DATASET === 'production' && process.env.VERCEL_ENV === 'production';
+  const kind = production ? 'productionBlogEngagement' : 'blogEngagement';
+  const result = await callSheetsWriter({ kind, action, items });
   if (!result?.ok || !result.counts) throw new Error('Blog counts unavailable');
   return result.counts;
 }
