@@ -7,6 +7,10 @@ function doPost(event) {
   try {
     const data = JSON.parse(event.postData.contents);
     if (!data || !authorized(data.token)) return result({ ok: false });
+    if (data.kind === 'blogEngagement') {
+      if (data.action !== 'read') lock.waitLock(15000);
+      return result({ ok: true, counts: blogEngagement(data) });
+    }
     lock.waitLock(15000);
     if (data.kind === 'wdpInquiry') {
       const receipt = saveInquiry(data.inquiry);
@@ -105,11 +109,11 @@ function saveInquiry(inquiry) {
     '이메일': email, '연락처': inquiry.phone, '유입경로': 'WDP 랜딩페이지',
     '동의': inquiry.privacy === true ? '동의' : '',
     '마케팅 수신 동의 여부': inquiry.marketing ? '동의' : '미동의',
-    '프로젝트 설명': inquiry.description || '', '희망 기간': inquiry.duration || '', '희망 견적': inquiry.budget || '',
+    '문의 사업영역': inquiry.serviceArea || '', '프로젝트 설명': inquiry.description || '', '희망 기간': inquiry.duration || '', '희망 견적': inquiry.budget || '',
     '마케팅 수신 동의 시각': inquiry.marketing ? time : '', '문의 ID': inquiry.id,
   };
   const sheet = SpreadsheetApp.openById(WDP_SALES_SHEET).getSheetById(0);
-  analyticsColumns(sheet, ['분석 이벤트 ID', '분석 유입', '상담 시작 콘텐츠']);
+  analyticsColumns(sheet, ['분석 이벤트 ID', '분석 유입', '상담 시작 콘텐츠', '문의 사업영역']);
   fields['분석 이벤트 ID'] = Utilities.getUuid();
   fields['분석 유입'] = inquiry.attribution ? JSON.stringify(inquiry.attribution) : '';
   fields['상담 시작 콘텐츠'] = inquiry.origin ? JSON.stringify(inquiry.origin) : '';
@@ -131,4 +135,52 @@ function saveInquiry(inquiry) {
 
 function result(body) {
   return ContentService.createTextOutput(JSON.stringify(body)).setMimeType(ContentService.MimeType.JSON);
+}
+
+// The visible totals are formulas over these per-reader records. Retrying a write
+// cannot increment a separate counter twice, even if a previous response was lost.
+function blogEngagement(data) {
+  const reading = data.action === 'read';
+  const items = data.items;
+  if (!Array.isArray(items) || !items.length || items.length > 6 ||
+      (!reading && (items.length !== 1 || !['view','like','unlike'].includes(data.action)))) throw Error('action');
+  const book = SpreadsheetApp.openById('12lYZtAZ1M5KxCudhfOqPEhxx4rf2DgQXDCoZiD41LsE');
+  const totals = book.getSheetById(0);
+  const readers = book.getSheetById(745201);
+  const rows = totals.getDataRange().getValues();
+  const counts = {};
+  for (const item of items) {
+    if (!item || typeof item.post !== 'string' || !/^[a-zA-Z0-9_.-]{1,128}$/.test(item.post) ||
+        !(reading && item.key === null) && !/^[a-f0-9]{64}$/.test(item.key)) throw Error('post');
+    const index = rows.findIndex(row => row[3] === item.post);
+    let liked = false;
+    const cell = item.key && findCell(readers, 1, item.key);
+    const previous = cell && readers.getRange(cell.getRow(), 1, 1, 5).getValues()[0];
+    if (previous) liked = Number(previous[4]) === 1;
+    if (reading) {
+      counts[item.post] = { views: index < 1 ? 0 : Number(rows[index][2]), likes: index < 1 ? 0 : Number(rows[index][1]), liked };
+      continue;
+    }
+    if (typeof item.title !== 'string' || !item.title.trim()) throw Error('title');
+    const title = item.title.startsWith('=') ? "'" + item.title : item.title;
+    const row = index < 1 ? totals.getLastRow() + 1 : index + 1;
+    if (index < 1) {
+      const source = "'" + readers.getName().replace(/'/g,"''") + "'!";
+      const sum = col => '=SUMIF(' + source + 'B$2:B,D' + row + ',' + source + col + '$2:' + col + ')';
+      totals.appendRow([title, sum('E'), sum('D'), item.post]);
+    } else if (rows[index][0] !== item.title) totals.getRange(row, 1).setValue(title);
+    const today = 'KST-' + Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyyMMdd');
+    const lastDay = previous ? previous[2] : '';
+    const newView = data.action === 'view' && lastDay !== today;
+    const nextLiked = data.action === 'view' ? liked : data.action === 'like';
+    if (newView || liked !== nextLiked) {
+      const record = [item.key, item.post, newView ? today : lastDay, Number(previous ? previous[3] : 0) + Number(newView), Number(nextLiked)];
+      if (cell) readers.getRange(cell.getRow(), 1, 1, 5).setValues([record]);
+      else readers.appendRow(record);
+    }
+    SpreadsheetApp.flush();
+    const [likes, views] = totals.getRange(row, 2, 1, 2).getValues()[0];
+    counts[item.post] = { views: Number(views), likes: Number(likes), liked: nextLiked };
+  }
+  return counts;
 }

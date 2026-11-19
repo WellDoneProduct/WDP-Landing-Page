@@ -7,6 +7,7 @@ import ContentBody from '@/components/editorial/ContentBody';
 import { getPost, getPosts } from '@/lib/content';
 import { displayDate } from '@/lib/blog';
 import { sanityImageUrl, sanitySrcSet } from '@/lib/sanity-image';
+import BlogEngagement from '@/components/editorial/BlogEngagement';
 import PostNavigation from '@/components/editorial/PostNavigation';
 import { PostConsultation, PostCredits, PostRelated, PostSources, PostTags, postTags } from '@/components/editorial/PostExtras';
 import type { Post } from '@/lib/content-types';
@@ -53,6 +54,7 @@ export default async function BlogDetail({ params }: Props) {
           <span>최초 게시 <time dateTime={post.publishedAt}>{displayDate(post.publishedAt)}</time></span>
           {updated && <span>수정 <time dateTime={updated}>{displayDate(updated)}</time></span>}
         </div>
+        <BlogEngagement key={post._id} post={post._id} />
       </div>
     </header>
     <div className="editorial-container blog-body rich-content" data-analytics-content-body={post._id}><ContentBody blocks={post.body} /></div>
