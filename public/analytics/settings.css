@@ -1,0 +1,16 @@
+[data-analytics-settings] {
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 12px 20px;
+  width: min(100%, 1152px);
+  font: 400 14px/1.5 system-ui, sans-serif;
+}
+[data-analytics-settings] summary { width: fit-content; cursor: pointer; }
+[data-analytics-settings] button {
+  margin: 8px 4px 4px 0;
+  padding: 7px 12px;
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+import { analyticsContext } from '@/lib/analytics-context';
 import { writeLeadData } from '@/lib/lead-store';
 const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL!;
 
@@ -76,15 +77,17 @@ export async function POST(req: NextRequest) {
   const marketing = data.marketing === true;
   const inquiryId = typeof data.requestId === 'string' && /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i.test(data.requestId)
     ? data.requestId : crypto.randomUUID();
-  const inquiry = { id: inquiryId, name, phone, email, position, company, description, duration, budget, marketing, privacy: data.privacy === true };
+  const context = analyticsContext(data.attribution, data.origin);
+  const inquiry = { id: inquiryId, ...context, name, phone, email, position, company, description, duration, budget, marketing, privacy: data.privacy === true };
 
   try {
-    if (!await writeLeadData({ kind: 'wdpInquiry', inquiry }, inquiryId)) {
+    const receipt = await writeLeadData({ kind: 'wdpInquiry', inquiry }, inquiryId);
+    if (!receipt) {
       return NextResponse.json({ error: '문의 저장을 확인하지 못했습니다. 잠시 후 다시 신청해 주세요.' }, { status: 503 });
     }
 
     /* 2. Slack 알림 */
-    await fetch(SLACK_WEBHOOK_URL, {
+    if (receipt.created !== false) await fetch(SLACK_WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -124,9 +127,9 @@ export async function POST(req: NextRequest) {
           },
         ],
       }),
-    });
+    }).catch(() => console.error('[contact] inquiry saved, Slack unavailable'));
 
-    return NextResponse.json({ result: 'success' });
+    return NextResponse.json({ result: 'success', saved: true, analytics_event_id: receipt.analytics_event_id });
   } catch (err) {
     console.error('[contact] failed:', err);
     return NextResponse.json({ error: 'Internal error' }, { status: 500 });
