@@ -1,4 +1,4 @@
-export async function callSheetsWriter(payload: object) {
+async function callSheetsWriter(payload: object) {
   const url = process.env.NEWSLETTER_WEBHOOK_URL;
   const token = process.env.NEWSLETTER_WEBHOOK_TOKEN;
   if (!url || !token) throw new Error('Sheets writer unavailable');

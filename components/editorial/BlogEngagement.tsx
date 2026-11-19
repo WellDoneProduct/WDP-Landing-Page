@@ -68,28 +68,29 @@ type RowProps = {
 
 export function EngagementRow({ post, counts, onUpdate, failed, retry, href }: RowProps) {
   const pending = useRef(false);
-  const [busy, setBusy] = useState(false);
+  const [optimistic, setOptimistic] = useState<Counts | null>(null);
   const [saveError, setSaveError] = useState(false);
   const [pulse, setPulse] = useState(0);
   async function like() {
     if (!counts || pending.current) return;
     pending.current = true;
-    setBusy(true);
+    setOptimistic({ ...counts, liked: !counts.liked, likes: counts.likes + (counts.liked ? -1 : 1) });
     if (!counts.liked) setPulse(n => n + 1);
     try {
       onUpdate(await record(post, counts.liked ? 'unlike' : 'like'));
       setSaveError(false);
     } catch { setSaveError(true); }
-    finally { pending.current = false; setBusy(false); }
+    finally { pending.current = false; setOptimistic(null); }
   }
   const views = '조회수 ' + (counts?.views.toLocaleString('ko-KR') ?? '—');
-  const liked = busy ? !counts?.liked : Boolean(counts?.liked);
+  const displayed = optimistic ?? counts;
+  const liked = Boolean(displayed?.liked);
   return <div className="blog-engagement">
     {href ? <a className="blog-view-link" href={href}>{views}</a> : <span>{views}</span>}
-    <button className="blog-like" type="button" onClick={like} disabled={!counts || busy} aria-pressed={liked}>
+    <button className="blog-like" type="button" onClick={like} disabled={!counts || Boolean(optimistic)} aria-pressed={liked}>
       <span key={pulse} className={'like-heart' + (pulse ? ' like-pop' : '')} aria-hidden="true">
         <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="1.8" fill={liked ? 'currentColor' : 'none'}><path d="M12 20.5 3.8 12.6C-1.1 7.6 6.1.2 12 6.2c5.9-6 13.1 1.4 8.2 6.4Z" /></svg>
-      </span> 좋아요 {counts?.likes.toLocaleString('ko-KR') ?? '—'}
+      </span> 좋아요 {displayed?.likes.toLocaleString('ko-KR') ?? '—'}
     </button>
     {failed && <span role="status">집계를 불러올 수 없습니다. <button type="button" onClick={retry}>다시 시도</button></span>}
     {saveError && <span role="status">좋아요를 저장하지 못했습니다. 다시 눌러 주세요.</span>}
