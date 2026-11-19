@@ -63,7 +63,12 @@ wdp-header[theme="hero"] .wdp-header:not(.has-scrolled){background:transparent;c
 .wdp-cursor-face:nth-child(5){transform:rotateX(90deg) translateZ(9px)}
 .wdp-cursor-face:nth-child(6){transform:rotateX(-90deg) translateZ(9px)}
 @keyframes wdp-cube-spin{from{transform:rotateX(-35.26deg) rotateY(45deg)}to{transform:rotateX(-35.26deg) rotateY(405deg)}}
-@media(hover:hover) and (pointer:fine){html.wdp-has-cursor,html.wdp-has-cursor *{cursor:none!important}html.wdp-has-cursor :is(input,textarea,[contenteditable=true]),html.wdp-has-cursor [contenteditable=true] *{cursor:text!important}}
+.wdp-cursor[popover]{right:auto;bottom:auto;padding:0;border:0;background:transparent;overflow:visible}
+.wdp-cursor::backdrop{background:transparent;pointer-events:none}
+@media(hover:hover) and (pointer:fine){
+  html.wdp-has-cursor,html.wdp-has-cursor *,html.wdp-has-cursor dialog::backdrop{cursor:none!important}
+  html.wdp-has-cursor :is(input,textarea,[contenteditable=true]),html.wdp-has-cursor [contenteditable=true] *{cursor:text!important}
+}
 @media(hover:none),(pointer:coarse){.wdp-cursor{display:none}}
 @media(prefers-reduced-motion:reduce){.wdp-cursor,.wdp-cursor-scale{transition:none}.wdp-cursor-cube.is-spinning{animation:none}}
 
