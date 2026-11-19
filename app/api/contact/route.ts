@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+import { findService } from '@/lib/services';
 import { analyticsContext } from '@/lib/analytics-context';
 import { writeLeadData } from '@/lib/lead-store';
 const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL!;
@@ -67,6 +68,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: validationError }, { status: 422 });
   }
 
+  const area = data.serviceArea;
+  const serviceArea = area === 'undecided' ? '상담 후 결정'
+    : typeof area === 'string' ? findService(area)?.title : undefined;
+  if (area != null && area !== '' && !serviceArea) {
+    return NextResponse.json({ error: '문의 사업영역을 다시 선택해 주세요.' }, { status: 422 });
+  }
+
   /* 환경변수 가드 — 미설정 시 fetch(undefined) 크래시 방지 */
   if (!SLACK_WEBHOOK_URL) {
     console.error('[contact] missing env: SLACK_WEBHOOK_URL');
@@ -78,7 +86,7 @@ export async function POST(req: NextRequest) {
   const inquiryId = typeof data.requestId === 'string' && /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i.test(data.requestId)
     ? data.requestId : crypto.randomUUID();
   const context = analyticsContext(data.attribution, data.origin);
-  const inquiry = { id: inquiryId, ...context, name, phone, email, position, company, description, duration, budget, marketing, privacy: data.privacy === true };
+  const inquiry = { id: inquiryId, ...context, serviceArea: serviceArea || '', name, phone, email, position, company, description, duration, budget, marketing, privacy: data.privacy === true };
 
   try {
     const receipt = await writeLeadData({ kind: 'wdpInquiry', inquiry }, inquiryId);
@@ -107,6 +115,7 @@ export async function POST(req: NextRequest) {
               { type: 'mrkdwn', text: `*이메일*\n${email || '-'}` },
               { type: 'mrkdwn', text: `*연락처*\n${phone}` },
               { type: 'mrkdwn', text: `*광고성 정보 수신 및 마케팅 활용*\n${marketing ? '✅ 동의' : '미동의'}` },
+              { type: 'mrkdwn', text: `*문의 사업영역*\n${serviceArea || '-'}` },
               { type: 'mrkdwn', text: `*희망 기간*\n${duration || '-'}` },
               { type: 'mrkdwn', text: `*희망 견적*\n${budget || '-'}` },
             ],

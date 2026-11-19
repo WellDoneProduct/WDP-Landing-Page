@@ -76,6 +76,7 @@
       privacy: form.elements.namedItem('agree').checked,
       company: value('company'), name: value('name'), position: value('position'),
       email: value('email'), phone: value('phone').replace(/\D/g, ''),
+      serviceArea: form.elements.namedItem('serviceArea')?.value || '',
       description: value('project'), duration: value('duration'), budget: value('budget'),
       marketing: form.elements.namedItem('marketing').checked,
     };
@@ -110,3 +111,111 @@
     }
   });
 })();
+
+// Keep the native select as the form value and as a fallback before enhancement.
+if (!customElements.get('wdp-service-select')) {
+  customElements.define('wdp-service-select', class extends HTMLElement {
+    connectedCallback() {
+      queueMicrotask(() => {
+        if (!this.isConnected || this.querySelector('[role="combobox"]')) return;
+        const select = this.querySelector('select');
+        if (!select) return;
+        const label = select.labels[0];
+        const trigger = document.createElement('button');
+        trigger.type = 'button';
+        trigger.className = 'form-input service-select-trigger';
+        trigger.id = select.id + '-trigger';
+        trigger.setAttribute('role', 'combobox');
+        trigger.setAttribute('aria-expanded', 'false');
+        trigger.setAttribute('aria-haspopup', 'listbox');
+        label.htmlFor = trigger.id;
+        const menu = document.createElement('div');
+        menu.className = 'native-business-panel service-select-panel';
+        menu.id = select.id + '-menu';
+        menu.setAttribute('role', 'listbox');
+        menu.setAttribute('aria-label', label.textContent.trim());
+        trigger.setAttribute('aria-controls', menu.id);
+        menu.hidden = true;
+        const options = Array.from(select.options, (item, index) => {
+          const row = document.createElement('div');
+          row.id = menu.id + '-' + index;
+          row.setAttribute('role', 'option');
+          row.textContent = item.text;
+          menu.append(row);
+          return row;
+        });
+        const sync = () => {
+          trigger.textContent = select.selectedOptions[0].text;
+          options.forEach((row, index) => row.setAttribute('aria-selected', String(index === select.selectedIndex)));
+        };
+        let active = select.selectedIndex;
+        const highlight = index => {
+          options[active].classList.remove('active');
+          active = index;
+          options[index].classList.add('active');
+          trigger.setAttribute('aria-activedescendant', options[index].id);
+          if (options[index].offsetTop < menu.scrollTop) menu.scrollTop = options[index].offsetTop;
+          else if (options[index].offsetTop + options[index].offsetHeight > menu.scrollTop + menu.clientHeight)
+            menu.scrollTop = options[index].offsetTop + options[index].offsetHeight - menu.clientHeight;
+        };
+        const outside = event => { if (!this.contains(event.target)) close(); };
+        const close = () => {
+          document.removeEventListener('pointerdown', outside, true);
+          menu.hidden = true;
+          trigger.setAttribute('aria-expanded', 'false');
+          trigger.removeAttribute('aria-activedescendant');
+        };
+        const open = () => {
+          trigger.focus({ preventScroll: true });
+          document.addEventListener('pointerdown', outside, true);
+          const rect = trigger.getBoundingClientRect();
+          const below = innerHeight - rect.bottom;
+          const above = below < 280 && rect.top > below;
+          menu.classList.toggle('opens-up', above);
+          menu.style.maxHeight = Math.max(80, Math.min(320, (above ? rect.top : below) - 12)) + 'px';
+          menu.hidden = false;
+          trigger.setAttribute('aria-expanded', 'true');
+          highlight(select.selectedIndex);
+        };
+        const choose = index => {
+          if (index !== select.selectedIndex) {
+            select.selectedIndex = index;
+            select.dispatchEvent(new Event('input', { bubbles: true }));
+            select.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+          close();
+        };
+        this.closeMenu = close;
+        trigger.onclick = () => menu.hidden ? open() : close();
+        trigger.onblur = close;
+        trigger.onkeydown = event => {
+          const key = event.key;
+          if (key === 'Escape' && !menu.hidden) { event.preventDefault(); close(); return; }
+          if (key === 'Tab') { close(); return; }
+          if (key === ' ' || key === 'Enter') {
+            event.preventDefault();
+            if (menu.hidden) open(); else choose(active);
+            return;
+          }
+          if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(key)) return;
+          event.preventDefault();
+          if (menu.hidden) open();
+          if (key === 'Home') highlight(0);
+          else if (key === 'End') highlight(options.length - 1);
+          else highlight(Math.min(options.length - 1, Math.max(0, active + (key === 'ArrowDown' ? 1 : -1))));
+        };
+        menu.onmousedown = event => event.preventDefault();
+        menu.onclick = event => {
+          const index = options.indexOf(event.target);
+          if (index >= 0) choose(index);
+        };
+        select.addEventListener('change', sync);
+        select.form.addEventListener('reset', () => queueMicrotask(() => { sync(); close(); }));
+        select.hidden = true;
+        this.append(trigger, menu);
+        sync();
+      });
+    }
+    disconnectedCallback() { this.closeMenu?.(); }
+  });
+}

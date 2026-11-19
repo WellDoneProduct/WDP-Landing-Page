@@ -326,3 +326,20 @@ html:has(dialog.privacy-modal-dialog[open]) { overflow: hidden; }
 .editorial-contact .form-input:focus-visible { outline: 2px solid #82a8ff; outline-offset: 2px; }
 .editorial-contact .cta-section > .container { max-width: 100%; margin-inline: auto; }
 .editorial-contact .kick:empty { display: none; }
+
+#contactForm .form-input:focus {
+  outline: 2px solid #82a8ff;
+  outline-offset: -2px;
+  box-shadow: none;
+}
+#contactForm .form-input.is-error { outline: 2px solid #ef4444; outline-offset: -2px; box-shadow: none; }
+wdp-service-select { display: block; position: relative; }
+wdp-service-select [hidden] { display: none !important; }
+#contactForm .service-select-trigger { display: flex; align-items: center; justify-content: space-between; text-align: left; font-family: inherit; cursor: pointer; }
+.service-select-trigger::after { content: ''; width: 8px; height: 8px; margin: -4px 5px 0 12px; border: solid currentColor; border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); }
+.service-select-trigger[aria-expanded="true"]::after { transform: rotate(225deg); margin-top: 4px; }
+wdp-service-select .service-select-panel { top: calc(100% + 4px); left: 0; transform: none; width: 100%; overflow-y: auto; overscroll-behavior: contain; z-index: 5; text-align: left; }
+wdp-service-select .opens-up { top: auto; bottom: calc(100% + 4px); }
+.service-select-panel [role="option"] { padding: 16px 18px; color: #7ca1ff; font-size: 14px; line-height: 1.5; cursor: pointer; }
+.service-select-panel [role="option"]:hover, .service-select-panel .active { background: rgb(255 255 255 / 8%); color: white; }
+.service-select-panel [aria-selected="true"]::after { content: '✓'; float: right; }
