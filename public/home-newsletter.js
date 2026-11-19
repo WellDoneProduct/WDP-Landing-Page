@@ -8,10 +8,12 @@
   const notice = document.querySelector('#newsletter-notice');
   const confirmation = document.querySelector('#newsletter-confirmation');
   const defaultHint = hint.textContent;
+  const toastDuration = 2500;
   let timer;
 
   document.body.append(notice);
   notice.popover = 'manual';
+  notice.style.setProperty('--newsletter-toast-duration', toastDuration + 'ms');
 
   function positionToast() {
     notice.style.setProperty('--newsletter-viewport-top', (window.visualViewport?.offsetTop || 0) + 'px');
@@ -19,10 +21,11 @@
 
   function presentToast() {
     window.clearTimeout(timer);
+    notice.hidden = document.hidden;
     if (document.hidden || !notice.hasChildNodes()) return;
     positionToast();
     notice.showPopover?.();
-    timer = window.setTimeout(dismissToast, 2500);
+    timer = window.setTimeout(dismissToast, toastDuration);
   }
 
   function dismissToast() {

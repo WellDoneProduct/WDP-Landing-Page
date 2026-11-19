@@ -229,11 +229,18 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .newsletter-notice:not(:empty) {
-    animation: newsletter-toast-enter 160ms ease-out;
+    animation: newsletter-toast-slide var(--newsletter-toast-duration) ease-in-out both;
   }
 
-  @keyframes newsletter-toast-enter {
-    from { translate: 0 -4px; }
-    to { translate: 0 0; }
+  @keyframes newsletter-toast-slide {
+    0%, 100% {
+      transform: translateY(calc(-100% - 16px - env(safe-area-inset-top, 0px)));
+      opacity: 0;
+    }
+
+    12%, 88% {
+      transform: translateY(0);
+      opacity: 1;
+    }
   }
 }
