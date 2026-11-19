@@ -23,6 +23,8 @@ test('events retain their original fields while the GTM initialization tags load
   assert.equal(analytics.track('generate_lead', { form_id: 'consultation', event_id: id }), true);
   assert.equal(analytics.track('generate_lead', { form_id: 'consultation', event_id: id }), false);
 
+  const startup = window.dataLayer.slice(0, window.dataLayer.findIndex(entry => entry.event === 'gtm.js'));
+  assert.ok(startup.some(command => command[0] === 'set' && command[1]?.send_page_view === false));
   const ready = window.dataLayer.find(entry => entry.event === 'analytics_ready');
   const published = () => window.dataLayer.filter(entry => entry.analytics && entry !== ready);
   assert.deepEqual(published(), []);
