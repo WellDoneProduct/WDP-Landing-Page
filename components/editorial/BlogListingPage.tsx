@@ -1,4 +1,3 @@
-import ContactSection from '@/components/editorial/ContactSection';
 import { notFound } from 'next/navigation';
 import { SiteHeader } from '@/components/editorial/SiteChrome';
 import BlogList from '@/components/editorial/BlogList';
@@ -46,5 +45,5 @@ export const pageParams = async (category = 'All') => {
 
 export const BlogListingPage = async ({ category, page }: { category: string; page: number }) => {
   const { active, posts, categories, filtered } = await loadListing(category, page);
-  return <><SiteHeader /><main><JsonLd data={{'@context': 'https://schema.org', '@type': 'Blog', name: '웰던프로덕트 블로그', url: absoluteUrl(blogUrl(active, page)), mainEntity: {'@type': 'ItemList', itemListElement: filtered.slice((page - 1) * POSTS_PER_PAGE, page * POSTS_PER_PAGE).map((post, index) => ({'@type': 'ListItem', position: (page - 1) * POSTS_PER_PAGE + index + 1, name: post.title, url: absoluteUrl(`/blog/${post.slug}`)}))}}} /><div className="editorial-container listing-title"><h1>블로그</h1></div><BlogList posts={posts} categories={categories} active={active} page={page} /><ContactSection /></main></>;
+  return <><SiteHeader /><main><JsonLd data={{'@context': 'https://schema.org', '@type': 'Blog', name: '웰던프로덕트 블로그', url: absoluteUrl(blogUrl(active, page)), mainEntity: {'@type': 'ItemList', itemListElement: filtered.slice((page - 1) * POSTS_PER_PAGE, page * POSTS_PER_PAGE).map((post, index) => ({'@type': 'ListItem', position: (page - 1) * POSTS_PER_PAGE + index + 1, name: post.title, url: absoluteUrl(`/blog/${post.slug}`)}))}}} /><div className="editorial-container listing-title"><h1>블로그</h1></div><BlogList posts={posts} categories={categories} active={active} page={page} /></main></>;
 };

@@ -584,7 +584,7 @@
         transform-origin: left center;
         transform: scaleX(0);
       }
-      .hero-h1-cat.highlight-on::after {
+      .hero-h1-cat::after {
         animation: highlight-draw 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
       }
       @keyframes highlight-draw {
@@ -2222,17 +2222,10 @@
       }
     </style>
   <link rel="stylesheet" href="/site-chrome.css" />
-<script>try{if(location.hash==="#cta"||sessionStorage.getItem("wdp:splash:seen")==="1")document.documentElement.classList.add("splash-seen")}catch{}</script><style>.splash-seen .splash{display:none!important}</style><link rel="stylesheet" href="/contact-form.css" />
+<link rel="stylesheet" href="/contact-form.css" />
 </head>
 
   <body>
-    <!-- =====================================================
-       Splash intro
-       ===================================================== -->
-    <div class="splash" id="splash" aria-hidden="true">
-      <div id="splashLogo" class="splash-logo"></div>
-    </div>
-
     <!-- =====================================================
        Header
        ===================================================== -->
@@ -3898,7 +3891,6 @@
         });
       })();
     </script>
-  <script src="/splash-motion.js" defer></script>
-<noscript><style>.splash{display:none}</style></noscript>
+
 </body>
 </html>
