@@ -4,12 +4,13 @@ import { pageMetadata, absoluteUrl, SITE_URL } from '@/lib/seo';
 import { notFound } from 'next/navigation';
 import { SiteHeader } from '@/components/editorial/SiteChrome';
 import ContentBody from '@/components/editorial/ContentBody';
+import ContactSection from '@/components/editorial/ContactSection';
 import { getPost, getPosts } from '@/lib/content';
 import { displayDate } from '@/lib/blog';
 import { sanityImageUrl, sanitySrcSet } from '@/lib/sanity-image';
 import BlogEngagement, { ArticleShare } from '@/components/editorial/BlogEngagement';
 import PostNavigation from '@/components/editorial/PostNavigation';
-import { PostConsultation, PostCredits, PostRelated, PostSources, PostTags, postTags } from '@/components/editorial/PostExtras';
+import { PostCredits, PostRelated, PostSources, PostTags, postTags } from '@/components/editorial/PostExtras';
 import type { Post } from '@/lib/content-types';
 
 type Props = { params: Promise<{ slug: string }> };
@@ -70,9 +71,8 @@ export default async function BlogDetail({ params }: Props) {
       </div>
       <PostSources post={post} />
       <PostCredits post={post} />
-      <PostConsultation post={post} />
       <PostRelated post={post} />
     </div>
     <PostNavigation previous={previous} next={next} />
-  </article></main></>;
+  </article><ContactSection /></main></>;
 }

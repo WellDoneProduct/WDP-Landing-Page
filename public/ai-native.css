@@ -355,7 +355,7 @@
 .ai-native-page .cta-section{background:#111827}
 .ai-native-page .cta-section .gbg{display:none}
 .ai-native-page .cta-form{width:100%;background:transparent;padding:0;border:0;box-shadow:none}
-.home-newsletter ~ .cta-section .cta-form{margin-inline:auto}
+.ai-native-page .cta-section .cta-form{margin-inline:auto}
 @media(max-width:768px){
  .native-content{--h1:30px;--h2:26px;--h3:19px;--lead:17px;--p:17px}
  .native-content .h2,.ai-native-page .cta-head h2{font-size:26px}

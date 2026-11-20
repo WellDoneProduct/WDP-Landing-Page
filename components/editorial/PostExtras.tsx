@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { displayDate } from '@/lib/blog';
 import { sanityImageUrl } from '@/lib/sanity-image';
 import { findService, serviceUrl } from '@/lib/services';
@@ -31,18 +30,6 @@ export const PostCredits = ({ post }: { post: Post }) => {
       {author.bio && <p className="post-author-bio">{author.bio}</p>}
     </div>
   </aside>;
-};
-
-export const PostConsultation = ({ post }: { post: Post }) => {
-  const consultation = post.consultation;
-  if (!consultation?.enabled) return null;
-  return <section className="post-consultation" aria-labelledby="post-consultation-title">
-    <div>
-      <h2 id="post-consultation-title">{consultation.title?.trim() || '우리 업무에 적용하고 싶으신가요?'}</h2>
-      {consultation.description && <p>{consultation.description}</p>}
-    </div>
-    <Link className="wdp-contact" href="/#cta" prefetch={false}>{consultation.label?.trim() || '무료 상담 신청'}</Link>
-  </section>;
 };
 
 export const PostSources = ({ post }: { post: Post }) => {
