@@ -108,3 +108,18 @@ test('the first QA page view and consultation use the original UTM and one store
   assert.equal(install('/').trackConsultationSuccess(receipt), false);
   assert.equal(events('generate_lead').length, 0);
 });
+
+test('revoking consent during a QA run clears the tab-scoped QA attribution', () => {
+  const sessionStorage = storage();
+  const qaId = 'qa_20261124_revoke';
+  const attributionKey = 'wdp_attr_v1_welldoneproduct_qa_' + qaId;
+  setupBrowser('https://www.welldoneproduct.com/?utm_source=instagram&qa_run_id=' + qaId, sessionStorage);
+  const analytics = createAnalytics({ brand: 'welldoneproduct', getConsent: () => true, getPage: () => ({ area: 'marketing', type: 'home', path: '/' }) });
+
+  assert.equal(analytics.pageView(), true);
+  assert.notEqual(sessionStorage.getItem(attributionKey), null);
+  analytics.revoke();
+  assert.equal(sessionStorage.getItem(attributionKey), null);
+  assert.equal(analytics.consultationPayload('consultation'), null);
+  assert.equal(analytics.track('page_view'), false);
+});
