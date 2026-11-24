@@ -95,6 +95,26 @@ function subscribe(email, time, requestId) {
   return fields['분석 이벤트 ID'] || null;
 }
 
+function normalizeInquiryContext(raw) {
+  if (!raw || raw.brand !== 'welldoneproduct' || raw.form_id !== 'consultation' ||
+      typeof raw.is_test !== 'boolean') return null;
+  const runId = raw.qa_run_id;
+  if (raw.is_test) {
+    if (typeof runId !== 'string' || !/^qa_[a-z0-9_]{8,60}$/.test(runId)) return null;
+  } else if (runId !== null) return null;
+
+  const clean = { brand: raw.brand, form_id: raw.form_id, is_test: raw.is_test, qa_run_id: runId };
+  const keys = ['st_source', 'st_medium', 'st_campaign', 'st_content',
+    'origin_content_id', 'origin_cta_location', 'origin_service_type', 'origin_plan_tier'];
+  for (const key of keys) {
+    const value = raw[key];
+    if (key.startsWith('st_') && value === undefined) return null;
+    if (value != null && (typeof value !== 'string' || !/^[A-Za-z0-9_:./-]{1,100}$/.test(value))) return null;
+    clean[key] = value ?? null;
+  }
+  return clean;
+}
+
 function saveInquiry(inquiry) {
   if (!inquiry || !/^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i.test(inquiry.id)
       || typeof inquiry.marketing !== 'boolean' || !inquiry.name || !inquiry.phone) throw Error('inquiry');
@@ -108,11 +128,25 @@ function saveInquiry(inquiry) {
     '문의 사업영역': inquiry.serviceArea || '', '프로젝트 설명': inquiry.description || '', '희망 기간': inquiry.duration || '', '희망 견적': inquiry.budget || '',
     '마케팅 수신 동의 시각': inquiry.marketing ? time : '', '문의 ID': inquiry.id,
   };
+  const modern = Object.prototype.hasOwnProperty.call(inquiry, 'analytics_context');
+  let context = modern ? normalizeInquiryContext(inquiry.analytics_context) : null;
+  const headers = ['분석 이벤트 ID', '분석 유입', '상담 시작 콘텐츠', '문의 사업영역'];
+  if (modern) {
+    headers.push('분석 컨텍스트');
+    fields['분석 컨텍스트'] = JSON.stringify(context);
+  }
   const sheet = SpreadsheetApp.openById(WDP_SALES_SHEET).getSheetById(0);
-  analyticsColumns(sheet, ['분석 이벤트 ID', '분석 유입', '상담 시작 콘텐츠', '문의 사업영역']);
-  fields['분석 이벤트 ID'] = Utilities.getUuid();
-  fields['분석 유입'] = inquiry.attribution ? JSON.stringify(inquiry.attribution) : '';
-  fields['상담 시작 콘텐츠'] = inquiry.origin ? JSON.stringify(inquiry.origin) : '';
+  analyticsColumns(sheet, headers);
+  fields['분석 이벤트 ID'] = null;
+  if (modern) {
+    const source = context && Object.fromEntries(['source', 'medium', 'campaign', 'content'].map(key => [key, context['st_' + key]]));
+    const origin = context && Object.fromEntries(Object.entries(context).filter(([key]) => key.startsWith('origin_')));
+    fields['분석 유입'] = source ? JSON.stringify({ session_touch: source }) : '';
+    fields['상담 시작 콘텐츠'] = origin ? JSON.stringify(origin) : '';
+  } else {
+    fields['분석 유입'] = inquiry.attribution ? JSON.stringify(inquiry.attribution) : '';
+    fields['상담 시작 콘텐츠'] = inquiry.origin ? JSON.stringify(inquiry.origin) : '';
+  }
   const columns = columnMap(sheet, Object.keys(fields));
   const previous = findCell(sheet, columns['문의 ID'], inquiry.id);
   if (previous) {
@@ -120,13 +154,22 @@ function saveInquiry(inquiry) {
     if (row[columns['이메일'] - 1] !== email ||
         row[columns['마케팅 수신 동의 여부'] - 1] !== fields['마케팅 수신 동의 여부']) throw Error('conflict');
     fields['분석 이벤트 ID'] = row[columns['분석 이벤트 ID'] - 1] || null;
+    if (modern) {
+      // A historic receipt has no reliable record of the user's consent or QA run.
+      const stored = row[columns['분석 컨텍스트'] - 1];
+      try { context = stored ? normalizeInquiryContext(JSON.parse(stored)) : null; }
+      catch (_) { context = null; }
+    }
   } else {
+    fields['분석 이벤트 ID'] = Utilities.getUuid();
     appendFields(sheet, columns, fields, ['연락처', '이메일']);
     SpreadsheetApp.flush();
   }
   // A retry after a partial write reuses the lead and completes the subscriber upsert.
   if (inquiry.marketing) subscribe(email, time);
-  return { inquiryId: inquiry.id, created: !previous, analytics_event_id: fields['분석 이벤트 ID'] };
+  const receipt = { inquiryId: inquiry.id, created: !previous, analytics_event_id: fields['분석 이벤트 ID'] };
+  if (modern) return { ...receipt, saved: true, analytics_context: context };
+  return receipt;
 }
 
 function result(body) {
