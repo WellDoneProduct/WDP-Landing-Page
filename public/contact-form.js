@@ -132,7 +132,7 @@
         alert(data.error || '전송에 실패했습니다. 잠시 후 다시 시도해 주세요.');
         return;
       }
-      analytics?.trackConsultationSuccess?.(data);
+      if (payload.analytics_context) analytics?.trackConsultationSuccess?.(data);
       confirmAttempt(requestId);
       form.reset();
       delete form.dataset.analyticsError;
