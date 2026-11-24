@@ -1,6 +1,48 @@
 // Delegation also handles forms mounted by client-side navigation on editorial pages.
 (() => {
   const formSelector = '#contactForm';
+  const pendingAttemptKey = 'wdp_pending_consultation_v1';
+  const uuid = /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i;
+  let pendingAttempt = null;
+
+  function readAttempt() {
+    try {
+      const attempt = JSON.parse(sessionStorage.getItem(pendingAttemptKey) || 'null');
+      return attempt && uuid.test(attempt.id) && /^[a-f0-9]{64}$/.test(attempt.signature) ? attempt : null;
+    } catch { return null; }
+  }
+
+  async function requestIdFor(fields) {
+    const previous = pendingAttempt ?? readAttempt();
+    let id = previous?.id ?? crypto.randomUUID();
+    async function fingerprint(salt) {
+      const encoded = new TextEncoder().encode(JSON.stringify([salt, fields]));
+      const hash = new Uint8Array(await crypto.subtle.digest('SHA-256', encoded));
+      return Array.from(hash, byte => byte.toString(16).padStart(2, '0')).join('');
+    }
+    let signature = null;
+    try {
+      signature = await fingerprint(id);
+      if (previous?.signature && previous.signature !== signature) {
+        id = crypto.randomUUID();
+        signature = await fingerprint(id);
+      }
+    } catch {}
+    pendingAttempt = { id, signature };
+    // Retain only the request identifier and a salted fingerprint for a retry after reload.
+    if (signature) {
+      try { sessionStorage.setItem(pendingAttemptKey, JSON.stringify(pendingAttempt)); } catch {}
+    }
+    return id;
+  }
+
+  function confirmAttempt(id) {
+    if (pendingAttempt?.id === id) pendingAttempt = null;
+    if (readAttempt()?.id === id) {
+      try { sessionStorage.removeItem(pendingAttemptKey); } catch {}
+    }
+  }
+
   function showError(input, invalid) {
     input.setAttribute('aria-invalid', String(invalid));
     input.classList.toggle('is-error', invalid);
@@ -27,7 +69,6 @@
   document.addEventListener('input', ({ target }) => {
     if (!target.form?.matches(formSelector)) return;
     if (!target.form.querySelector('[type=submit]').disabled) {
-      delete target.form.dataset.inquiryId;
       delete target.form.dataset.analyticsError;
     }
     if (target.id === 'phone') {
@@ -68,11 +109,7 @@
       return;
     }
 
-    form.dataset.inquiryId ||= window.crypto?.randomUUID?.() || '';
-    const payload = {
-      requestId: form.dataset.inquiryId,
-      attribution: analytics?.attribution() ?? null,
-      origin: analytics?.consultationContext(formId) ?? null,
+    const fields = {
       privacy: form.elements.namedItem('agree').checked,
       company: value('company'), name: value('name'), position: value('position'),
       email: value('email'), phone: value('phone').replace(/\D/g, ''),
@@ -84,6 +121,8 @@
     button.disabled = true;
     button.textContent = '전송 중...';
     try {
+      const requestId = await requestIdFor(fields);
+      const payload = { ...fields, requestId, analytics_context: analytics?.consultationPayload?.(formId) ?? null };
       const response = await fetch('/api/contact', {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload),
       });
@@ -93,11 +132,9 @@
         alert(data.error || '전송에 실패했습니다. 잠시 후 다시 시도해 주세요.');
         return;
       }
-      if (data.saved === true && data.analytics_event_id) {
-        analytics?.track('generate_lead', { form_id: formId, event_id: data.analytics_event_id });
-      }
+      if (payload.analytics_context) analytics?.trackConsultationSuccess?.(data);
+      confirmAttempt(requestId);
       form.reset();
-      delete form.dataset.inquiryId;
       delete form.dataset.analyticsError;
       const message = '상담 신청이 접수되었습니다. 영업일 1일 내 담당자가 연락드립니다.';
       form.querySelector('#formNote').textContent = message;
