@@ -266,6 +266,6 @@ export function createAnalytics({ brand, getConsent, getPage, ignoredReferrers =
     attribution: () => { try { return attribution(); } catch { return null; } },
     identify(userId) { try { if (brand!=='ontie'||!valid(userId)||!start()) return false; push('analytics_identify',{},userId); return true; } catch { return false; } },
     reset() { try { if (brand==='ontie'&&ready&&consent()) push('analytics_reset'); } catch {} },
-    revoke() { revoked=true; pending.length = 0; saveOrigin(null); once.clear(); gtag('consent','update',{analytics_storage:'denied'}); w['ga-disable-'+cfg.ga]=true; try { w.mixpanel?.opt_out_tracking(); d.cookie=cookieKey+'=; Max-Age=0; Path=/; Domain='+cfg.domain+'; SameSite=Lax; Secure'; w.localStorage.removeItem(cookieKey+'_sent'); if (qaContext?.is_test) w.sessionStorage.removeItem(cookieKey); } catch {} }
+    revoke() { revoked=true; pending.length = 0; saveOrigin(null); once.clear(); gtag('consent','update',{analytics_storage:'denied'}); w['ga-disable-'+cfg.ga]=true; try { w.mixpanel?.opt_out_tracking(); d.cookie=cookieKey+'=; Max-Age=0; Path=/; Domain='+cfg.domain+'; SameSite=Lax; Secure'; w.localStorage.removeItem(cookieKey+'_sent'); } catch {} }
   };
 }
