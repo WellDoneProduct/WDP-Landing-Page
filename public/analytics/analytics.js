@@ -1,4 +1,4 @@
-/* WELLDONEPRODUCT / ONTIE analytics v2.0. No vendor SDK is installed here. */
+/* WELLDONEPRODUCT / ONTIE analytics v2.1. No vendor SDK is installed here. */
 export function createAnalytics({ brand, getConsent, getPage, ignoredReferrers = [] }) {
   const configs = {
     welldoneproduct: { domain: 'welldoneproduct.com', gtm: 'GTM-KBPB7VQS', ga: 'G-0NEL155BYK', hosts: ['welldoneproduct.com','www.welldoneproduct.com'] },
@@ -8,21 +8,70 @@ export function createAnalytics({ brand, getConsent, getPage, ignoredReferrers =
   if (!cfg || typeof getConsent !== 'function' || typeof getPage !== 'function') throw new Error('Invalid analytics configuration');
   const w = window, d = document;
   const activeHost = cfg.hosts.includes(w.location.hostname);
-  const keys = 'schema_version event_id site_area page_type page_path content_id topic_id service_type form_id cta_location error_code st_source st_medium st_campaign st_content ft_source ft_medium lnd_source lnd_medium lnd_campaign lnd_content provider plan_tier origin_content_id origin_cta_location origin_service_type origin_plan_tier resource_id billing_cycle faq_id scenario_id'.split(' ');
+  const keys = 'schema_version event_id qa_run_id is_test site_area page_type page_path content_id topic_id service_type form_id cta_location error_code st_source st_medium st_campaign st_content ft_source ft_medium lnd_source lnd_medium lnd_campaign lnd_content provider plan_tier origin_content_id origin_cta_location origin_service_type origin_plan_tier resource_id billing_cycle faq_id scenario_id'.split(' ');
   const allowed = new Set('page_view content_view consultation_cta_click consultation_form_start generate_lead consultation_form_error newsletter_signup resource_request consultation_form_view content_engaged service_select file_download_click'.split(' ').concat(brand === 'ontie' ? 'start_click demo_start sign_up workspace_created source_connected source_sync_completed answer_completed activation_completed pricing_cycle_change faq_open demo_answer_completed demo_citation_click'.split(' ') : []));
-  const DAY = 86400000, cookieKey = 'wdp_attr_v1_' + brand;
+  const DAY = 86400000;
+  const attributionKey = 'wdp_attr_v1_' + brand;
+  const qaStorageKey = 'wdp_qa_v1_' + brand;
+  const qaLifetime = 60 * 60000;
+  const qaIdPattern = /^qa_[a-z0-9_]{8,60}$/;
+  const campaignKeys = ['source', 'medium', 'campaign', 'content'];
+  const originKeys = ['origin_content_id', 'origin_cta_location', 'origin_service_type', 'origin_plan_tier'];
+  const consultationForm = brand === 'ontie' ? 'ontie_contact' : 'consultation';
+  let qaContext, qaExpiry, cookieKey = attributionKey;
   let ready = false, revoked = false, touch = null, lastPage = null, seen = new Set(), landingHandled = false, once = new Set(), pageKey = null;
   const landing = new URL(w.location.href);
   const referrer = (() => { try { return new URL(d.referrer); } catch { return null; } })();
   const valid = x => typeof x === 'string' && /^[a-zA-Z0-9_:.\/-]{1,100}$/.test(x) ? x : null;
   const consent = () => { try { return activeHost && !revoked && getConsent() === true; } catch { return false; } };
+  function resolveQa() {
+    if (!qaContext) {
+      const storage = w.sessionStorage;
+      const explicit = landing.searchParams.get('qa_run_id');
+      if (explicit === 'off') storage.removeItem(qaStorageKey);
+      const stored = storage.getItem(qaStorageKey);
+      if (explicit === 'off' && stored !== null) throw Error('QA reset failed');
+      let run = stored === null ? null : JSON.parse(stored);
+      if (stored !== null && (!run || typeof run !== 'object')) throw Error('Invalid QA session');
+      if (explicit !== null && explicit !== 'off') {
+        if (!qaIdPattern.test(explicit)) throw Error('Invalid QA run ID');
+        if (!run || run.id !== explicit) {
+          run = { id: explicit, expires_at: Date.now() + qaLifetime };
+          const entry = JSON.stringify(run);
+          storage.setItem(qaStorageKey, entry);
+          if (storage.getItem(qaStorageKey) !== entry) throw Error('QA persistence failed');
+        }
+      }
+      if (run && (!qaIdPattern.test(run.id) || !Number.isFinite(run.expires_at) || run.expires_at > Date.now() + qaLifetime)) {
+        throw Error('Invalid QA session');
+      }
+      qaExpiry = run?.expires_at;
+      cookieKey = run ? attributionKey + '_qa_' + run.id : attributionKey;
+      originKey = cookieKey + '_origin_v2';
+      qaContext = { is_test: !!run, qa_run_id: run?.id ?? null };
+    }
+    if (qaContext.is_test && Date.now() >= qaExpiry) throw Error('QA expired');
+    return qaContext;
+  }
   function gtag() { (w.dataLayer = w.dataLayer || []).push(arguments); }
-  function readCookie() { try { return JSON.parse(decodeURIComponent(d.cookie.split('; ').find(x => x.startsWith(cookieKey+'='))?.split('=').slice(1).join('=') || 'null')); } catch { return null; } }
-  function persist() { try { d.cookie = cookieKey+'='+encodeURIComponent(JSON.stringify(touch))+'; Max-Age='+Math.max(0,Math.floor((touch.expires_at-Date.now())/1000))+'; Path=/; Domain='+cfg.domain+'; SameSite=Lax; Secure'; } catch {} }
+  function readCookie() {
+    if (qaContext.is_test) return JSON.parse(w.sessionStorage.getItem(cookieKey) || 'null');
+    try { return JSON.parse(decodeURIComponent(d.cookie.split('; ').find(x => x.startsWith(cookieKey+'='))?.split('=').slice(1).join('=') || 'null')); } catch { return null; }
+  }
+  function persist() {
+    if (qaContext.is_test) {
+      const entry = JSON.stringify(touch);
+      w.sessionStorage.setItem(cookieKey, entry);
+      if (w.sessionStorage.getItem(cookieKey) !== entry) throw Error('QA attribution persistence failed');
+      return;
+    }
+    try { d.cookie = cookieKey+'='+encodeURIComponent(JSON.stringify(touch))+'; Max-Age='+Math.max(0,Math.floor((touch.expires_at-Date.now())/1000))+'; Path=/; Domain='+cfg.domain+'; SameSite=Lax; Secure'; } catch {}
+  }
   function attribution() {
     if (!consent()) return null;
+    resolveQa();
     const now = Date.now();
-    if (!touch) { const stored = readCookie(); touch = stored && stored.expires_at > now && stored.first_touch ? stored : { expires_at: now + 90*DAY }; }
+    if (!touch) { const stored = readCookie(); touch = stored && stored.expires_at > now && stored.first_touch ? stored : { expires_at: qaExpiry ?? now + 90*DAY }; }
     const external = referrer && referrer.hostname !== cfg.domain && !referrer.hostname.endsWith('.'+cfg.domain) && !ignoredReferrers.includes(referrer.hostname);
     const utm = Object.fromEntries(['source','medium','campaign','content'].map(k => [k,valid(landing.searchParams.get('utm_'+k))]));
     const campaign = Object.values(utm).some(Boolean);
@@ -41,7 +90,7 @@ export function createAnalytics({ brand, getConsent, getPage, ignoredReferrers =
     return p;
   }
 
-  const originKey = cookieKey + '_origin_v2';
+  let originKey = cookieKey + '_origin_v2';
   let originMemory = null;
   function readOrigin() {
     let value = originMemory;
@@ -68,6 +117,7 @@ export function createAnalytics({ brand, getConsent, getPage, ignoredReferrers =
   }
   function consultationContext(formId) {
     if (!consent() || !valid(formId)) return null;
+    resolveQa();
     const value=contextFor(formId);
     return value ? {...value.props} : originFrom();
   }
@@ -75,9 +125,9 @@ export function createAnalytics({ brand, getConsent, getPage, ignoredReferrers =
   function envelope(name, properties = {}, userId = null) {
     const p=page(), a=attribution();
     const props=Object.fromEntries(keys.map(k=>[k,null]));
-    Object.assign(props,{schema_version:'2.0',event_id:crypto.randomUUID(),site_area:p.area,page_type:p.type,page_path:p.path,content_id:valid(p.contentId),topic_id:valid(p.topicId),service_type:valid(p.serviceType),plan_tier:valid(p.planTier)});
+    Object.assign(props,{schema_version:'2.1',...resolveQa(),event_id:crypto.randomUUID(),site_area:p.area,page_type:p.type,page_path:p.path,content_id:valid(p.contentId),topic_id:valid(p.topicId),service_type:valid(p.serviceType),plan_tier:valid(p.planTier)});
     for (const [prefix,source] of [['ft',a?.first_touch],['st',a?.session_touch],['lnd',a?.last_non_direct_touch]]) for (const k of ['source','medium','campaign','content']) if (keys.includes(prefix+'_'+k)) props[prefix+'_'+k]=source?.[k]??null;
-    for (const k of keys) if (Object.hasOwn(properties,k) && !['schema_version','site_area','page_type','page_path'].includes(k)) props[k]=valid(properties[k]);
+    for (const k of keys) if (Object.hasOwn(properties,k) && !['schema_version','qa_run_id','is_test','site_area','page_type','page_path'].includes(k)) props[k]=valid(properties[k]);
     if (!props.event_id) throw new Error('Invalid event ID');
     const loc = new URL(p.path,w.location.origin);
     // Keep only validated campaign parameters; no raw query strings or hashes.
@@ -96,7 +146,11 @@ export function createAnalytics({ brand, getConsent, getPage, ignoredReferrers =
   function flush() {
     if (tagsReady) return;
     tagsReady = true;
-    for (const message of pending.splice(0)) if (consent()) emit(message);
+    for (const message of pending.splice(0)) {
+      if (!consent()) break;
+      try { resolveQa(); } catch { break; }
+      emit(message);
+    }
   }
 
   function push(event, props, userId) {
@@ -107,7 +161,9 @@ export function createAnalytics({ brand, getConsent, getPage, ignoredReferrers =
   }
   function start() {
     if (!consent()) return false;
+    resolveQa();
     if (ready) return true;
+    const initialization = envelope('analytics_ready');
     // Default denied is queued before the container; analytics consent alone never grants ads consent.
     gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});
     gtag('consent','update',{analytics_storage:'granted'});
@@ -120,16 +176,17 @@ export function createAnalytics({ brand, getConsent, getPage, ignoredReferrers =
     // Wait for the container's init tags to finish before publishing event data.
     emit({
       event: 'analytics_ready',
-      analytics: envelope('analytics_ready'),
+      analytics: initialization,
       eventCallback: () => queueMicrotask(flush),
       eventTimeout: tagTimeout,
     });
     w.setTimeout(flush, tagTimeout + 1000);
     return true;
   }
-  function track(name, props={}) {
+  function track(name, props={}, savedOrigin=null) {
     try {
       if (!allowed.has(name) || !consent()) return false;
+      resolveQa();
       routeScope();
       const p=page();
       const productEvents=['sign_up','workspace_created','source_connected','source_sync_completed','answer_completed','activation_completed'];
@@ -158,7 +215,7 @@ export function createAnalytics({ brand, getConsent, getPage, ignoredReferrers =
         let ctx=contextFor(formId);
         if (!ctx) ctx={form_id:formId,props:originFrom(props),at:Date.now(),locked:false};
         ctx.at=Date.now(); ctx.locked=true; saveOrigin(ctx);
-        props={...props,...ctx.props};
+        props={...props,...(savedOrigin ?? ctx.props)};
       }
 
       push(name,props);
@@ -170,7 +227,40 @@ export function createAnalytics({ brand, getConsent, getPage, ignoredReferrers =
   }
   return {
     start: () => { try { return start(); } catch { return false; } },
-    track,
+    track: (name, props) => track(name, props),
+    consultationPayload(formId) {
+      try {
+        if (!consent() || formId !== consultationForm) return null;
+        const session = attribution().session_touch;
+        return {
+          brand, form_id: formId, ...resolveQa(),
+          ...Object.fromEntries(campaignKeys.map(key => ['st_' + key, valid(session[key])])),
+          ...consultationContext(formId),
+        };
+      } catch { return null; }
+    },
+    trackConsultationSuccess(receipt) {
+      try {
+        if (!consent() || receipt?.saved !== true || !valid(receipt.analytics_event_id)) return false;
+        const context = receipt.analytics_context;
+        const qa = resolveQa();
+        if (!context || context.brand !== brand || context.form_id !== consultationForm ||
+            context.is_test !== qa.is_test || context.qa_run_id !== qa.qa_run_id) return false;
+        const props = { form_id: context.form_id, event_id: receipt.analytics_event_id };
+        for (const key of campaignKeys) {
+          const field = 'st_' + key;
+          if (context[field] !== null && !valid(context[field])) return false;
+          props[field] = context[field];
+        }
+        const origin = {};
+        for (const key of originKeys) {
+          if (context[key] != null && !valid(context[key])) return false;
+          origin[key] = context[key] ?? null;
+        }
+        return track('generate_lead', props, origin);
+      } catch { return false; }
+    },
+    testContext() { try { return consent() ? { ...resolveQa() } : null; } catch { return null; } },
     consultationContext: formId => { try { return consultationContext(formId); } catch { return null; } },
     pageView() { try { if (!consent()) return false; const p=page(), key=p.area+':'+p.path; if (lastPage===key) return false; const ok=track('page_view'); if(ok) lastPage=key; return ok; } catch { return false; } },
     attribution: () => { try { return attribution(); } catch { return null; } },

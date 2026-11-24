@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { findService } from '@/lib/services';
-import { analyticsContext } from '@/lib/analytics-context';
+import { analyticsContext, consultationContext } from '@/lib/analytics-context';
 import { writeLeadData } from '@/lib/lead-store';
 const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL;
 
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
     req.headers.get('x-forwarded-for')?.split(',')[0].trim() ?? 'unknown';
   if (isRateLimited(ip)) {
     return NextResponse.json(
-      { error: '잠시 후 다시 시도해 주세요.' },
+      { saved: false, error: '잠시 후 다시 시도해 주세요.' },
       { status: 429 }
     );
   }
@@ -55,24 +55,24 @@ export async function POST(req: NextRequest) {
   try {
     data = await req.json();
   } catch {
-    return NextResponse.json({ error: '잘못된 요청입니다.' }, { status: 400 });
+    return NextResponse.json({ saved: false, error: '잘못된 요청입니다.' }, { status: 400 });
   }
 
   if (!data || typeof data !== 'object' || Array.isArray(data) || data.privacy === false) {
-    return NextResponse.json({ error: '문의 입력값과 필수 동의를 확인해 주세요.' }, { status: 422 });
+    return NextResponse.json({ saved: false, error: '문의 입력값과 필수 동의를 확인해 주세요.' }, { status: 422 });
   }
 
   /* 서버사이드 검증 */
   const validationError = validate(data);
   if (validationError) {
-    return NextResponse.json({ error: validationError }, { status: 422 });
+    return NextResponse.json({ saved: false, error: validationError }, { status: 422 });
   }
 
   const area = data.serviceArea;
   const serviceArea = area === 'undecided' ? '상담 후 결정'
     : typeof area === 'string' ? findService(area)?.title : undefined;
   if (area != null && area !== '' && !serviceArea) {
-    return NextResponse.json({ error: '문의 사업영역을 다시 선택해 주세요.' }, { status: 422 });
+    return NextResponse.json({ saved: false, error: '문의 사업영역을 다시 선택해 주세요.' }, { status: 422 });
   }
 
   /* 환경변수 가드 — 미설정 시 fetch(undefined) 크래시 방지 */
@@ -80,20 +80,22 @@ export async function POST(req: NextRequest) {
   const developmentDataset = process.env.NEXT_PUBLIC_SANITY_DATASET === 'development' && process.env.WDP_ENVIRONMENT !== 'production';
   if (!SLACK_WEBHOOK_URL && !developmentDataset) {
     console.error('[contact] missing env: SLACK_WEBHOOK_URL');
-    return NextResponse.json({ error: '서버 설정 오류입니다. 관리자에게 문의해 주세요.' }, { status: 500 });
+    return NextResponse.json({ saved: false, error: '서버 설정 오류입니다. 관리자에게 문의해 주세요.' }, { status: 500 });
   }
 
   const { name, phone, email, position, company, description, duration, budget } = data;
   const marketing = data.marketing === true;
   const inquiryId = typeof data.requestId === 'string' && /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i.test(data.requestId)
     ? data.requestId : crypto.randomUUID();
-  const context = analyticsContext(data.attribution, data.origin);
+  const context = Object.hasOwn(data, 'analytics_context')
+    ? { analytics_context: consultationContext(data.analytics_context) }
+    : analyticsContext(data.attribution, data.origin);
   const inquiry = { id: inquiryId, ...context, serviceArea: serviceArea || '', name, phone, email, position, company, description, duration, budget, marketing, privacy: data.privacy === true };
 
   try {
     const receipt = await writeLeadData({ kind: 'wdpInquiry', inquiry }, inquiryId);
     if (!receipt) {
-      return NextResponse.json({ error: '문의 저장을 확인하지 못했습니다. 잠시 후 다시 신청해 주세요.' }, { status: 503 });
+      return NextResponse.json({ saved: false, error: '문의 저장을 확인하지 못했습니다. 잠시 후 다시 신청해 주세요.' }, { status: 503 });
     }
 
     /* 2. Slack 알림 */
@@ -140,9 +142,13 @@ export async function POST(req: NextRequest) {
       }),
     }).catch(() => console.error('[contact] inquiry saved, Slack unavailable'));
 
-    return NextResponse.json({ result: 'success', saved: true, analytics_event_id: receipt.analytics_event_id });
+    return NextResponse.json({
+      result: 'success', saved: true,
+      analytics_event_id: receipt.analytics_event_id ?? null,
+      analytics_context: receipt.analytics_context,
+    });
   } catch (err) {
     console.error('[contact] failed:', err);
-    return NextResponse.json({ error: 'Internal error' }, { status: 500 });
+    return NextResponse.json({ saved: false, error: 'Internal error' }, { status: 500 });
   }
 }
